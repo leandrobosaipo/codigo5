@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { label: "Início", href: "#hero" },
+  { label: "Soluções", href: "#solucoes" },
+  { label: "Casos de Uso", href: "#casos" },
   { label: "Sobre", href: "#sobre" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Portfólio", href: "#portfolio" },
-  { label: "Depoimentos", href: "#depoimentos" },
   { label: "Contato", href: "#contato" },
 ];
 
@@ -33,8 +32,8 @@ const Navbar = () => {
             </a>
           ))}
           <Button asChild size="sm">
-            <a href="https://wa.me/5565999822022" target="_blank" rel="noopener noreferrer">
-              Falar no WhatsApp
+            <a href="#contato">
+              Solicitar Diagnóstico Gratuito
             </a>
           </Button>
         </div>
@@ -60,8 +59,8 @@ const Navbar = () => {
               </a>
             ))}
             <Button asChild size="sm" className="w-fit">
-              <a href="https://wa.me/5565999822022" target="_blank" rel="noopener noreferrer">
-                Falar no WhatsApp
+              <a href="#contato">
+                Solicitar Diagnóstico Gratuito
               </a>
             </Button>
           </div>

@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, Bot } from "lucide-react";
 
 const HeroSection = () => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-      {/* Background pattern */}
       <div className="absolute inset-0 bg-dot-pattern opacity-40" />
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
@@ -19,7 +18,7 @@ const HeroSection = () => {
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Software · Consultoria · IA
+              Agentes de IA · Automação · Integração
             </span>
           </motion.div>
 
@@ -29,8 +28,8 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Tecnologia e Inteligência Artificial para{" "}
-            <span className="text-gradient">acelerar seu negócio</span>
+            Automação com Inteligência Artificial{" "}
+            <span className="text-gradient">para empresas</span>
           </motion.h1>
 
           <motion.p
@@ -39,8 +38,9 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Soluções completas em desenvolvimento de software, automação e consultoria
-            tecnológica para empresas que desejam escalar com inovação.
+            Crie agentes de IA, automatize processos e aumente a produtividade
+            do seu negócio. Transforme tarefas manuais em processos automáticos
+            que trabalham 24 horas por dia.
           </motion.p>
 
           <motion.div
@@ -51,14 +51,14 @@ const HeroSection = () => {
           >
             <Button size="lg" asChild>
               <a href="#contato">
-                Solicitar Orçamento
+                Solicitar Diagnóstico Gratuito
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="https://wa.me/5565999822022" target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="mr-2 h-4 w-4" />
-                Falar no WhatsApp
+              <a href="#solucoes">
+                <Bot className="mr-2 h-4 w-4" />
+                Ver Soluções
               </a>
             </Button>
           </motion.div>

@@ -1,16 +1,16 @@
 import { motion } from "framer-motion";
-import { Shield, Target, Users, Zap } from "lucide-react";
+import { Brain, Puzzle, Settings, TrendingUp } from "lucide-react";
 
 const values = [
-  { icon: Target, title: "Missão", desc: "Entregar soluções tecnológicas que impulsionem o crescimento dos nossos clientes." },
-  { icon: Shield, title: "Confiança", desc: "Mais de 6 anos de experiência com empresas regionais e nacionais." },
-  { icon: Users, title: "Atendimento", desc: "Suporte personalizado e acompanhamento contínuo em cada projeto." },
-  { icon: Zap, title: "Inovação", desc: "Tecnologias modernas, IA e automação para resultados reais." },
+  { icon: Brain, title: "Especialistas em IA", desc: "Profundo conhecimento em inteligência artificial aplicada a processos empresariais." },
+  { icon: Puzzle, title: "Integrações Complexas", desc: "Experiência em conectar sistemas, APIs e plataformas para automação completa." },
+  { icon: Settings, title: "Soluções Personalizadas", desc: "Cada automação é desenhada sob medida para as necessidades do seu negócio." },
+  { icon: TrendingUp, title: "Foco em Resultado", desc: "Nossas soluções geram economia de tempo e aumento de receita mensurável." },
 ];
 
 const AboutSection = () => {
   return (
-    <section id="sobre" className="py-24 bg-background-alt">
+    <section id="sobre" className="py-24">
       <div className="container">
         <motion.div
           className="max-w-2xl mb-16"
@@ -21,12 +21,13 @@ const AboutSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Sobre nós</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            Especialistas em transformação digital
+            Por que escolher a Código5 Web
           </h2>
           <p className="text-muted-foreground text-lg">
-            A Código5 Web é uma empresa especializada em desenvolvimento de software,
-            consultoria tecnológica e soluções digitais personalizadas para empresas que
-            desejam escalar seus negócios com tecnologia.
+            Automatizamos processos empresariais usando Inteligência Artificial.
+            Combinamos agentes de IA, automações com n8n e integrações com APIs
+            para transformar tarefas manuais em processos automáticos que trabalham
+            24 horas por dia.
           </p>
         </motion.div>
 

@@ -8,24 +8,24 @@ const Footer = () => {
               Código<span className="text-primary">5</span> Web
             </h3>
             <p className="text-sm text-navy-foreground/70 leading-relaxed">
-              Soluções em desenvolvimento de software, consultoria tecnológica e transformação digital.
+              Automação de processos empresariais com Inteligência Artificial. Agentes de IA, integrações e apps inteligentes.
             </p>
           </div>
           <div>
-            <h4 className="font-display font-semibold mb-4">Serviços</h4>
+            <h4 className="font-display font-semibold mb-4">Soluções</h4>
             <ul className="space-y-2 text-sm text-navy-foreground/70">
-              <li>Consultoria de TI</li>
-              <li>Desenvolvimento de Software</li>
-              <li>Manutenção de Software</li>
-              <li>Soluções com IA</li>
+              <li>Agentes de IA</li>
+              <li>Automação de Processos</li>
+              <li>Apps com IA</li>
+              <li>Automação de Marketing</li>
             </ul>
           </div>
           <div>
             <h4 className="font-display font-semibold mb-4">Links</h4>
             <ul className="space-y-2 text-sm text-navy-foreground/70">
               <li><a href="#sobre" className="hover:text-navy-foreground transition-colors">Sobre</a></li>
-              <li><a href="#servicos" className="hover:text-navy-foreground transition-colors">Serviços</a></li>
-              <li><a href="#portfolio" className="hover:text-navy-foreground transition-colors">Portfólio</a></li>
+              <li><a href="#solucoes" className="hover:text-navy-foreground transition-colors">Soluções</a></li>
+              <li><a href="#casos" className="hover:text-navy-foreground transition-colors">Casos de Uso</a></li>
               <li><a href="#contato" className="hover:text-navy-foreground transition-colors">Contato</a></li>
             </ul>
           </div>

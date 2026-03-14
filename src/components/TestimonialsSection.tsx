@@ -2,14 +2,14 @@ import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 
 const testimonials = [
-  { name: "Carlos M.", role: "Empresário", text: "Bom atendimento. Atendeu 100% das expectativas. Recomendo a todos que precisam de soluções em tecnologia.", rating: 5 },
-  { name: "Ana P.", role: "Diretora de Operações", text: "Equipe extremamente competente. O sistema que desenvolveram otimizou nossos processos em 40%.", rating: 5 },
-  { name: "Ricardo S.", role: "CEO", text: "Profissionais dedicados e com excelente conhecimento técnico. Parceria de longa data.", rating: 5 },
+  { name: "Carlos M.", role: "Dono de Clínica", text: "A automação do agendamento por WhatsApp reduziu 80% das ligações. Nosso time agora foca no atendimento presencial.", rating: 5 },
+  { name: "Ana P.", role: "Diretora de E-commerce", text: "Os agentes de IA recuperam carrinhos abandonados automaticamente. Aumentamos as vendas em 35% no primeiro mês.", rating: 5 },
+  { name: "Ricardo S.", role: "CEO de Serviços", text: "Integraram nossos sistemas e automatizaram relatórios que antes levavam horas. Equipe altamente competente.", rating: 5 },
 ];
 
 const TestimonialsSection = () => {
   return (
-    <section id="depoimentos" className="py-24">
+    <section id="depoimentos" className="py-24 bg-background-alt">
       <div className="container">
         <motion.div
           className="text-center max-w-2xl mx-auto mb-16"
@@ -20,7 +20,7 @@ const TestimonialsSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Depoimentos</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            O que nossos clientes dizem
+            Resultados reais com automação
           </h2>
         </motion.div>
 

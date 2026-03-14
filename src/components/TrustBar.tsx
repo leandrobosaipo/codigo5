@@ -31,14 +31,14 @@ const TrustBar = () => {
 
           <div className="text-center md:text-left">
             <span className="text-2xl font-display font-bold">6+</span>
-            <span className="text-sm text-navy-foreground/70 ml-2">avaliações positivas</span>
+            <span className="text-sm text-navy-foreground/70 ml-2">empresas atendidas com IA</span>
           </div>
 
           <div className="h-8 w-px bg-navy-foreground/20 hidden md:block" />
 
           <div className="text-center md:text-left">
             <span className="text-sm text-navy-foreground/70 italic">
-              "Bom atendimento. Atendeu 100% das expectativas."
+              "Automatizou nosso atendimento e triplicou nossos leads."
             </span>
           </div>
         </motion.div>

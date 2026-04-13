@@ -1,38 +1,38 @@
 import { motion } from "framer-motion";
-import { Stethoscope, ShoppingCart, FileText } from "lucide-react";
+import { Bike, ShoppingCart, Stethoscope } from "lucide-react";
 
 const cases = [
   {
-    icon: Stethoscope,
-    title: "Clínica Médica",
-    category: "Saúde",
+    icon: Bike,
+    title: "Bike, ciclomobilidade e e-bikes",
+    category: "Segmento estrategico",
     automations: [
-      "Agendamento automático via WhatsApp",
-      "Confirmação de consultas por IA",
-      "Respostas inteligentes a pacientes",
-      "Relatórios de atendimento automáticos",
+      "Loja virtual ou catalogo com SEO por marca e categoria",
+      "Conteudo para despertar desejo de compra e investimento",
+      "Automacoes para orcamento, revisao e pos-venda",
+      "Integracao entre lead, WhatsApp e estoque",
+    ],
+  },
+  {
+    icon: Stethoscope,
+    title: "Clinicas e servicos de saude",
+    category: "SEO local e atendimento",
+    automations: [
+      "Agendamento automatizado por WhatsApp",
+      "SEO local para crescer no mapa e nas buscas",
+      "Fluxos de confirmacao e reativacao de pacientes",
+      "Conteudo util para gerar confianca e agenda",
     ],
   },
   {
     icon: ShoppingCart,
-    title: "E-commerce",
-    category: "Varejo Digital",
+    title: "Varejo e ecommerce regional",
+    category: "Conversao e escala",
     automations: [
-      "Atendimento ao cliente 24/7 com IA",
-      "Recuperação automática de carrinho",
-      "Geração de relatórios de vendas",
-      "Integração com sistemas de estoque",
-    ],
-  },
-  {
-    icon: FileText,
-    title: "Portal de Conteúdo",
-    category: "Marketing",
-    automations: [
-      "Geração de artigos com IA",
-      "Publicação automática em blog",
-      "Distribuição em redes sociais",
-      "Análise de performance de conteúdo",
+      "Campanhas sazonais com paginas de alta conversao",
+      "Recuperacao de carrinho e CRM automatizado",
+      "Painel de desempenho de vendas e midia",
+      "Rotinas de conteudo e ofertas com apoio de IA",
     ],
   },
 ];
@@ -50,10 +50,10 @@ const UseCasesSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Casos de Uso</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            Automação em ação
+            Segmentos onde o novo site pode abrir novas frentes comerciais
           </h2>
           <p className="text-muted-foreground text-lg">
-            Veja como aplicamos IA e automação em diferentes segmentos.
+            Em vez de falar genericamente com todo mundo, a Codigo5 pode vender por dores e por mercado.
           </p>
         </motion.div>
 

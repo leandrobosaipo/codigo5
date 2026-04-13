@@ -3,28 +3,28 @@ import { Bot, Cog, LayoutDashboard, Megaphone } from "lucide-react";
 
 const solutions = [
   {
-    icon: Bot,
-    title: "Agentes de IA para Empresas",
-    desc: "Atendimento automático no WhatsApp, respostas inteligentes, qualificação de leads e suporte automatizado 24/7.",
-    items: ["Atendimento WhatsApp", "Qualificação de leads", "Suporte automatizado"],
-  },
-  {
-    icon: Cog,
-    title: "Automação de Processos",
-    desc: "Automação de tarefas repetitivas, integração entre sistemas, geração automática de relatórios e processamento de dados.",
-    items: ["Integração entre sistemas", "Relatórios automáticos", "Processamento de dados"],
-  },
-  {
     icon: LayoutDashboard,
-    title: "Apps com Inteligência Artificial",
-    desc: "Sistemas internos com IA, ferramentas personalizadas e dashboards inteligentes para tomada de decisão.",
-    items: ["Sistemas internos com IA", "Ferramentas sob medida", "Dashboards inteligentes"],
+    title: "Sites institucionais e paginas de conversao",
+    desc: "Projetos sob medida com foco em posicionamento, performance, autoridade e aproveitamento comercial do trafego.",
+    items: ["Site corporativo", "Landing pages", "Portal de conteudo"],
   },
   {
     icon: Megaphone,
-    title: "Automação de Marketing",
-    desc: "Geração de conteúdo com IA, publicação automatizada em redes sociais e análise de dados de marketing.",
-    items: ["Geração de conteúdo", "Publicação automática", "Análise de dados"],
+    title: "SEO, performance e crescimento organico",
+    desc: "Arquitetura de conteudo, SEO tecnico e editorial para aparecer melhor no Google e converter com mais consistencia.",
+    items: ["SEO local", "Conteudo estrategico", "Core Web Vitals"],
+  },
+  {
+    icon: Cog,
+    title: "Integracoes e automacoes",
+    desc: "Conectamos site, CRM, WhatsApp, ecommerce, formularios e rotinas operacionais para reduzir retrabalho e acelerar atendimento.",
+    items: ["Fluxos com n8n", "APIs e webhooks", "Operacao automatizada"],
+  },
+  {
+    icon: Bot,
+    title: "Ferramentas de IA aplicadas ao negocio",
+    desc: "Implementamos IA em atendimento, qualificacao, producao de conteudo, dashboards e rotinas internas sem perder controle da operacao.",
+    items: ["IA para atendimento", "IA para conteudo", "IA para produtividade"],
   },
 ];
 
@@ -41,10 +41,10 @@ const SolutionsSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Soluções</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            Automação inteligente para cada área do seu negócio
+            A nova Codigo5 vende mais porque mostra amplitude real de entrega
           </h2>
           <p className="text-muted-foreground text-lg">
-            Combinamos agentes de IA, automações com n8n e integrações com APIs para transformar seu negócio.
+            O discurso sai do “site por site” e vira uma proposta completa de crescimento, operacao e autoridade.
           </p>
         </motion.div>
 

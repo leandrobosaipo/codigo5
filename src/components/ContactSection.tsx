@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, Phone, Clock, Send } from "lucide-react";
+import { MapPin, Phone, Clock, Send, Mail, ArrowUpRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { contact } from "@/content/siteContent";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -15,7 +16,7 @@ const ContactSection = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      toast({ title: "Solicitação enviada!", description: "Entraremos em contato para agendar seu diagnóstico gratuito." });
+      toast({ title: "Contato registrado!", description: "Use o WhatsApp para acelerar a conversa com a Codigo5." });
       (e.target as HTMLFormElement).reset();
     }, 1000);
   };
@@ -32,10 +33,10 @@ const ContactSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Contato</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            Descubra como a IA pode automatizar seu negócio
+            Vamos transformar a presenca digital da sua empresa em ativo comercial
           </h2>
           <p className="text-muted-foreground text-lg">
-            Solicite um diagnóstico gratuito e descubra quais processos podem ser automatizados.
+            O melhor proximo passo e alinhar oferta, site, conteudo e automacoes em uma estrategia unica.
           </p>
         </motion.div>
 
@@ -54,7 +55,7 @@ const ContactSection = () => {
               </div>
               <div>
                 <h3 className="font-display font-semibold text-foreground mb-1">Endereço</h3>
-                <p className="text-sm text-muted-foreground">R. Três, 2 – Morada do Ouro<br />Cuiabá – MT, CEP 78053-208</p>
+                <p className="text-sm text-muted-foreground">{contact.address}</p>
               </div>
             </div>
             <div className="flex gap-4">
@@ -63,7 +64,16 @@ const ContactSection = () => {
               </div>
               <div>
                 <h3 className="font-display font-semibold text-foreground mb-1">Telefone / WhatsApp</h3>
-                <p className="text-sm text-muted-foreground">(65) 99982-2022</p>
+                <p className="text-sm text-muted-foreground">{contact.phone}</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Mail className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-display font-semibold text-foreground mb-1">E-mail</h3>
+                <p className="text-sm text-muted-foreground">{contact.email}</p>
               </div>
             </div>
             <div className="flex gap-4">
@@ -74,6 +84,22 @@ const ContactSection = () => {
                 <h3 className="font-display font-semibold text-foreground mb-1">Horário</h3>
                 <p className="text-sm text-muted-foreground">Segunda a Sexta: 09:00 – 18:00</p>
               </div>
+            </div>
+
+            <div className="rounded-[28px] border border-primary/20 bg-primary/10 p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Canal mais rapido
+              </p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Para orcamento, diagnostico ou ideia de automacao, o WhatsApp tende a
+                gerar resposta mais rapida e contexto comercial mais completo.
+              </p>
+              <Button asChild className="mt-5">
+                <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
+                  Abrir conversa
+                  <ArrowUpRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
             </div>
 
             <div className="rounded-lg overflow-hidden border border-border h-48">
@@ -118,8 +144,8 @@ const ContactSection = () => {
               <Input placeholder="(00) 00000-0000" />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground mb-1.5 block">Quais processos deseja automatizar?</label>
-              <Textarea placeholder="Descreva os processos manuais ou repetitivos do seu negócio..." rows={4} required />
+              <label className="text-sm font-medium text-foreground mb-1.5 block">O que voce quer vender ou automatizar?</label>
+              <Textarea placeholder="Ex.: novo site institucional, loja virtual, SEO local, atendimento no WhatsApp, integracao com CRM..." rows={4} required />
             </div>
             <Button type="submit" className="w-full" size="lg" disabled={loading}>
               {loading ? "Enviando..." : (

@@ -1,49 +1,55 @@
+import { contact } from "@/content/siteContent";
+
 const Footer = () => {
   return (
-    <footer className="py-12 bg-navy text-navy-foreground">
+    <footer className="bg-ink py-14 text-ink-foreground">
       <div className="container">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="mb-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 className="font-display text-lg font-bold mb-4">
-              Código<span className="text-primary">5</span> Web
-            </h3>
-            <p className="text-sm text-navy-foreground/70 leading-relaxed">
-              Automação de processos empresariais com Inteligência Artificial. Agentes de IA, integrações e apps inteligentes.
+            <img
+              src="/assets/codigo5/logos/logo-light.png"
+              alt="Codigo5 Web"
+              className="h-12 w-auto"
+            />
+            <p className="mt-4 text-sm leading-relaxed text-ink-foreground/70">
+              Solucoes digitais para crescimento real: sites, lojas virtuais, SEO,
+              integracoes, automacoes e IA aplicada ao negocio.
             </p>
           </div>
           <div>
-            <h4 className="font-display font-semibold mb-4">Soluções</h4>
-            <ul className="space-y-2 text-sm text-navy-foreground/70">
-              <li>Agentes de IA</li>
-              <li>Automação de Processos</li>
-              <li>Apps com IA</li>
-              <li>Automação de Marketing</li>
+            <h4 className="mb-4 font-display font-semibold">Solucoes</h4>
+            <ul className="space-y-2 text-sm text-ink-foreground/70">
+              <li>Sites e landing pages</li>
+              <li>Lojas virtuais</li>
+              <li>SEO e conteudo</li>
+              <li>Automacoes e IA</li>
             </ul>
           </div>
           <div>
-            <h4 className="font-display font-semibold mb-4">Links</h4>
-            <ul className="space-y-2 text-sm text-navy-foreground/70">
-              <li><a href="#sobre" className="hover:text-navy-foreground transition-colors">Sobre</a></li>
-              <li><a href="#solucoes" className="hover:text-navy-foreground transition-colors">Soluções</a></li>
-              <li><a href="#casos" className="hover:text-navy-foreground transition-colors">Casos de Uso</a></li>
-              <li><a href="#contato" className="hover:text-navy-foreground transition-colors">Contato</a></li>
+            <h4 className="mb-4 font-display font-semibold">Links</h4>
+            <ul className="space-y-2 text-sm text-ink-foreground/70">
+              <li><a href="#sobre" className="transition-colors hover:text-ink-foreground">Sobre</a></li>
+              <li><a href="#solucoes" className="transition-colors hover:text-ink-foreground">Solucoes</a></li>
+              <li><a href="#clientes" className="transition-colors hover:text-ink-foreground">Clientes</a></li>
+              <li><a href="#blog" className="transition-colors hover:text-ink-foreground">Blog</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-display font-semibold mb-4">Contato</h4>
-            <ul className="space-y-2 text-sm text-navy-foreground/70">
-              <li>(65) 99982-2022</li>
-              <li>Cuiabá – MT</li>
+            <h4 className="mb-4 font-display font-semibold">Contato</h4>
+            <ul className="space-y-2 text-sm text-ink-foreground/70">
+              <li>{contact.phone}</li>
+              <li>{contact.email}</li>
+              <li>Cuiaba - MT</li>
               <li>
-                <a href="https://codigo5.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-navy-foreground transition-colors">
+                <a href="https://codigo5.com.br" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink-foreground">
                   codigo5.com.br
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-navy-foreground/10 pt-8 text-center text-sm text-navy-foreground/50">
-          © {new Date().getFullYear()} Código5 Web. Todos os direitos reservados.
+        <div className="border-t border-ink-foreground/10 pt-8 text-center text-sm text-ink-foreground/50">
+          © {new Date().getFullYear()} Codigo5 Web. Todos os direitos reservados.
         </div>
       </div>
     </footer>

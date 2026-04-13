@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { MessageSquare, Table2, FileText, Copy, BarChart3, AlertTriangle } from "lucide-react";
 
 const problems = [
-  { icon: MessageSquare, text: "Responder manualmente WhatsApp" },
-  { icon: Table2, text: "Organizar dados em planilhas" },
-  { icon: FileText, text: "Publicar conteúdo manualmente" },
-  { icon: Copy, text: "Copiar informações entre sistemas" },
-  { icon: BarChart3, text: "Gerar relatórios manualmente" },
-  { icon: AlertTriangle, text: "Perder leads por demora no atendimento" },
+  { icon: MessageSquare, text: "Responder WhatsApp, direct e formulario como se tudo fosse urgencia" },
+  { icon: Table2, text: "Depender de planilhas para operar leads, pedidos e tarefas" },
+  { icon: FileText, text: "Publicar conteudo sem uma linha editorial que puxe vendas" },
+  { icon: Copy, text: "Repetir dados entre site, CRM, ecommerce e financeiro" },
+  { icon: BarChart3, text: "Nao saber quais paginas, campanhas e fluxos geram resultado" },
+  { icon: AlertTriangle, text: "Ter site bonito, mas lento, sem SEO e sem clareza de oferta" },
 ];
 
 const ProblemsSection = () => {
@@ -23,10 +23,10 @@ const ProblemsSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">O Problema</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            Empresas ainda perdem horas com tarefas repetitivas
+            O gargalo digital raramente esta em uma unica ferramenta
           </h2>
           <p className="text-muted-foreground text-lg">
-            Sua equipe gasta tempo precioso em processos manuais que poderiam ser automatizados.
+            Ele aparece quando site, conteudo, operacao e atendimento nao conversam entre si.
           </p>
         </motion.div>
 
@@ -56,8 +56,8 @@ const ProblemsSection = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <p className="text-xl font-display font-semibold text-foreground">
-            Tudo isso pode ser{" "}
-            <span className="text-gradient">automatizado com IA</span>.
+            A resposta certa combina{" "}
+            <span className="text-gradient">presenca digital forte, integracoes e automacao</span>.
           </p>
         </motion.div>
       </div>

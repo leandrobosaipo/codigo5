@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { Brain, Puzzle, Settings, TrendingUp } from "lucide-react";
+import { authorityPoints } from "@/content/siteContent";
 
 const values = [
-  { icon: Brain, title: "Especialistas em IA", desc: "Profundo conhecimento em inteligência artificial aplicada a processos empresariais." },
-  { icon: Puzzle, title: "Integrações Complexas", desc: "Experiência em conectar sistemas, APIs e plataformas para automação completa." },
-  { icon: Settings, title: "Soluções Personalizadas", desc: "Cada automação é desenhada sob medida para as necessidades do seu negócio." },
-  { icon: TrendingUp, title: "Foco em Resultado", desc: "Nossas soluções geram economia de tempo e aumento de receita mensurável." },
+  { icon: Brain, title: "Autoridade em IA util", desc: "IA apresentada como ferramenta de negocio, nao como modismo vazio." },
+  { icon: Puzzle, title: "Integracao ponta a ponta", desc: "Site, automacao, WhatsApp, CRM e analytics conectados para sustentar crescimento." },
+  { icon: Settings, title: "Entrega realista e sob medida", desc: "Cada projeto respeita a maturidade da empresa e a capacidade operacional do cliente." },
+  { icon: TrendingUp, title: "Visao comercial", desc: "A prioridade e gerar confianca, leads qualificados e mais clareza de proposta." },
 ];
 
 const AboutSection = () => {
@@ -21,14 +22,21 @@ const AboutSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Sobre nós</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            Por que escolher a Código5 Web
+            A Codigo5 evolui sem romper com o que ja construiu
           </h2>
           <p className="text-muted-foreground text-lg">
-            Automatizamos processos empresariais usando Inteligência Artificial.
-            Combinamos agentes de IA, automações com n8n e integrações com APIs
-            para transformar tarefas manuais em processos automáticos que trabalham
-            24 horas por dia.
+            O novo site deixa claro que a agencia ja tem base forte em web e agora
+            expande a oferta com ferramentas de IA, integracoes e automacoes para
+            aumentar eficiencia, performance e valor percebido.
           </p>
+          <ul className="mt-6 space-y-3">
+            {authorityPoints.map((point) => (
+              <li key={point} className="flex gap-3 text-sm leading-6 text-foreground/85">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

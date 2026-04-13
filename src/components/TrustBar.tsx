@@ -3,43 +3,57 @@ import { motion } from "framer-motion";
 
 const TrustBar = () => {
   return (
-    <section className="py-12 bg-navy text-navy-foreground">
+    <section className="border-y border-border bg-ink py-10 text-ink-foreground">
       <div className="container">
         <motion.div
-          className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16"
+          className="grid gap-6 md:grid-cols-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center gap-3">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`h-5 w-5 ${i < 4 ? "fill-yellow-400 text-yellow-400" : "fill-yellow-400/60 text-yellow-400/60"}`}
-                />
-              ))}
-            </div>
-            <div>
-              <span className="text-2xl font-display font-bold">4.7</span>
-              <span className="text-sm text-navy-foreground/70 ml-2">no Google</span>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs uppercase tracking-[0.22em] text-ink-foreground/60">Reputacao</p>
+            <div className="mt-3 flex items-center gap-3">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`h-5 w-5 ${i < 4 ? "fill-primary text-primary" : "fill-primary/45 text-primary/45"}`}
+                  />
+                ))}
+              </div>
+              <div>
+                <span className="text-2xl font-display font-bold">4.7</span>
+                <span className="ml-2 text-sm text-ink-foreground/70">avaliacao Google</span>
+              </div>
             </div>
           </div>
 
-          <div className="h-8 w-px bg-navy-foreground/20 hidden md:block" />
-
-          <div className="text-center md:text-left">
-            <span className="text-2xl font-display font-bold">6+</span>
-            <span className="text-sm text-navy-foreground/70 ml-2">empresas atendidas com IA</span>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs uppercase tracking-[0.22em] text-ink-foreground/60">Experiencia</p>
+            <p className="mt-3 font-display text-3xl font-bold">15+ anos</p>
+            <p className="mt-2 text-sm text-ink-foreground/70">
+              Em desenvolvimento web, WordPress, SEO e operacao digital.
+            </p>
           </div>
 
-          <div className="h-8 w-px bg-navy-foreground/20 hidden md:block" />
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs uppercase tracking-[0.22em] text-ink-foreground/60">Provas reais</p>
+            <p className="mt-3 font-display text-3xl font-bold">8 marcas</p>
+            <p className="mt-2 text-sm text-ink-foreground/70">
+              Clientes e parceiros exibidos com identidade real no novo site.
+            </p>
+          </div>
 
-          <div className="text-center md:text-left">
-            <span className="text-sm text-navy-foreground/70 italic">
-              "Automatizou nosso atendimento e triplicou nossos leads."
-            </span>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs uppercase tracking-[0.22em] text-ink-foreground/60">Nova proposta</p>
+            <p className="mt-3 font-display text-xl font-bold">
+              Sites, integracoes, automacoes e IA aplicada.
+            </p>
+            <p className="mt-2 text-sm text-ink-foreground/70">
+              Mais valor percebido e mais oportunidades de ticket consultivo.
+            </p>
           </div>
         </motion.div>
       </div>

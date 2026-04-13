@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 
 const steps = [
-  { number: "01", title: "Diagnóstico", desc: "Análise completa do seu negócio e identificação de processos repetitivos." },
-  { number: "02", title: "Mapeamento", desc: "Identificação de oportunidades de automação e pontos de maior impacto." },
-  { number: "03", title: "Desenho", desc: "Planejamento da automação com fluxos, integrações e agentes de IA." },
-  { number: "04", title: "Desenvolvimento", desc: "Criação da solução com as melhores tecnologias de IA e automação." },
-  { number: "05", title: "Implantação", desc: "Deploy e integração com seus sistemas existentes." },
-  { number: "06", title: "Otimização", desc: "Suporte contínuo, monitoramento e melhorias constantes." },
+  { number: "01", title: "Diagnostico", desc: "Entendimento da oferta, publico, canais atuais e gargalos comerciais do negocio." },
+  { number: "02", title: "Posicionamento", desc: "Definicao da mensagem central, promessas, prova social e frentes de autoridade." },
+  { number: "03", title: "Arquitetura", desc: "Planejamento de paginas, funis, SEO tecnico, categorias e blocos de conteudo." },
+  { number: "04", title: "Execucao", desc: "Design, desenvolvimento, integracoes, paginas e automacoes implementadas em conjunto." },
+  { number: "05", title: "Publicacao", desc: "Deploy, ajustes finais, performance e configuracao de medicao para acompanhar o resultado." },
+  { number: "06", title: "Evolucao", desc: "Calendario editorial, melhoria continua e novas automacoes conforme o negocio cresce." },
 ];
 
 const ProcessSection = () => {
@@ -22,10 +22,10 @@ const ProcessSection = () => {
         >
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Processo</span>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            Como trabalhamos
+            Como fazemos um site que realmente converte
           </h2>
           <p className="text-muted-foreground text-lg">
-            Do diagnóstico à otimização, acompanhamos cada etapa do seu projeto.
+            A metodologia nao para no layout: ela amarra oferta, SEO, conteudo, tecnologia e operacao.
           </p>
         </motion.div>
 

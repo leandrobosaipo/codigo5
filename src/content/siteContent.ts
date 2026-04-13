@@ -261,25 +261,25 @@ export const portfolioClients = [
 export const services = [
   {
     name: "Sites institucionais",
-    description: "Pagina clara para apresentar, provar e receber contato.",
+    description: "Presenca forte para apresentar sua empresa e abrir conversa sem atrito.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80",
-    items: ["Apresentacao", "Contato", "Google Maps"],
+    items: ["Apresentar", "Provar", "Receber contato"],
   },
   {
     name: "Lojas virtuais",
-    description: "Loja pronta para campanha, catalogo e pedido.",
+    description: "Loja pronta para vender com mais clareza, campanha e operacao organizada.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=80",
-    items: ["Catalogo", "Checkout", "Campanhas"],
+    items: ["Catalogo", "Pedido", "Campanha"],
   },
   {
     name: "SEO e conteudo",
-    description: "Conteudo que ajuda o cliente a encontrar e entender.",
+    description: "Conteudo e estrutura para aparecer melhor e explicar melhor o que voce vende.",
     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
-    items: ["SEO local", "Blog", "Pautas"],
+    items: ["Google", "Blog", "Autoridade"],
   },
   {
     name: "Automacoes e IA",
-    description: "Atendimento e operacao mais rapidos, com menos retrabalho.",
+    description: "Rotinas e atendimento conectados para ganhar tempo e reduzir retrabalho.",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80",
     items: ["WhatsApp", "Integracoes", "Fluxos"],
   },
@@ -341,8 +341,8 @@ export const useCases = [
 ];
 
 export const trustNumbers = [
-  { label: "Experiencia", value: "15+ anos" },
-  { label: "Marcas atendidas", value: "40+" },
-  { label: "Mercados atendidos", value: "10+" },
-  { label: "Atendimento local", value: "Cuiaba - MT" },
+  { label: "Tempo de estrada", value: "15+ anos" },
+  { label: "Marcas no portifolio", value: "40+" },
+  { label: "Segmentos atendidos", value: "10+" },
+  { label: "Base de atendimento", value: "Cuiaba - MT" },
 ];

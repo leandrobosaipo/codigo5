@@ -22,35 +22,45 @@ const TestimonialsSection = () => {
     return acc;
   }, {});
 
+  const highlightSegments = Object.entries(segmentCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 4);
+
   return (
     <section id="clientes" className="py-24">
       <div className="container space-y-14">
         <motion.div
-          className="mx-auto mb-16 max-w-2xl text-center"
+          className="mx-auto mb-10 max-w-3xl text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Clientes e prova</span>
-          <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Marcas reais em segmentos diferentes
+          <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Clientes e experiencia</span>
+          <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
+            Experiencia visivel em mercados que exigem credibilidade
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Experiencia que vai de saude e varejo ate industria, imprensa e institucional.
+          <p className="text-lg leading-8 text-muted-foreground">
+            A prova nao esta em uma promessa. Esta nas marcas atendidas, nos segmentos
+            recorrentes e no repertorio acumulado em projetos diferentes.
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(segmentCounts)
-            .sort(([, a], [, b]) => b - a)
-            .map(([segment, count]) => (
+        <div className="grid gap-4 lg:grid-cols-4">
+          {highlightSegments.map(([segment, count]) => (
             <div
               key={segment}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-foreground"
+              className="rounded-[28px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,243,235,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.38)]"
             >
-              <span>{segment}</span>
-              <span className="rounded-full bg-primary/10 px-2 py-1 text-[11px] text-primary">{count}</span>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
+                Segmento recorrente
+              </p>
+              <p className="mt-4 font-display text-2xl font-semibold leading-tight text-foreground">
+                {segment}
+              </p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                {count} marcas no portifolio
+              </p>
             </div>
           ))}
         </div>
@@ -92,34 +102,46 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        <div className="grid gap-4 rounded-[32px] border border-border bg-card p-8 md:grid-cols-4 xl:grid-cols-6">
-          {clients.map((client, index) => (
-            <motion.div
-              key={client.name}
-              className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-5 py-4 ${
-                client.surface === "dark"
-                  ? "border-slate-900/80 bg-slate-950"
-                  : client.surface === "sand"
-                    ? "border-amber-200 bg-[linear-gradient(135deg,#fff8eb,#f4e3bf)]"
-                    : "border-border/70 bg-white"
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: index * 0.05 }}
-            >
-              <img
-                src={client.logo}
-                alt={client.name}
-                loading="lazy"
-                width="180"
-                height="56"
-                className={`${client.logoClass ?? "max-h-12"} w-auto object-contain ${
-                  client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
+        <div className="rounded-[32px] border border-border bg-card p-8">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                Recorte rapido
+              </p>
+              <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
+                Algumas marcas que reforcam essa trajetoria
+              </h3>
+            </div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-4 xl:grid-cols-6">
+            {clients.map((client, index) => (
+              <motion.div
+                key={client.name}
+                className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-5 py-4 ${
+                  client.surface === "dark"
+                    ? "border-slate-900/80 bg-slate-950"
+                    : client.surface === "sand"
+                      ? "border-amber-200 bg-[linear-gradient(135deg,#fff8eb,#f4e3bf)]"
+                      : "border-border/70 bg-white"
                 }`}
-              />
-            </motion.div>
-          ))}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: index * 0.05 }}
+              >
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  loading="lazy"
+                  width="180"
+                  height="56"
+                  className={`${client.logoClass ?? "max-h-12"} w-auto object-contain ${
+                    client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
+                  }`}
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

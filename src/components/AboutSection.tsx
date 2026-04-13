@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import { Brain, Puzzle, Settings, TrendingUp } from "lucide-react";
-import { authorityPoints } from "@/content/siteContent";
+import { CircleCheckBig } from "lucide-react";
 
 const values = [
-  { icon: Brain, title: "Autoridade em IA util", desc: "IA apresentada como ferramenta de negocio, nao como modismo vazio." },
-  { icon: Puzzle, title: "Integracao ponta a ponta", desc: "Site, automacao, WhatsApp, CRM e analytics conectados para sustentar crescimento." },
-  { icon: Settings, title: "Entrega realista e sob medida", desc: "Cada projeto respeita a maturidade da empresa e a capacidade operacional do cliente." },
-  { icon: TrendingUp, title: "Visao comercial", desc: "A prioridade e gerar confianca, leads qualificados e mais clareza de proposta." },
+  "Empresa local com experiencia real em WordPress, SEO e conteudo.",
+  "Nova camada de servico em automacoes, IA para atendimento e integracoes.",
+  "Texto, design e estrutura pensados para quem compra, nao para quem programa.",
+  "Projeto pronto para crescer com analytics, busca e novas paginas de servico.",
 ];
 
 const AboutSection = () => {
@@ -14,46 +13,34 @@ const AboutSection = () => {
     <section id="sobre" className="py-24">
       <div className="container">
         <motion.div
-          className="max-w-2xl mb-16"
+          className="mb-16 max-w-2xl"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-sm font-semibold text-primary uppercase tracking-wider">Sobre nós</span>
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            A Codigo5 evolui sem romper com o que ja construiu
+          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Sobre nós</span>
+          <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
+            A Codigo5 continua web na base e mais forte na entrega
           </h2>
-          <p className="text-muted-foreground text-lg">
-            O novo site deixa claro que a agencia ja tem base forte em web e agora
-            expande a oferta com ferramentas de IA, integracoes e automacoes para
-            aumentar eficiencia, performance e valor percebido.
+          <p className="text-lg text-muted-foreground">
+            O foco nao e impressionar com tecnicismo. E ajudar o cliente a entender o
+            que sera feito, por que isso importa e como isso pode virar resultado.
           </p>
-          <ul className="mt-6 space-y-3">
-            {authorityPoints.map((point) => (
-              <li key={point} className="flex gap-3 text-sm leading-6 text-foreground/85">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {values.map((v, i) => (
+        <div className="grid gap-6 sm:grid-cols-2">
+          {values.map((value, i) => (
             <motion.div
-              key={v.title}
-              className="p-6 rounded-lg bg-card border border-border hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+              key={value}
+              className="rounded-[28px] border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <v.icon className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="font-display font-semibold text-foreground mb-2">{v.title}</h3>
-              <p className="text-sm text-muted-foreground">{v.desc}</p>
+              <CircleCheckBig className="h-6 w-6 text-primary" />
+              <p className="mt-4 text-base leading-7 text-foreground/85">{value}</p>
             </motion.div>
           ))}
         </div>

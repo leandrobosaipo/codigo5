@@ -1,0 +1,60 @@
+import { Link, useParams } from "react-router-dom";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Seo from "@/components/Seo";
+import { getPostsByTag, getTagBySlug } from "@/content/blog";
+import NotFound from "./NotFound";
+
+const BlogTagPage = () => {
+  const { slug } = useParams();
+  const tag = getTagBySlug(slug);
+
+  if (!tag) {
+    return <NotFound />;
+  }
+
+  const posts = getPostsByTag(slug);
+
+  return (
+    <>
+      <Seo
+        title={`#${tag.name} | Blog Código5 Web`}
+        description={`Conteudos da Código5 marcados com a tag ${tag.name}.`}
+        path={`/blog/tag/${tag.slug}`}
+        robots="noindex,follow,max-image-preview:large"
+      />
+      <Navbar />
+      <main className="pt-24">
+        <section className="border-b border-border bg-background-alt py-20">
+          <div className="container">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Tag</p>
+            <h1 className="mt-4 font-display text-5xl font-bold text-foreground">#{tag.name}</h1>
+            <p className="mt-4 text-lg text-muted-foreground">{posts.length} publicacoes relacionadas.</p>
+          </div>
+        </section>
+        <section className="py-16">
+          <div className="container grid gap-6">
+            {posts.map((post) => (
+              <article key={post.slug} className="rounded-[32px] border border-border bg-card p-8">
+                <div className="grid gap-6 md:grid-cols-[240px_1fr]">
+                  <Link to={`/blog/${post.slug}`} className="overflow-hidden rounded-[24px]">
+                    <img src={post.image ?? "/assets/codigo5/blog/metodologia.webp"} alt={post.title} className="h-full w-full object-cover" />
+                  </Link>
+                  <div>
+                    <h2 className="font-display text-3xl font-semibold text-foreground">
+                      <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                    </h2>
+                    <p className="mt-4 text-base leading-7 text-muted-foreground">{post.excerpt}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+export default BlogTagPage;

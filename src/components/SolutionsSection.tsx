@@ -1,76 +1,54 @@
 import { motion } from "framer-motion";
-import { Bot, Cog, LayoutDashboard, Megaphone } from "lucide-react";
-
-const solutions = [
-  {
-    icon: LayoutDashboard,
-    title: "Sites institucionais e paginas de conversao",
-    desc: "Projetos sob medida com foco em posicionamento, performance, autoridade e aproveitamento comercial do trafego.",
-    items: ["Site corporativo", "Landing pages", "Portal de conteudo"],
-  },
-  {
-    icon: Megaphone,
-    title: "SEO, performance e crescimento organico",
-    desc: "Arquitetura de conteudo, SEO tecnico e editorial para aparecer melhor no Google e converter com mais consistencia.",
-    items: ["SEO local", "Conteudo estrategico", "Core Web Vitals"],
-  },
-  {
-    icon: Cog,
-    title: "Integracoes e automacoes",
-    desc: "Conectamos site, CRM, WhatsApp, ecommerce, formularios e rotinas operacionais para reduzir retrabalho e acelerar atendimento.",
-    items: ["Fluxos com n8n", "APIs e webhooks", "Operacao automatizada"],
-  },
-  {
-    icon: Bot,
-    title: "Ferramentas de IA aplicadas ao negocio",
-    desc: "Implementamos IA em atendimento, qualificacao, producao de conteudo, dashboards e rotinas internas sem perder controle da operacao.",
-    items: ["IA para atendimento", "IA para conteudo", "IA para produtividade"],
-  },
-];
+import { services } from "@/content/siteContent";
 
 const SolutionsSection = () => {
   return (
-    <section id="solucoes" className="py-24 bg-background-alt">
+    <section id="solucoes" className="bg-background-alt py-24">
       <div className="container">
         <motion.div
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-2xl text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-sm font-semibold text-primary uppercase tracking-wider">Soluções</span>
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            A nova Codigo5 vende mais porque mostra amplitude real de entrega
+          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Solucoes</span>
+          <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
+            O que a Codigo5 pode colocar para rodar no seu negocio
           </h2>
-          <p className="text-muted-foreground text-lg">
-            O discurso sai do “site por site” e vira uma proposta completa de crescimento, operacao e autoridade.
+          <p className="text-lg text-muted-foreground">
+            Menos promessa vaga. Mais pagina, conteudo, ferramenta e fluxo funcionando.
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 gap-6">
-          {solutions.map((s, i) => (
+        <div className="grid gap-6 sm:grid-cols-2">
+          {services.map((service, i) => (
             <motion.div
-              key={s.title}
-              className="group p-8 rounded-lg bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+              key={service.name}
+              className="group overflow-hidden rounded-[30px] border border-border bg-card transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
             >
-              <div className="w-12 h-12 rounded-lg bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-5 transition-colors duration-200">
-                <s.icon className="h-6 w-6 text-primary" />
+              <div className="aspect-[16/10] overflow-hidden">
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                />
               </div>
-              <h3 className="font-display font-semibold text-lg text-foreground mb-3">{s.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{s.desc}</p>
-              <ul className="space-y-1.5">
-                {s.items.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <div className="p-8">
+                <h3 className="mb-3 font-display text-2xl font-semibold text-foreground">{service.name}</h3>
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {service.items.map((item) => (
+                    <span key={item} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>

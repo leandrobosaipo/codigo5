@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { MessageSquare, Table2, FileText, Copy, BarChart3, AlertTriangle } from "lucide-react";
 
 const problems = [
-  { icon: MessageSquare, text: "Responder WhatsApp, direct e formulario como se tudo fosse urgencia" },
-  { icon: Table2, text: "Depender de planilhas para operar leads, pedidos e tarefas" },
-  { icon: FileText, text: "Publicar conteudo sem uma linha editorial que puxe vendas" },
-  { icon: Copy, text: "Repetir dados entre site, CRM, ecommerce e financeiro" },
-  { icon: BarChart3, text: "Nao saber quais paginas, campanhas e fluxos geram resultado" },
-  { icon: AlertTriangle, text: "Ter site bonito, mas lento, sem SEO e sem clareza de oferta" },
+  { icon: MessageSquare, text: "WhatsApp lotado e sem triagem" },
+  { icon: Table2, text: "Planilhas demais para vender e atender" },
+  { icon: FileText, text: "Conteudo sem foco em busca ou conversao" },
+  { icon: Copy, text: "Informacao repetida em varios sistemas" },
+  { icon: BarChart3, text: "Pouca clareza do que gera lead" },
+  { icon: AlertTriangle, text: "Site lento ou sem proposta clara" },
 ];
 
 const ProblemsSection = () => {
@@ -15,32 +15,32 @@ const ProblemsSection = () => {
     <section className="py-24">
       <div className="container">
         <motion.div
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-2xl text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-sm font-semibold text-primary uppercase tracking-wider">O Problema</span>
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mt-3 mb-4">
-            O gargalo digital raramente esta em uma unica ferramenta
+          <span className="text-sm font-semibold uppercase tracking-wider text-primary">O Problema</span>
+          <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
+            O problema quase nunca e so o site
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Ele aparece quando site, conteudo, operacao e atendimento nao conversam entre si.
+          <p className="text-lg text-muted-foreground">
+            Normalmente a venda trava quando atendimento, conteudo e operacao nao conversam.
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
+        <div className="mb-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {problems.map((p, i) => (
             <motion.div
               key={p.text}
-              className="flex items-center gap-4 p-5 rounded-lg bg-card border border-border"
+              className="flex items-center gap-4 rounded-lg border border-border bg-card p-5"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.06 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center shrink-0">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-destructive/10">
                 <p.icon className="h-5 w-5 text-destructive" />
               </div>
               <p className="text-sm font-medium text-foreground">{p.text}</p>
@@ -55,9 +55,8 @@ const ProblemsSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <p className="text-xl font-display font-semibold text-foreground">
-            A resposta certa combina{" "}
-            <span className="text-gradient">presenca digital forte, integracoes e automacao</span>.
+          <p className="font-display text-xl font-semibold text-foreground">
+            A melhor resposta junta site, busca, prova social e automacao.
           </p>
         </motion.div>
       </div>

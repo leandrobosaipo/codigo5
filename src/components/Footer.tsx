@@ -6,14 +6,10 @@ const Footer = () => {
       <div className="container">
         <div className="mb-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <img
-              src="/assets/codigo5/logos/logo-light.png"
-              alt="Codigo5 Web"
-              className="h-12 w-auto"
-            />
+            <img src="/assets/codigo5/logos/logo-light.png" alt="Codigo5 Web" className="h-12 w-auto" />
             <p className="mt-4 text-sm leading-relaxed text-ink-foreground/70">
-              Solucoes digitais para crescimento real: sites, lojas virtuais, SEO,
-              integracoes, automacoes e IA aplicada ao negocio.
+              Sites, ecommerce, SEO, conteudo, integracoes e automacoes para empresas
+              que querem vender melhor online.
             </p>
           </div>
           <div>
@@ -28,10 +24,10 @@ const Footer = () => {
           <div>
             <h4 className="mb-4 font-display font-semibold">Links</h4>
             <ul className="space-y-2 text-sm text-ink-foreground/70">
-              <li><a href="#sobre" className="transition-colors hover:text-ink-foreground">Sobre</a></li>
-              <li><a href="#solucoes" className="transition-colors hover:text-ink-foreground">Solucoes</a></li>
-              <li><a href="#clientes" className="transition-colors hover:text-ink-foreground">Clientes</a></li>
-              <li><a href="#blog" className="transition-colors hover:text-ink-foreground">Blog</a></li>
+              <li><a href="/#solucoes" className="transition-colors hover:text-ink-foreground">Servicos</a></li>
+              <li><a href="/#clientes" className="transition-colors hover:text-ink-foreground">Clientes</a></li>
+              <li><a href="/blog" className="transition-colors hover:text-ink-foreground">Blog</a></li>
+              <li><a href="/#contato" className="transition-colors hover:text-ink-foreground">Contato</a></li>
             </ul>
           </div>
           <div>
@@ -41,8 +37,8 @@ const Footer = () => {
               <li>{contact.email}</li>
               <li>Cuiaba - MT</li>
               <li>
-                <a href="https://codigo5.com.br" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink-foreground">
-                  codigo5.com.br
+                <a href="https://novo.codigo5.com.br" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink-foreground">
+                  novo.codigo5.com.br
                 </a>
               </li>
             </ul>

@@ -116,4 +116,37 @@
       linear-gradient(90deg, hsl(var(--border) / 0.55) 1px, transparent 1px);
     background-size: 48px 48px;
   }
+
+  .article-content h2,
+  .article-content h3,
+  .article-content h4 {
+    @apply mt-8 font-display text-2xl font-semibold text-foreground;
+  }
+
+  .article-content p,
+  .article-content li,
+  .article-content blockquote {
+    @apply mt-4 text-base leading-8 text-muted-foreground;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    @apply mt-4 pl-5;
+  }
+
+  .article-content a {
+    @apply text-primary underline decoration-primary/30 underline-offset-4;
+  }
+
+  .article-content strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .article-content img {
+    @apply mt-8 rounded-3xl;
+  }
+
+  .article-content blockquote {
+    @apply rounded-[24px] border border-primary/20 bg-primary/5 p-5;
+  }
 }

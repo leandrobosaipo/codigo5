@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Sparkles } from "lucide-react";
-import { contact } from "@/content/siteContent";
+import { clients, contact } from "@/content/siteContent";
 
 const HeroSection = () => {
   return (
@@ -18,8 +18,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              IA aplicada, integracoes, automacoes e sites que performam
+              <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+              Sites, SEO, automacoes e IA para atendimento e conteudo
             </span>
           </motion.div>
 
@@ -29,9 +29,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            A Codigo5 posiciona sua empresa com{" "}
-            <span className="text-gradient">sites, SEO, IA e automacoes</span>{" "}
-            que geram conversa comercial.
+            Seu site precisa explicar, provar e vender melhor.
           </motion.h1>
 
           <motion.p
@@ -40,10 +38,9 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            A base real da agencia continua forte em desenvolvimento web, WordPress,
-            lojas virtuais, SEO e marketing digital. O novo posicionamento adiciona
-            autoridade em ferramentas de IA, integracoes e automacoes para aumentar
-            eficiencia, velocidade e resultado.
+            A Codigo5 cria sites, lojas virtuais, SEO, conteudo, integracoes e automacoes
+            para empresas que querem aparecer melhor no Google, atender mais rapido e
+            transformar visitas em contato comercial.
           </motion.p>
 
           <motion.div
@@ -54,15 +51,12 @@ const HeroSection = () => {
           >
             <Button size="lg" asChild>
               <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
-                Diagnostico no WhatsApp
+                Falar sobre o projeto
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="#solucoes">
-                <Bot className="mr-2 h-4 w-4" />
-                Ver servicos
-              </a>
+              <a href="/blog">Ver blog e noticias</a>
             </Button>
           </motion.div>
 
@@ -73,9 +67,9 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {[
-              "Projetos sob medida para marcas que precisam vender melhor online.",
-              "Automacoes e integrações para reduzir tarefas manuais e acelerar times.",
-              "Conteudo consultivo para transformar busca organica em oportunidade.",
+              "Site claro para quem precisa contratar com seguranca.",
+              "Automacoes e integracoes para reduzir retrabalho no atendimento.",
+              "SEO e conteudo para atrair quem ja esta procurando seu servico.",
             ].map((item) => (
               <div key={item} className="rounded-3xl border border-border bg-card/70 p-4 text-sm text-muted-foreground shadow-sm">
                 {item}
@@ -100,18 +94,30 @@ const HeroSection = () => {
             <div className="absolute left-8 top-8 max-w-xs rounded-[24px] border border-white/50 bg-white/85 p-5 backdrop-blur">
               <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
-                Nova autoridade
+                Operacao digital
               </span>
               <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                Ferramentas de IA com aplicacao pratica no negocio.
+                Site, atendimento e conteudo trabalhando juntos.
               </p>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Atendimento, conteudo, operacao, relatorios e integracoes entre
-                sistemas com foco em ganho real de produtividade.
+                Menos tecnicismo vazio e mais estrutura para ajudar o cliente a decidir.
               </p>
             </div>
           </div>
         </motion.div>
+      </div>
+
+      <div className="container relative z-10 pb-12">
+        <div className="flex flex-wrap items-center gap-4 rounded-[28px] border border-border bg-card/80 p-5">
+          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            Marcas atendidas
+          </span>
+          {clients.slice(0, 6).map((client) => (
+            <div key={client.name} className="rounded-2xl border border-border/70 bg-background px-4 py-3">
+              <img src={client.logo} alt={client.name} className="h-8 w-auto object-contain" />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

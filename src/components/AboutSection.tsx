@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { CircleCheckBig } from "lucide-react";
 
 const values = [
-  "Empresa local com experiencia real em WordPress, SEO e conteudo.",
+  "Empresa local com experiencia em site, loja, SEO e conteudo.",
   "Nova camada de servico em automacoes, IA para atendimento e integracoes.",
-  "Texto, design e estrutura pensados para quem compra, nao para quem programa.",
-  "Projeto pronto para crescer com analytics, busca e novas paginas de servico.",
+  "Texto, design e estrutura pensados para quem contrata, nao para quem programa.",
+  "Base pronta para crescer com Google, Maps, analytics e novas paginas.",
 ];
 
 const AboutSection = () => {
@@ -21,11 +21,11 @@ const AboutSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Sobre nós</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            A Codigo5 continua web na base e mais forte na entrega
+            A Codigo5 continua forte em web e mais completa na entrega
           </h2>
           <p className="text-lg text-muted-foreground">
-            O foco nao e impressionar com tecnicismo. E ajudar o cliente a entender o
-            que sera feito, por que isso importa e como isso pode virar resultado.
+            O foco e fazer o cliente entender rapido o que esta sendo vendido, confiar na
+            empresa e encontrar um caminho simples para entrar em contato.
           </p>
         </motion.div>
 

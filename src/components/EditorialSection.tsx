@@ -20,11 +20,11 @@ const EditorialSection = () => {
             Conteudo que vende
           </span>
           <h2 className="mt-5 max-w-2xl font-display text-3xl font-bold text-foreground sm:text-4xl">
-            Blog interno com noticia, categoria e tag
+            Blog interno pronto para disputar busca por servico e segmento
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            O conteudo antigo foi trazido para dentro do novo site e agora pode crescer por
-            segmento, servico e oportunidade de busca.
+            O conteudo antigo foi trazido para dentro do novo site e agora pode crescer com
+            paginas que abrem demanda por nicho, cidade, servico e oportunidade de mercado.
           </p>
         </motion.div>
 
@@ -87,7 +87,7 @@ const EditorialSection = () => {
             </h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Isso abre espaco para artigos sobre bicicletas, e-bikes, saude, varejo e
-              outros segmentos onde a Codigo5 pode vender site, ecommerce e automacao.
+              outros segmentos onde a Codigo5 pode vender site, loja virtual e automacao.
             </p>
           </div>
           <Button asChild size="lg">

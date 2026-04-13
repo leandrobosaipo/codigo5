@@ -14,10 +14,10 @@ const ProcessSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Processo</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Como a Codigo5 organiza um projeto
+            Como a Codigo5 faz o projeto sair do papel
           </h2>
           <p className="text-lg text-muted-foreground">
-            Cada etapa resolve uma parte da venda: entender, organizar, publicar e evoluir.
+            Menos etapa abstrata e mais decisao pratica para o site vender melhor.
           </p>
         </motion.div>
 
@@ -31,8 +31,17 @@ const ProcessSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
             >
-              <div className="aspect-[5/4] overflow-hidden">
-                <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+              <div className="border-b border-border bg-[linear-gradient(135deg,rgba(204,149,55,0.12),rgba(255,251,245,0.96))] p-6">
+                <div className="flex gap-3">
+                  {item.logos.map((logo) => (
+                    <div
+                      key={logo}
+                      className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border/70 bg-white shadow-sm"
+                    >
+                      <img src={logo} alt="" aria-hidden="true" loading="lazy" width="24" height="24" className="h-6 w-6 object-contain" />
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="p-6">
                 <h3 className="font-display text-xl font-semibold text-foreground">{item.name}</h3>

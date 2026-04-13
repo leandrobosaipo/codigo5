@@ -19,7 +19,7 @@ const HeroSection = () => {
           >
             <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Sites, SEO, automacoes e IA para atendimento e conteudo
+              Sites, lojas, SEO e automacao para vender melhor
             </span>
           </motion.div>
 
@@ -29,7 +29,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Seu site precisa explicar, provar e vender melhor.
+            Seu site precisa passar confianca e gerar contato.
           </motion.h1>
 
           <motion.p
@@ -38,9 +38,9 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            A Codigo5 cria sites, lojas virtuais, SEO, conteudo, integracoes e automacoes
-            para empresas que querem aparecer melhor no Google, atender mais rapido e
-            transformar visitas em contato comercial.
+            A Codigo5 organiza a presenca digital da empresa com pagina clara, prova
+            real, Google melhor estruturado e automacoes que ajudam o atendimento a
+            responder com mais velocidade.
           </motion.p>
 
           <motion.div
@@ -67,11 +67,11 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {[
-              "Site claro para quem precisa contratar com seguranca.",
-              "Automacoes e integracoes para reduzir retrabalho no atendimento.",
-              "SEO e conteudo para atrair quem ja esta procurando seu servico.",
+              "Site simples de entender para quem esta pronto para contratar.",
+              "Automacoes para responder melhor sem aumentar retrabalho.",
+              "SEO e conteudo para atrair quem ja procura seu servico.",
             ].map((item) => (
-              <div key={item} className="rounded-3xl border border-border bg-card/70 p-4 text-sm text-muted-foreground shadow-sm">
+              <div key={item} className="rounded-3xl border border-border bg-card/80 p-4 text-sm text-muted-foreground shadow-sm">
                 {item}
               </div>
             ))}
@@ -100,7 +100,7 @@ const HeroSection = () => {
                 Site, atendimento e conteudo trabalhando juntos.
               </p>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Menos tecnicismo vazio e mais estrutura para ajudar o cliente a decidir.
+                Estrutura pensada para mostrar servico, prova e caminho de contato.
               </p>
             </div>
           </div>
@@ -108,13 +108,31 @@ const HeroSection = () => {
       </div>
 
       <div className="container relative z-10 pb-12">
-        <div className="flex flex-wrap items-center gap-4 rounded-[28px] border border-border bg-card/80 p-5">
+        <div className="flex flex-wrap items-center gap-4 rounded-[28px] border border-border bg-card/85 p-5 shadow-[0_24px_70px_-50px_rgba(30,25,20,0.45)]">
           <span className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
             Marcas atendidas
           </span>
           {clients.slice(0, 6).map((client) => (
-            <div key={client.name} className="rounded-2xl border border-border/70 bg-background px-4 py-3">
-              <img src={client.logo} alt={client.name} className="h-8 w-auto object-contain" />
+            <div
+              key={client.name}
+              className={`flex min-h-[64px] items-center justify-center rounded-[22px] border px-4 py-3 shadow-sm ${
+                client.surface === "dark"
+                  ? "border-slate-900/80 bg-slate-950"
+                  : client.surface === "sand"
+                    ? "border-amber-200 bg-[linear-gradient(135deg,#fff8eb,#f6ead2)]"
+                    : "border-border/70 bg-white"
+              }`}
+            >
+              <img
+                src={client.logo}
+                alt={client.name}
+                loading="lazy"
+                width="160"
+                height="48"
+                className={`h-8 w-auto object-contain ${
+                  client.surface === "dark" ? "brightness-0 invert" : ""
+                }`}
+              />
             </div>
           ))}
         </div>

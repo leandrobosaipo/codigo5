@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 type SeoProps = {
   title: string;
@@ -10,10 +11,6 @@ type SeoProps = {
   robots?: string;
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
 };
-
-const siteName = "Código5 Web";
-const defaultUrl = "https://novo.codigo5.com.br";
-const defaultImage = `${defaultUrl}/assets/codigo5/logos/hero-ai.webp`;
 
 const upsertMeta = (selector: string, attribute: "content" | "href", value: string) => {
   let element = document.head.querySelector(selector) as HTMLMetaElement | HTMLLinkElement | null;
@@ -39,14 +36,14 @@ const Seo = ({
   title,
   description,
   path = "/",
-  image = defaultImage,
+  image = DEFAULT_OG_IMAGE,
   type = "website",
   keywords,
   robots = "index,follow,max-image-preview:large",
   schema,
 }: SeoProps) => {
   useEffect(() => {
-    const url = new URL(path, defaultUrl).toString();
+    const url = new URL(path, SITE_URL).toString();
 
     document.title = title;
     upsertMeta('meta[name="description"]', "content", description);
@@ -59,7 +56,7 @@ const Seo = ({
     upsertMeta('meta[property="og:url"]', "content", url);
     upsertMeta('meta[property="og:type"]', "content", type);
     upsertMeta('meta[property="og:image"]', "content", image);
-    upsertMeta('meta[property="og:site_name"]', "content", siteName);
+    upsertMeta('meta[property="og:site_name"]', "content", SITE_NAME);
 
     upsertMeta('meta[name="twitter:title"]', "content", title);
     upsertMeta('meta[name="twitter:description"]', "content", description);

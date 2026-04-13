@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
 import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/content/blog";
+import { SITE_URL } from "@/lib/site";
 import NotFound from "./NotFound";
 
 const BlogPostPage = () => {
@@ -53,11 +54,11 @@ const BlogPostPage = () => {
                 name: "Código5 Web",
                 logo: {
                   "@type": "ImageObject",
-                  url: "https://novo.codigo5.com.br/assets/codigo5/logos/logo-dark.webp",
+                  url: `${SITE_URL}/assets/codigo5/logos/logo-dark.webp`,
                 },
               },
               description: post.seoDescription,
-              mainEntityOfPage: `https://novo.codigo5.com.br/blog/${post.slug}`,
+              mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
             },
             {
               "@type": "BreadcrumbList",
@@ -66,13 +67,13 @@ const BlogPostPage = () => {
                   "@type": "ListItem",
                   position: 1,
                   name: "Blog",
-                  item: "https://novo.codigo5.com.br/blog",
+                  item: `${SITE_URL}/blog`,
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: post.title,
-                  item: `https://novo.codigo5.com.br/blog/${post.slug}`,
+                  item: `${SITE_URL}/blog/${post.slug}`,
                 },
               ],
             },

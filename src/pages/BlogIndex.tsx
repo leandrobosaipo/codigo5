@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
 import { blogCategories, featuredBlogPosts, sortedBlogPosts } from "@/content/blog";
+import { SITE_URL } from "@/lib/site";
 
 const BlogIndex = () => {
   const heroPost = featuredBlogPosts[0];
@@ -21,7 +22,7 @@ const BlogIndex = () => {
           "@context": "https://schema.org",
           "@type": "Blog",
           name: "Blog Código5 Web",
-          url: "https://novo.codigo5.com.br/blog",
+          url: `${SITE_URL}/blog`,
           description:
             "Conteudo da Código5 sobre sites, lojas virtuais, SEO, automacoes, integracoes e oportunidades por segmento.",
         }}

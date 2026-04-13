@@ -10,6 +10,7 @@ import EditorialSection from "@/components/EditorialSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import { SITE_URL } from "@/lib/site";
 
 const Index = () => {
   return (
@@ -23,8 +24,8 @@ const Index = () => {
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Código5 Web",
-          url: "https://novo.codigo5.com.br/",
-          image: "https://novo.codigo5.com.br/assets/codigo5/logos/logo-dark.webp",
+          url: `${SITE_URL}/`,
+          image: `${SITE_URL}/assets/codigo5/logos/logo-dark.webp`,
           telephone: "+55-65-99982-2022",
           email: "contato@codigo5.com.br",
           address: {

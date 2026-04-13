@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
 import { getCategoryBySlug, getPostsByCategory } from "@/content/blog";
+import { SITE_URL } from "@/lib/site";
 import NotFound from "./NotFound";
 
 const BlogCategoryPage = () => {
@@ -29,7 +30,7 @@ const BlogCategoryPage = () => {
           "@type": "CollectionPage",
           name: `${category.name} | Blog Código5 Web`,
           description: `Publicacoes da categoria ${category.name} no blog da Código5.`,
-          url: `https://novo.codigo5.com.br/blog/categoria/${category.slug}`,
+          url: `${SITE_URL}/blog/categoria/${category.slug}`,
         }}
       />
       <Navbar />

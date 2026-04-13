@@ -37,8 +37,8 @@ const Footer = () => {
               <li>{contact.email}</li>
               <li>Cuiaba - MT</li>
               <li>
-                <a href="https://novo.codigo5.com.br" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink-foreground">
-                  novo.codigo5.com.br
+                <a href="https://codigo5.com.br" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink-foreground">
+                  codigo5.com.br
                 </a>
               </li>
             </ul>

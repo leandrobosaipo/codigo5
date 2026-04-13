@@ -14,11 +14,8 @@ const SolutionsSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Solucoes</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            O que a Codigo5 pode colocar para rodar no seu negocio
+            O que entra em operacao no seu projeto
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Menos promessa vaga. Mais pagina, conteudo, ferramenta e fluxo funcionando.
-          </p>
         </motion.div>
 
         <div className="grid gap-6 sm:grid-cols-2">
@@ -40,10 +37,10 @@ const SolutionsSection = () => {
               </div>
               <div className="p-8">
                 <h3 className="mb-3 font-display text-2xl font-semibold text-foreground">{service.name}</h3>
-                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+                <p className="mb-4 max-w-md text-base leading-7 text-muted-foreground">{service.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {service.items.map((item) => (
-                    <span key={item} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground">
+                    <span key={item} className="rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
                       {item}
                     </span>
                   ))}

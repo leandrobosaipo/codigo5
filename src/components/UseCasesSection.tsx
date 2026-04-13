@@ -12,13 +12,10 @@ const UseCasesSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Casos de Uso</span>
+          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Segmentos</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Segmentos para abrir novas conversas comerciais
+            Mercados em que a entrega faz sentido rapido
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Cada trilha fala com um tipo de cliente, uma dor e uma oportunidade de venda.
-          </p>
         </motion.div>
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -37,7 +34,7 @@ const UseCasesSection = () => {
               </div>
               <div className="relative flex min-h-[420px] flex-col justify-end p-8 text-white">
                 <h3 className="font-display text-3xl font-semibold">{item.title}</h3>
-                <p className="mt-3 max-w-sm text-sm leading-6 text-white/80">{item.summary}</p>
+                <p className="mt-3 max-w-sm text-base leading-7 text-white/80">{item.summary}</p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {item.points.map((point) => (
                     <span key={point} className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/90">

@@ -120,18 +120,22 @@
   .article-content h2,
   .article-content h3,
   .article-content h4 {
-    @apply mt-8 font-display text-2xl font-semibold text-foreground;
+    @apply mt-12 font-display text-3xl font-semibold text-foreground;
   }
 
   .article-content p,
   .article-content li,
   .article-content blockquote {
-    @apply mt-4 text-base leading-8 text-muted-foreground;
+    @apply mt-5 text-lg leading-8 text-muted-foreground;
   }
 
   .article-content ul,
   .article-content ol {
-    @apply mt-4 pl-5;
+    @apply mt-5 space-y-2 pl-5;
+  }
+
+  .article-content > p:first-of-type {
+    @apply mt-0 text-xl leading-9 text-foreground/85;
   }
 
   .article-content a {

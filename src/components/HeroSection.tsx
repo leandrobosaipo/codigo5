@@ -19,7 +19,7 @@ const HeroSection = () => {
           >
             <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Sites, lojas, SEO e automacao para vender melhor
+              Sites, lojas e automacoes para empresas que querem crescer
             </span>
           </motion.div>
 
@@ -29,7 +29,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Seu site precisa passar confianca e gerar contato.
+            Presenca digital com cara de empresa forte.
           </motion.h1>
 
           <motion.p
@@ -38,9 +38,8 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            A Codigo5 organiza a presenca digital da empresa com pagina clara, prova
-            real, Google melhor estruturado e automacoes que ajudam o atendimento a
-            responder com mais velocidade.
+            A Codigo5 junta site, loja, conteudo e automacao em uma experiencia mais
+            clara, mais bonita e mais facil de transformar em contato.
           </motion.p>
 
           <motion.div
@@ -51,12 +50,12 @@ const HeroSection = () => {
           >
             <Button size="lg" asChild>
               <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
-                Falar sobre o projeto
+                Pedir um projeto
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="/blog">Ver blog e noticias</a>
+              <a href="/blog">Ver projetos e ideias</a>
             </Button>
           </motion.div>
 
@@ -67,11 +66,11 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {[
-              "Site simples de entender para quem esta pronto para contratar.",
-              "Automacoes para responder melhor sem aumentar retrabalho.",
-              "SEO e conteudo para atrair quem ja procura seu servico.",
+              "Visual forte para passar confianca.",
+              "Atendimento mais agil no dia a dia.",
+              "Conteudo que ajuda a vender.",
             ].map((item) => (
-              <div key={item} className="rounded-3xl border border-border bg-card/80 p-4 text-sm text-muted-foreground shadow-sm">
+              <div key={item} className="rounded-[28px] border border-border bg-card/85 p-4 text-sm font-medium text-foreground/78 shadow-sm">
                 {item}
               </div>
             ))}
@@ -94,13 +93,13 @@ const HeroSection = () => {
             <div className="absolute left-8 top-8 max-w-xs rounded-[24px] border border-white/50 bg-white/85 p-5 backdrop-blur">
               <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
-                Operacao digital
+                Codigo5 Web
               </span>
               <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                Site, atendimento e conteudo trabalhando juntos.
+                Um site bonito nao basta. Ele precisa abrir conversa.
               </p>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Estrutura pensada para mostrar servico, prova e caminho de contato.
+                Texto simples, prova real e caminho de contato visivel.
               </p>
             </div>
           </div>

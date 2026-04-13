@@ -20,7 +20,7 @@ const BlogCategoryPage = () => {
     <>
       <Seo
         title={`${category.name} | Blog Código5 Web`}
-        description={`Noticias e artigos da Código5 na categoria ${category.name}, com links internos e navegacao por tema.`}
+        description={`Noticias e artigos da Código5 sobre ${category.name}.`}
         path={`/blog/categoria/${category.slug}`}
         type="website"
         keywords={`${category.name}, blog codigo5, ${category.name} cuiaba, seo de conteudo`}
@@ -45,8 +45,7 @@ const BlogCategoryPage = () => {
             </nav>
             <h1 className="mt-4 text-balance font-display text-5xl font-bold text-foreground">{category.name}</h1>
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              {posts.length} publicacoes relacionadas a {category.name}, com estrutura pronta
-              para navegacao, indexacao e leitura mais fluida.
+              {posts.length} publicacoes sobre {category.name}, reunidas para facilitar a leitura.
             </p>
           </div>
         </section>
@@ -74,7 +73,7 @@ const BlogCategoryPage = () => {
                     <h2 className="text-balance font-display text-3xl font-semibold leading-tight text-foreground">
                       <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                     </h2>
-                    <p className="text-sm text-muted-foreground">{post.excerpt}</p>
+                    <p className="line-clamp-3 text-sm leading-7 text-muted-foreground">{post.excerpt}</p>
                   </div>
                 </article>
               ))}

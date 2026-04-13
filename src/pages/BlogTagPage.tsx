@@ -38,8 +38,7 @@ const BlogTagPage = () => {
             </nav>
             <h1 className="mt-4 text-balance font-display text-5xl font-bold text-foreground">#{tag.name}</h1>
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              {posts.length} publicacoes relacionadas, mantidas acessiveis para navegacao interna
-              e em noindex para evitar paginas finas no Google.
+              {posts.length} publicacoes relacionadas com esse tema.
             </p>
           </div>
         </section>
@@ -68,7 +67,7 @@ const BlogTagPage = () => {
                       <h2 className="mt-3 text-balance font-display text-3xl font-semibold text-foreground">
                         <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                       </h2>
-                      <p className="mt-4 text-base leading-7 text-muted-foreground">{post.excerpt}</p>
+                      <p className="mt-4 line-clamp-3 text-base leading-7 text-muted-foreground">{post.excerpt}</p>
                     </div>
                   </div>
                 </article>

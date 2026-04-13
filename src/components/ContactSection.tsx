@@ -17,7 +17,7 @@ const ContactSection = () => {
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Contato</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">Quer tirar isso do papel?</h2>
           <p className="text-lg text-muted-foreground">
-            A conversa mais simples e por WhatsApp. Se preferir, tambem tem e-mail e mapa.
+            O caminho mais rapido e pelo WhatsApp. Se preferir, tambem tem e-mail e mapa.
           </p>
         </motion.div>
 
@@ -69,8 +69,7 @@ const ContactSection = () => {
             <div className="rounded-[28px] border border-primary/20 bg-primary/10 p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Caminho mais rapido</p>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Se voce ja sabe o que quer vender melhor, mande a ideia no WhatsApp e a
-                Codigo5 organiza o proximo passo.
+                Se a ideia ja esta clara, a conversa pode comecar por aqui.
               </p>
               <Button asChild className="mt-5">
                 <a href={contact.whatsappHref} target="_blank" rel="noreferrer">

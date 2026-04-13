@@ -13,7 +13,7 @@ const BlogIndex = () => {
     <>
       <Seo
         title="Blog Código5 Web | Noticias, SEO, Sites e Automacoes"
-        description="Blog interno da Código5 com noticias, conteudo sobre SEO, desenvolvimento web, performance, IA para atendimento e automacoes."
+        description="Noticias, ideias e oportunidades de mercado para empresas que querem vender melhor online."
         path="/blog"
         type="website"
         keywords="blog codigo5, blog seo cuiaba, noticias sobre sites, automacao, ia aplicada, lojas virtuais"
@@ -32,11 +32,10 @@ const BlogIndex = () => {
           <div className="container">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Blog e noticias</p>
             <h1 className="mt-4 max-w-3xl text-balance font-display text-5xl font-bold leading-tight text-foreground">
-              Conteudo organizado para o leitor navegar e para o Google entender
+              Ideias, noticias e oportunidades para vender melhor online
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-              Aqui ficam noticias, guias e artigos da Código5 com estrutura editorial,
-              categorias, tags e links internos prontos para crescer.
+              Um blog para leitura facil, com pautas comerciais, tendencias e temas por segmento.
             </p>
           </div>
         </section>
@@ -75,7 +74,7 @@ const BlogIndex = () => {
                       <h2 className="text-balance font-display text-4xl font-semibold leading-tight text-foreground">
                         <Link to={`/blog/${heroPost.slug}`}>{heroPost.title}</Link>
                       </h2>
-                      <p className="max-w-2xl text-base leading-7 text-muted-foreground">
+                      <p className="max-w-2xl line-clamp-3 text-base leading-7 text-muted-foreground">
                         {heroPost.excerpt}
                       </p>
                     </div>
@@ -103,7 +102,7 @@ const BlogIndex = () => {
                           <h3 className="mt-3 text-balance font-display text-2xl font-semibold leading-tight text-foreground">
                             <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                           </h3>
-                          <p className="mt-3 text-sm leading-6 text-muted-foreground">{post.excerpt}</p>
+                          <p className="mt-3 line-clamp-2 text-sm leading-6 text-muted-foreground">{post.excerpt}</p>
                         </div>
                       </div>
                     </article>
@@ -112,7 +111,7 @@ const BlogIndex = () => {
               </section>
 
               <div>
-                <h2 className="font-display text-2xl font-semibold text-foreground">Categorias principais</h2>
+                <h2 className="font-display text-2xl font-semibold text-foreground">Assuntos do blog</h2>
                 <div className="mt-4 flex flex-wrap gap-3">
                   {blogCategories.map((category) => (
                     <Link
@@ -160,7 +159,7 @@ const BlogIndex = () => {
                         )}{" "}
                         • {post.readingMinutes} min de leitura
                       </p>
-                      <p className="text-base leading-7 text-muted-foreground">{post.excerpt}</p>
+                      <p className="line-clamp-3 text-base leading-7 text-muted-foreground">{post.excerpt}</p>
                     </div>
                   </article>
                 ))}

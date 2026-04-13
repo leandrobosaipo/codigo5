@@ -17,14 +17,13 @@ const EditorialSection = () => {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            Conteudo que vende
+            Blog & noticias
           </span>
           <h2 className="mt-5 max-w-2xl font-display text-3xl font-bold text-foreground sm:text-4xl">
-            Blog interno pronto para disputar busca por servico e segmento
+            Conteudo para informar, inspirar e abrir conversa
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            O conteudo antigo foi trazido para dentro do novo site e agora pode crescer com
-            paginas que abrem demanda por nicho, cidade, servico e oportunidade de mercado.
+            Noticias, pautas por segmento e ideias que ajudam o cliente a enxergar oportunidades.
           </p>
         </motion.div>
 
@@ -64,9 +63,9 @@ const EditorialSection = () => {
                 <h3 className="font-display text-2xl font-semibold leading-tight text-foreground">
                   {post.title}
                 </h3>
-                <p className="text-sm leading-6 text-muted-foreground">{post.excerpt}</p>
+                <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">{post.excerpt}</p>
                 <Link to={`/blog/${post.slug}`} className="inline-flex items-center gap-2 text-sm font-medium text-foreground transition group-hover:text-primary">
-                  Ler conteudo
+                  Abrir materia
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -83,15 +82,14 @@ const EditorialSection = () => {
         >
           <div className="max-w-2xl">
             <h3 className="font-display text-2xl font-semibold text-foreground">
-              Blog pronto para crescer com servico, nicho e noticia
+              Um blog mais util para quem le
             </h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Isso abre espaco para artigos sobre bicicletas, e-bikes, saude, varejo e
-              outros segmentos onde a Codigo5 pode vender site, loja virtual e automacao.
+              A ideia e publicar noticias, tendencias e paginas por segmento sem deixar a leitura pesada.
             </p>
           </div>
           <Button asChild size="lg">
-            <Link to="/blog">Abrir blog completo</Link>
+            <Link to="/blog">Explorar o blog</Link>
           </Button>
         </motion.div>
       </div>

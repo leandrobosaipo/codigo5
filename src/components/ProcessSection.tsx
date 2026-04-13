@@ -14,11 +14,8 @@ const ProcessSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Processo</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Como a Codigo5 faz o projeto sair do papel
+            Como a entrega acontece
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Menos etapa abstrata e mais decisao pratica para o site vender melhor.
-          </p>
         </motion.div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -45,7 +42,7 @@ const ProcessSection = () => {
               </div>
               <div className="p-6">
                 <h3 className="font-display text-xl font-semibold text-foreground">{item.name}</h3>
-                <p className="mt-3 text-sm text-muted-foreground">{item.detail}</p>
+                <p className="mt-3 text-base leading-7 text-muted-foreground">{item.detail}</p>
               </div>
             </motion.div>
           ))}

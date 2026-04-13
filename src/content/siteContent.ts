@@ -253,49 +253,49 @@ export const portfolioClients = [
 export const services = [
   {
     name: "Sites institucionais",
-    description: "Presenca clara, rapida e pronta para vender.",
+    description: "Pagina clara para apresentar, provar e receber contato.",
     image: "/assets/codigo5/blog/site-clientes.webp",
-    items: ["Pagina inicial", "Servicos", "Contato e mapa"],
+    items: ["Apresentacao", "Contato", "Google Maps"],
   },
   {
     name: "Lojas virtuais",
-    description: "Catalogo, carrinho e paginas para campanha.",
+    description: "Loja pronta para campanha, catalogo e pedido.",
     image: "/assets/codigo5/blog/ia-sites.webp",
-    items: ["WooCommerce", "Categorias", "Checkout"],
+    items: ["Catalogo", "Checkout", "Campanhas"],
   },
   {
     name: "SEO e conteudo",
-    description: "Paginas que aparecem melhor e explicam melhor.",
+    description: "Conteudo que ajuda o cliente a encontrar e entender.",
     image: "/assets/codigo5/blog/metodologia.webp",
-    items: ["SEO local", "Blog", "Sitemap"],
+    items: ["SEO local", "Blog", "Pautas"],
   },
   {
     name: "Automacoes e IA",
-    description: "Atendimento, rotinas e integracoes com menos retrabalho.",
+    description: "Atendimento e operacao mais rapidos, com menos retrabalho.",
     image: "/assets/codigo5/logos/hero-ai.webp",
-    items: ["WhatsApp", "CRM", "Fluxos com IA"],
+    items: ["WhatsApp", "Integracoes", "Fluxos"],
   },
 ];
 
 export const methodologies = [
   {
-    name: "Diagnostico comercial",
-    detail: "Oferta, publico, prova e contato definidos antes do layout.",
+    name: "1. Clareza da oferta",
+    detail: "O cliente precisa entender rapido o que voce vende.",
     logos: ["/assets/codigo5/tools/googleanalytics.svg", "/assets/codigo5/tools/googlesearchconsole.svg"],
   },
   {
-    name: "Arquitetura com busca",
-    detail: "Pagina, categoria e blog pensados para aparecer e converter.",
+    name: "2. Estrutura certa",
+    detail: "Site, pagina e blog organizados para navegar sem atrito.",
     logos: ["/assets/codigo5/tools/wordpress.svg", "/assets/codigo5/tools/cloudflare.svg"],
   },
   {
-    name: "Site e loja no ar",
-    detail: "Projeto leve, facil de entender e pronto para campanha e Maps.",
+    name: "3. Projeto no ar",
+    detail: "Tudo entra online com visual forte e leitura simples.",
     logos: ["/assets/codigo5/tools/woocommerce.svg", "/assets/codigo5/tools/elementor.svg"],
   },
   {
-    name: "Automacao e IA aplicada",
-    detail: "Fluxos, atendimento e conteudo conectados com menos retrabalho.",
+    name: "4. Escala e automacao",
+    detail: "Atendimento, conteudo e rotina conectados quando faz sentido.",
     logos: ["/assets/codigo5/tools/n8n.svg", "/assets/codigo5/tools/openai.svg"],
   },
 ];
@@ -314,21 +314,21 @@ export const toolLogos = [
 export const useCases = [
   {
     title: "Bicicletas e bikes eletricas",
-    summary: "Loja, catalogo, SEO e conteudo para aquecer o mercado.",
+    summary: "Loja, catalogo e pauta para um mercado em expansao.",
     image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80",
-    points: ["E-bike", "Mobilidade urbana", "Pos-venda"],
+    points: ["Loja", "E-bike", "Pos-venda"],
   },
   {
     title: "Clinicas e saude",
-    summary: "Google Maps, agenda, WhatsApp e presenca local forte.",
+    summary: "Agenda, presenca local e contato simples pelo WhatsApp.",
     image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
-    points: ["SEO local", "Agendamento", "Conteudo util"],
+    points: ["Agenda", "Google Maps", "SEO local"],
   },
   {
     title: "Varejo e ecommerce",
-    summary: "Campanhas sazonais, categorias e automacoes comerciais.",
+    summary: "Campanhas, categorias e operacao mais agil para vender.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80",
-    points: ["Loja virtual", "CRM", "Recuperacao"],
+    points: ["Campanhas", "CRM", "Recuperacao"],
   },
 ];
 

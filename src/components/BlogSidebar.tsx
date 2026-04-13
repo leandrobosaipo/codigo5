@@ -26,7 +26,7 @@ const BlogSidebar = ({
         <div className="border-b border-border bg-[linear-gradient(135deg,rgba(204,149,55,0.16),rgba(255,250,240,0.96))] p-6">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Navegacao do blog</p>
           <h2 className="mt-3 font-display text-2xl font-semibold text-foreground">
-            Encontre conteudo por tema
+            Navegue por assunto
           </h2>
         </div>
 
@@ -101,13 +101,12 @@ const BlogSidebar = ({
       </div>
 
       <div className="rounded-[28px] border border-primary/20 bg-[linear-gradient(135deg,rgba(204,149,55,0.14),rgba(255,250,240,0.98))] p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.4)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">SEO + conversao</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Projeto novo</p>
         <h3 className="mt-3 font-display text-2xl font-semibold text-foreground">
-          Blog pensado para gerar busca e contato
+          Quer esse nivel de cuidado no seu site?
         </h3>
         <p className="mt-3 text-sm leading-7 text-muted-foreground">
-          Categoria, tags, links internos e navegacao lateral ajudam o leitor e deixam o
-          conteudo mais facil de explorar.
+          A Codigo5 pode organizar seu conteudo, sua apresentacao e seu caminho de contato.
         </p>
         <Link
           to="/#contato"

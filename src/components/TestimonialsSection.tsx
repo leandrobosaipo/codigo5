@@ -19,11 +19,10 @@ const TestimonialsSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Clientes e prova</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Experiencia real em segmentos bem diferentes
+            Marcas reais em segmentos diferentes
           </h2>
           <p className="text-lg text-muted-foreground">
-            O inventario dos servidores virou prova social organizada por mercado, com
-            logo real e variedade de servico entregue.
+            Experiencia que vai de saude e varejo ate industria, imprensa e institucional.
           </p>
         </motion.div>
 

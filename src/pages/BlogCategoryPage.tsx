@@ -35,30 +35,46 @@ const BlogCategoryPage = () => {
       />
       <Navbar />
       <main className="pt-24">
-        <section className="border-b border-border bg-background-alt py-20">
+        <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
           <div className="container">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Categoria</p>
-            <nav aria-label="Breadcrumb" className="mt-6 text-sm text-muted-foreground">
-              <Link to="/blog" className="transition hover:text-primary">
-                Blog
-              </Link>{" "}
-              / <span>{category.name}</span>
-            </nav>
-            <h1 className="mt-4 text-balance font-display text-5xl font-bold text-foreground">{category.name}</h1>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              {posts.length} publicacoes sobre {category.name}, reunidas para facilitar a leitura.
-            </p>
+            <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Categoria</p>
+                <nav aria-label="Breadcrumb" className="mt-6 text-sm text-muted-foreground">
+                  <Link to="/blog" className="transition hover:text-primary">
+                    Blog
+                  </Link>{" "}
+                  / <span>{category.name}</span>
+                </nav>
+                <h1 className="mt-4 text-balance font-display text-5xl font-bold leading-[0.95] text-foreground sm:text-6xl">
+                  {category.name}
+                </h1>
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
+                  {posts.length} publicacoes reunidas para facilitar a leitura e a navegacao por esse tema.
+                </p>
+              </div>
+
+              <div className="rounded-[30px] border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.22)] backdrop-blur">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
+                  Nesta colecao
+                </p>
+                <p className="mt-4 text-base leading-7 text-foreground/80">
+                  Aqui voce encontra conteudo da Código5 sobre <strong>{category.name}</strong>,
+                  com leitura mais direta, contexto comercial e links para outros assuntos do blog.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
         <section className="py-16">
-          <div className="container grid gap-10 lg:grid-cols-[minmax(0,1fr)_330px]">
+          <div className="container grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="grid gap-8 lg:grid-cols-2">
               {posts.map((post) => (
                 <article
                   key={post.slug}
                   className="overflow-hidden rounded-[32px] border border-border bg-card shadow-[0_24px_70px_-54px_rgba(30,25,20,0.35)]"
                 >
-                  <Link to={`/blog/${post.slug}`} className="block aspect-[16/9] overflow-hidden bg-muted">
+                  <Link to={`/blog/${post.slug}`} className="block aspect-[16/10] overflow-hidden bg-muted">
                     <img
                       src={post.image ?? "/assets/codigo5/blog/metodologia.webp"}
                       alt={post.title}
@@ -66,7 +82,7 @@ const BlogCategoryPage = () => {
                     />
                   </Link>
                   <div className="space-y-4 p-8">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
                       {new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
                         new Date(post.date),
                       )}
@@ -74,7 +90,7 @@ const BlogCategoryPage = () => {
                     <h2 className="text-balance font-display text-3xl font-semibold leading-tight text-foreground">
                       <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                     </h2>
-                    <p className="line-clamp-3 text-sm leading-7 text-muted-foreground">{post.excerpt}</p>
+                    <p className="line-clamp-3 text-base leading-7 text-muted-foreground">{post.excerpt}</p>
                   </div>
                 </article>
               ))}

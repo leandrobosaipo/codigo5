@@ -83,15 +83,15 @@ const BlogPostPage = () => {
       <Navbar />
       <main className="pt-24">
         <article className="pb-20">
-          <section className="border-b border-border bg-background-alt py-20">
-            <div className="container max-w-4xl">
+          <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
+            <div className="container max-w-5xl">
               <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
                 <Link to="/blog" className="transition hover:text-primary">
                   Blog
                 </Link>{" "}
                 / <span>{post.title}</span>
               </nav>
-              <div className="flex flex-wrap gap-2">
+              <div className="mt-6 flex flex-wrap gap-2">
                 {post.categories.map((category) => (
                   <Link
                     key={category.slug}
@@ -102,7 +102,7 @@ const BlogPostPage = () => {
                   </Link>
                 ))}
               </div>
-              <h1 className="mt-6 text-balance font-display text-5xl font-bold leading-tight text-foreground">
+              <h1 className="mt-6 max-w-4xl text-balance font-display text-5xl font-bold leading-[0.95] text-foreground sm:text-6xl">
                 {post.title}
               </h1>
               <p className="mt-5 text-sm text-muted-foreground">
@@ -114,17 +114,20 @@ const BlogPostPage = () => {
             </div>
           </section>
 
-          <div className="container grid gap-12 pt-12 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="container grid gap-12 pt-12 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="min-w-0">
               {post.image ? (
-                <div className="overflow-hidden rounded-[32px] border border-border">
+                <div className="overflow-hidden rounded-[34px] border border-border shadow-[0_30px_90px_-58px_rgba(30,25,20,0.38)]">
                   <img src={post.image} alt={post.title} className="h-full w-full object-cover" />
                 </div>
               ) : null}
-              <div
-                className="article-content mt-10 rounded-[32px] border border-border bg-card p-8 sm:p-10"
-                dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-              />
+
+              <div className="mt-10 rounded-[34px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,232,0.92))] p-8 shadow-[0_30px_90px_-58px_rgba(30,25,20,0.22)] sm:p-10">
+                <div
+                  className="article-content"
+                  dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+                />
+              </div>
 
               <div className="mt-8 grid gap-4 md:grid-cols-2">
                 {previousPost ? (
@@ -132,7 +135,7 @@ const BlogPostPage = () => {
                     to={`/blog/${previousPost.slug}`}
                     className="rounded-[28px] border border-border bg-card p-6 transition hover:border-primary/30 hover:shadow-sm"
                   >
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                       Post anterior
                     </p>
                     <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
@@ -150,7 +153,7 @@ const BlogPostPage = () => {
                     to={`/blog/${nextPost.slug}`}
                     className="rounded-[28px] border border-border bg-card p-6 text-left transition hover:border-primary/30 hover:shadow-sm"
                   >
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                       Proximo post
                     </p>
                     <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
@@ -166,12 +169,16 @@ const BlogPostPage = () => {
             </div>
 
             <div className="space-y-6">
-              <div className="rounded-[28px] border border-border bg-card p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Tags</p>
+              <div className="rounded-[30px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,232,0.92))] p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.22)]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Tags</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {post.tags.length > 0 ? (
                     post.tags.map((tag) => (
-                      <Link key={tag.slug} to={`/blog/tag/${tag.slug}`} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground">
+                      <Link
+                        key={tag.slug}
+                        to={`/blog/tag/${tag.slug}`}
+                        className="rounded-full bg-white px-3 py-2 text-xs font-medium text-foreground transition hover:bg-primary hover:text-primary-foreground"
+                      >
                         #{tag.name}
                       </Link>
                     ))
@@ -181,13 +188,17 @@ const BlogPostPage = () => {
                 </div>
               </div>
 
-              <div className="rounded-[28px] border border-border bg-card p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Posts relacionados</p>
+              <div className="rounded-[30px] border border-border bg-card p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.22)]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Posts relacionados</p>
                 <div className="mt-4 space-y-4">
                   {relatedPosts.map((related) => (
-                    <Link key={related.slug} to={`/blog/${related.slug}`} className="block border-t border-border pt-4 first:border-t-0 first:pt-0">
+                    <Link
+                      key={related.slug}
+                      to={`/blog/${related.slug}`}
+                      className="block rounded-[22px] border border-border/70 bg-background-alt px-4 py-4 transition hover:border-primary/30"
+                    >
                       <p className="font-display text-xl font-semibold text-foreground">{related.title}</p>
-                      <p className="mt-2 text-sm text-muted-foreground">{related.excerpt}</p>
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{related.excerpt}</p>
                     </Link>
                   ))}
                 </div>

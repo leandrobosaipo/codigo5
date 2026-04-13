@@ -1,8 +1,9 @@
 import { Link, useParams } from "react-router-dom";
+import BlogSidebar from "@/components/BlogSidebar";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
-import { blogPosts, getBlogPostBySlug } from "@/content/blog";
+import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/content/blog";
 import NotFound from "./NotFound";
 
 const BlogPostPage = () => {
@@ -22,6 +23,7 @@ const BlogPostPage = () => {
         ),
     )
     .slice(0, 3);
+  const { previousPost, nextPost } = getAdjacentPosts(post.slug);
 
   return (
     <>
@@ -33,27 +35,48 @@ const BlogPostPage = () => {
         image={post.image ?? undefined}
         schema={{
           "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: post.title,
-          datePublished: post.date,
-          dateModified: post.modified,
-          image: post.image ? [post.image] : undefined,
-          articleSection: post.categories.map((category) => category.name),
-          keywords: post.tags.map((tag) => tag.name).join(", "),
-          author: {
-            "@type": "Organization",
-            name: "Código5 Web",
-          },
-          publisher: {
-            "@type": "Organization",
-            name: "Código5 Web",
-            logo: {
-              "@type": "ImageObject",
-              url: "https://novo.codigo5.com.br/assets/codigo5/logos/logo-dark.webp",
+          "@graph": [
+            {
+              "@type": "BlogPosting",
+              headline: post.title,
+              datePublished: post.date,
+              dateModified: post.modified,
+              image: post.image ? [post.image] : undefined,
+              articleSection: post.categories.map((category) => category.name),
+              keywords: post.tags.map((tag) => tag.name).join(", "),
+              author: {
+                "@type": "Organization",
+                name: "Código5 Web",
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "Código5 Web",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://novo.codigo5.com.br/assets/codigo5/logos/logo-dark.webp",
+                },
+              },
+              description: post.seoDescription,
+              mainEntityOfPage: `https://novo.codigo5.com.br/blog/${post.slug}`,
             },
-          },
-          description: post.seoDescription,
-          mainEntityOfPage: `https://novo.codigo5.com.br/blog/${post.slug}`,
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Blog",
+                  item: "https://novo.codigo5.com.br/blog",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: post.title,
+                  item: `https://novo.codigo5.com.br/blog/${post.slug}`,
+                },
+              ],
+            },
+          ],
         }}
       />
       <Navbar />
@@ -61,6 +84,12 @@ const BlogPostPage = () => {
         <article className="pb-20">
           <section className="border-b border-border bg-background-alt py-20">
             <div className="container max-w-4xl">
+              <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
+                <Link to="/blog" className="transition hover:text-primary">
+                  Blog
+                </Link>{" "}
+                / <span>{post.title}</span>
+              </nav>
               <div className="flex flex-wrap gap-2">
                 {post.categories.map((category) => (
                   <Link
@@ -72,9 +101,14 @@ const BlogPostPage = () => {
                   </Link>
                 ))}
               </div>
-              <h1 className="mt-6 font-display text-5xl font-bold leading-tight text-foreground">{post.title}</h1>
+              <h1 className="mt-6 text-balance font-display text-5xl font-bold leading-tight text-foreground">
+                {post.title}
+              </h1>
               <p className="mt-5 text-sm text-muted-foreground">
-                {new Date(post.date).toLocaleDateString("pt-BR")} • {post.readingMinutes} min de leitura
+                {new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
+                  new Date(post.date),
+                )}{" "}
+                • {post.readingMinutes} min de leitura
               </p>
             </div>
           </section>
@@ -90,9 +124,47 @@ const BlogPostPage = () => {
                 className="article-content mt-10 rounded-[32px] border border-border bg-card p-8 sm:p-10"
                 dangerouslySetInnerHTML={{ __html: post.contentHtml }}
               />
+
+              <div className="mt-8 grid gap-4 md:grid-cols-2">
+                {previousPost ? (
+                  <Link
+                    to={`/blog/${previousPost.slug}`}
+                    className="rounded-[28px] border border-border bg-card p-6 transition hover:border-primary/30 hover:shadow-sm"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                      Post anterior
+                    </p>
+                    <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
+                      {previousPost.title}
+                    </p>
+                  </Link>
+                ) : (
+                  <div className="rounded-[28px] border border-dashed border-border bg-card p-6 text-sm text-muted-foreground">
+                    Este e um dos posts mais recentes da lista.
+                  </div>
+                )}
+
+                {nextPost ? (
+                  <Link
+                    to={`/blog/${nextPost.slug}`}
+                    className="rounded-[28px] border border-border bg-card p-6 text-left transition hover:border-primary/30 hover:shadow-sm"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                      Proximo post
+                    </p>
+                    <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
+                      {nextPost.title}
+                    </p>
+                  </Link>
+                ) : (
+                  <div className="rounded-[28px] border border-dashed border-border bg-card p-6 text-sm text-muted-foreground">
+                    Este e o ultimo post da navegacao atual.
+                  </div>
+                )}
+              </div>
             </div>
 
-            <aside className="space-y-6">
+            <div className="space-y-6">
               <div className="rounded-[28px] border border-border bg-card p-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Tags</p>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -119,7 +191,9 @@ const BlogPostPage = () => {
                   ))}
                 </div>
               </div>
-            </aside>
+
+              <BlogSidebar currentPostSlug={post.slug} />
+            </div>
           </div>
         </article>
       </main>

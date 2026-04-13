@@ -29,6 +29,10 @@ type BlogCollectionTerm = BlogTerm & {
 
 export const blogPosts = blogPostsData as BlogPost[];
 
+export const sortedBlogPosts = [...blogPosts].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+);
+
 const buildTerms = (selector: (post: BlogPost) => BlogTerm[]) => {
   const map = new Map<string, BlogCollectionTerm>();
 
@@ -56,19 +60,37 @@ export const blogCategories = buildTerms((post) =>
 
 export const blogTags = buildTerms((post) => post.tags);
 
-export const featuredBlogPosts = blogPosts.slice(0, 3);
+export const featuredBlogPosts = sortedBlogPosts.slice(0, 3);
+
+export const recentBlogPosts = sortedBlogPosts.slice(0, 6);
 
 export const getBlogPostBySlug = (slug?: string) =>
-  blogPosts.find((post) => post.slug === slug);
+  sortedBlogPosts.find((post) => post.slug === slug);
 
 export const getPostsByCategory = (slug?: string) =>
-  blogPosts.filter((post) => post.categories.some((category) => category.slug === slug));
+  sortedBlogPosts.filter((post) => post.categories.some((category) => category.slug === slug));
 
 export const getPostsByTag = (slug?: string) =>
-  blogPosts.filter((post) => post.tags.some((tag) => tag.slug === slug));
+  sortedBlogPosts.filter((post) => post.tags.some((tag) => tag.slug === slug));
 
 export const getCategoryBySlug = (slug?: string) =>
   blogCategories.find((category) => category.slug === slug);
 
 export const getTagBySlug = (slug?: string) =>
   blogTags.find((tag) => tag.slug === slug);
+
+export const getAdjacentPosts = (slug?: string) => {
+  const currentIndex = sortedBlogPosts.findIndex((post) => post.slug === slug);
+
+  if (currentIndex === -1) {
+    return {
+      previousPost: null,
+      nextPost: null,
+    };
+  }
+
+  return {
+    previousPost: sortedBlogPosts[currentIndex - 1] ?? null,
+    nextPost: sortedBlogPosts[currentIndex + 1] ?? null,
+  };
+};

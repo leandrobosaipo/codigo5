@@ -63,7 +63,7 @@ const TestimonialsSection = () => {
                   loading="lazy"
                   width="240"
                   height="80"
-                  className={`max-h-14 w-auto object-contain ${
+                  className={`${client.logoClass ?? "max-h-14"} w-auto object-contain ${
                     client.surface === "dark" ? "brightness-0 invert" : ""
                   }`}
                 />
@@ -97,7 +97,7 @@ const TestimonialsSection = () => {
                 loading="lazy"
                 width="180"
                 height="56"
-                className={`max-h-12 w-auto object-contain ${
+                className={`${client.logoClass ?? "max-h-12"} w-auto object-contain ${
                   client.surface === "dark" ? "brightness-0 invert" : ""
                 }`}
               />

@@ -2,8 +2,23 @@ import { motion } from "framer-motion";
 import { clients, portfolioClients } from "@/content/siteContent";
 
 const TestimonialsSection = () => {
+  const normalizeSegment = (segment: string) => {
+    const label = segment.toLowerCase();
+
+    if (/(midia|portal|noticias|jornal|editorial|entretenimento)/.test(label)) return "Midia e conteudo";
+    if (/(saude|vascular|instituto)/.test(label)) return "Saude e bem-estar";
+    if (/(industria|mineral|construcao|concreto)/.test(label)) return "Industria e construcao";
+    if (/(varejo|instrumentos|limpeza|nutricao)/.test(label)) return "Varejo e distribuicao";
+    if (/(instituicao|conselho|igreja|social)/.test(label)) return "Institucional";
+    if (/(advocacia|credito)/.test(label)) return "Servicos profissionais";
+    if (/(turismo|eventos|buffet)/.test(label)) return "Turismo e eventos";
+
+    return "Outros segmentos";
+  };
+
   const segmentCounts = portfolioClients.reduce<Record<string, number>>((acc, client) => {
-    acc[client.segment] = (acc[client.segment] ?? 0) + 1;
+    const group = normalizeSegment(client.segment);
+    acc[group] = (acc[group] ?? 0) + 1;
     return acc;
   }, {});
 
@@ -27,12 +42,15 @@ const TestimonialsSection = () => {
         </motion.div>
 
         <div className="flex flex-wrap gap-3">
-          {Object.entries(segmentCounts).map(([segment, count]) => (
+          {Object.entries(segmentCounts)
+            .sort(([, a], [, b]) => b - a)
+            .map(([segment, count]) => (
             <div
               key={segment}
-              className="rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-foreground"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-foreground"
             >
-              {segment} · {count}
+              <span>{segment}</span>
+              <span className="rounded-full bg-primary/10 px-2 py-1 text-[11px] text-primary">{count}</span>
             </div>
           ))}
         </div>
@@ -63,7 +81,7 @@ const TestimonialsSection = () => {
                   width="240"
                   height="80"
                   className={`${client.logoClass ?? "max-h-14"} w-auto object-contain ${
-                    client.surface === "dark" ? "brightness-0 invert" : ""
+                    client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
                   }`}
                 />
               </div>
@@ -97,7 +115,7 @@ const TestimonialsSection = () => {
                 width="180"
                 height="56"
                 className={`${client.logoClass ?? "max-h-12"} w-auto object-contain ${
-                  client.surface === "dark" ? "brightness-0 invert" : ""
+                  client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
                 }`}
               />
             </motion.div>

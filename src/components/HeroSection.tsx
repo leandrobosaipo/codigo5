@@ -129,7 +129,7 @@ const HeroSection = () => {
                 width="160"
                 height="48"
                 className={`${client.logoClass ?? "h-8"} w-auto object-contain ${
-                  client.surface === "dark" ? "brightness-0 invert" : ""
+                  client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
                 }`}
               />
             </div>

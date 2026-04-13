@@ -17,13 +17,13 @@ const EditorialSection = () => {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            Blog & noticias
+            Blog da Codigo5
           </span>
           <h2 className="mt-5 max-w-2xl font-display text-3xl font-bold text-foreground sm:text-4xl">
-            Conteudo para informar, inspirar e abrir conversa
+            Noticias, tendencias e oportunidades para o mercado digital
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            Noticias, pautas por segmento e ideias que ajudam o cliente a enxergar oportunidades.
+            Conteudo para empresarios entenderem mudancas do mercado e enxergarem onde vale investir.
           </p>
         </motion.div>
 
@@ -82,10 +82,10 @@ const EditorialSection = () => {
         >
           <div className="max-w-2xl">
             <h3 className="font-display text-2xl font-semibold text-foreground">
-              Um blog mais util para quem le
+              Leituras para quem quer decidir melhor
             </h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              A ideia e publicar noticias, tendencias e paginas por segmento sem deixar a leitura pesada.
+              Aqui entram pautas por segmento, noticias do mercado e conteudos que aproximam cliente e oportunidade.
             </p>
           </div>
           <Button asChild size="lg">

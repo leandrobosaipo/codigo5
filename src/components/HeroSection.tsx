@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { clients, contact } from "@/content/siteContent";
 
@@ -99,27 +99,6 @@ const HeroSection = () => {
               alt="Especialista em inteligencia artificial da Codigo5"
               className="h-full w-full rounded-[24px] object-cover"
             />
-            <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/88 px-4 py-3 shadow-lg backdrop-blur">
-              <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
-                <Sparkles className="h-3.5 w-3.5" />
-                Marca forte
-              </span>
-            </div>
-            <div className="absolute bottom-6 right-6 rounded-[26px] border border-slate-900/85 bg-slate-950/92 p-4 text-slate-50 shadow-2xl">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
-                  <MessageCircle className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-300">
-                    Contato facil
-                  </p>
-                  <p className="mt-1 font-display text-xl font-semibold leading-tight">
-                    Chama. Entende. Decide.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </motion.div>
       </div>

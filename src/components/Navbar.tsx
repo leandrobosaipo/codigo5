@@ -21,11 +21,13 @@ const Navbar = () => {
     <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
       <div className="container flex min-h-[4.5rem] items-center justify-between gap-6 py-3">
         <Link to="/" className="flex items-center gap-3">
-          <img
-            src="/assets/codigo5/logos/logo-dark.webp"
-            alt="Codigo5 Web"
-            className="h-10 w-auto"
-          />
+          <span className="inline-flex rounded-full bg-ink px-4 py-2 shadow-[0_18px_40px_-28px_rgba(15,15,15,0.65)]">
+            <img
+              src="/assets/codigo5/logos/logo-invertida.png"
+              alt="Codigo5 Web"
+              className="h-9 w-auto"
+            />
+          </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8">

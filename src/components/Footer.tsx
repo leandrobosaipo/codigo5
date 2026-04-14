@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container">
         <div className="mb-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <img src="/assets/codigo5/logos/logo-light.png" alt="Codigo5 Web" className="h-12 w-auto" />
+            <img src="/assets/codigo5/logos/logo-invertida.png" alt="Codigo5 Web" className="h-12 w-auto" />
             <p className="mt-4 text-sm leading-relaxed text-ink-foreground/70">
               Sites, ecommerce, SEO, conteudo, integracoes e automacoes para empresas
               que querem vender melhor online.

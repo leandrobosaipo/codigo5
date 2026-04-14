@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { clients, contact } from "@/content/siteContent";
 
@@ -7,44 +7,44 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top_left,rgba(204,149,55,0.22),transparent_28%),linear-gradient(180deg,#f5eee4_0%,#fbf8f3_38%,#fffdf9_100%)] pt-24"
+      className="relative overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top_left,rgba(204,149,55,0.2),transparent_28%),radial-gradient(circle_at_80%_18%,rgba(33,100,84,0.12),transparent_24%),linear-gradient(180deg,#f4ede3_0%,#faf6ef_42%,#fffdf9_100%)] pt-24"
     >
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.18]" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.1]" />
       <div className="absolute left-[-8%] top-[8%] h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-      <div className="absolute bottom-[-8rem] right-[-4rem] h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
+      <div className="absolute bottom-[-8rem] right-[-4rem] h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
 
-      <div className="container relative z-10 grid min-h-[calc(100vh-6rem)] items-center gap-14 py-12 lg:grid-cols-[1.08fr_0.92fr]">
-        <div className="max-w-3xl">
+      <div className="container relative z-10 grid min-h-[calc(100vh-6rem)] items-center gap-14 py-12 lg:grid-cols-[1.02fr_0.98fr]">
+        <div className="max-w-3xl pb-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-white/75 px-4 py-2 text-sm font-medium text-primary shadow-sm backdrop-blur">
+            <span className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/78 px-4 py-2 text-sm font-medium text-primary shadow-sm backdrop-blur">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Presenca digital para empresa que quer ser lembrada
+              Código5 Web • Cuiabá
             </span>
           </motion.div>
 
           <motion.h1
-            className="mb-6 max-w-4xl font-display text-5xl font-extrabold leading-[0.92] text-foreground sm:text-6xl lg:text-[5.1rem]"
+            className="mb-6 max-w-4xl font-display text-5xl font-extrabold leading-[0.9] text-foreground sm:text-6xl lg:text-[5.2rem]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Uma empresa forte
-            <span className="block text-primary">aparece melhor,</span>
-            explica melhor e vende melhor.
+            Seu negócio precisa
+            <span className="block text-primary">parecer pronto</span>
+            para crescer.
           </motion.h1>
 
           <motion.p
-            className="mb-8 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl"
+            className="mb-9 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            A Código5 organiza visual, conteudo e tecnologia para sua empresa
-            parecer pronta, ser encontrada e responder com mais clareza.
+            Site, ecommerce, SEO e automações para empresa que quer passar
+            confiança, organizar a operação e vender melhor no digital.
           </motion.p>
 
           <motion.div
@@ -65,68 +65,96 @@ const HeroSection = () => {
           </motion.div>
 
           <motion.div
-            className="mt-12 grid gap-3 sm:max-w-xl"
+            className="mt-10 flex flex-wrap gap-3"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {[
-              "Site e marca com cara de operacao seria",
-              "Contato simples para quem ja esta pronto para chamar",
-              "Automacoes e integracoes quando a rotina pede escala",
+              "Sites institucionais",
+              "Lojas virtuais",
+              "SEO e conteúdo",
+              "IA e automações",
             ].map((item) => (
-              <div
+              <span
                 key={item}
-                className="flex items-start gap-3 rounded-[24px] border border-white/70 bg-white/82 p-4 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.28)] backdrop-blur"
+                className="rounded-full border border-primary/15 bg-white/82 px-4 py-2 text-sm font-medium text-foreground/78 shadow-sm backdrop-blur"
               >
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Check className="h-4 w-4" />
-                </span>
-                <p className="text-sm font-medium leading-6 text-foreground/80">{item}</p>
-              </div>
+                {item}
+              </span>
             ))}
           </motion.div>
         </div>
 
         <motion.div
-          className="relative"
+          className="relative lg:pl-8"
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.2 }}
         >
           <div className="absolute inset-x-10 -top-6 h-24 rounded-full bg-primary/15 blur-3xl" />
-          <div className="relative overflow-hidden rounded-[34px] border border-border/80 bg-[linear-gradient(160deg,rgba(255,252,246,0.98),rgba(255,244,225,0.84))] p-4 shadow-[0_40px_120px_-60px_rgba(30,25,20,0.55)]">
-            <div className="overflow-hidden rounded-[24px]">
+          <div className="absolute -left-4 top-14 hidden rounded-full border border-white/70 bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-foreground/65 shadow-sm backdrop-blur lg:block">
+            Presença • Conversão • Escala
+          </div>
+          <div className="relative overflow-hidden rounded-[40px] border border-border/70 bg-[linear-gradient(160deg,rgba(255,253,248,0.98),rgba(247,236,214,0.9))] p-4 shadow-[0_48px_130px_-62px_rgba(30,25,20,0.55)]">
+            <div className="relative overflow-hidden rounded-[30px] border border-black/5">
               <img
                 src="/assets/codigo5/logos/hero-ai.webp"
-                alt="Especialista em inteligencia artificial da Codigo5"
-                className="h-full w-full object-cover"
+                alt="Planejamento digital e estratégia visual da Código5"
+                className="h-[480px] w-full object-cover object-[74%_center] md:h-[560px]"
               />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,17,17,0.08)_0%,rgba(17,17,17,0.02)_34%,rgba(17,17,17,0.45)_100%)]" />
+              <div className="absolute inset-x-5 top-5 flex items-start justify-between gap-4">
+                <div className="rounded-full border border-white/20 bg-black/55 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white backdrop-blur">
+                  Código5 Web
+                </div>
+                <div className="rounded-full border border-white/20 bg-white/14 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
+                  Desde 2010
+                </div>
+              </div>
+              <div className="absolute inset-x-5 bottom-5">
+                <div className="rounded-[28px] border border-white/15 bg-black/58 p-5 text-white shadow-[0_30px_70px_-48px_rgba(0,0,0,0.8)] backdrop-blur">
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    {[
+                      { label: "Presença", value: "site claro e forte" },
+                      { label: "Venda", value: "ecommerce e SEO" },
+                      { label: "Rotina", value: "integrações e IA" },
+                    ].map((item) => (
+                      <div key={item.label} className="space-y-1">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/58">
+                          {item.label}
+                        </p>
+                        <p className="text-sm font-medium text-white/92">{item.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
       </div>
 
       <div className="container relative z-10 pb-12">
-        <div className="rounded-[30px] border border-border/80 bg-white/76 p-5 shadow-[0_24px_70px_-50px_rgba(30,25,20,0.35)] backdrop-blur">
-          <div className="mb-4 flex items-center justify-between gap-4">
+        <div className="rounded-[32px] border border-border/80 bg-white/78 p-5 shadow-[0_24px_70px_-50px_rgba(30,25,20,0.3)] backdrop-blur">
+          <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                 Marcas atendidas
               </p>
-              <p className="mt-2 text-sm text-foreground/70">
-                Presenca real em saude, varejo, construcao, midia e institucional.
+              <p className="mt-2 text-sm text-foreground/66">
+                Saúde, construção, mídia, varejo e institucional.
               </p>
             </div>
             <a href="/portfolio" className="text-sm font-medium text-primary transition hover:text-primary/80">
               Ver portfolio
             </a>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4">
             {clients.slice(0, 6).map((client) => (
               <div
                 key={client.name}
-                className={`flex min-h-[68px] items-center justify-center rounded-[22px] border px-4 py-3 shadow-sm ${
+                className={`flex min-h-[68px] min-w-[148px] items-center justify-center rounded-[22px] border px-4 py-3 shadow-sm transition-transform duration-300 hover:-translate-y-0.5 ${
                   client.surface === "dark"
                     ? "border-slate-900/80 bg-slate-950"
                     : client.surface === "sand"

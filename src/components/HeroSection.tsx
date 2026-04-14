@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { clients, contact } from "@/content/siteContent";
 
@@ -22,7 +22,7 @@ const HeroSection = () => {
           >
             <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-white/75 px-4 py-2 text-sm font-medium text-primary shadow-sm backdrop-blur">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Presenca digital para empresa que quer crescer
+              Presenca digital para empresa que quer ser lembrada
             </span>
           </motion.div>
 
@@ -32,9 +32,9 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Sua empresa precisa
-            <span className="block text-primary">passar confianca</span>
-            antes da primeira conversa.
+            Uma empresa forte
+            <span className="block text-primary">aparece melhor,</span>
+            explica melhor e vende melhor.
           </motion.h1>
 
           <motion.p
@@ -44,7 +44,7 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             A Código5 organiza visual, conteudo e tecnologia para sua empresa
-            parecer pronta, ser encontrada e responder melhor.
+            parecer pronta, ser encontrada e responder com mais clareza.
           </motion.p>
 
           <motion.div
@@ -65,22 +65,24 @@ const HeroSection = () => {
           </motion.div>
 
           <motion.div
-            className="mt-12 grid gap-4 sm:grid-cols-3"
+            className="mt-12 grid gap-3 sm:max-w-xl"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {[
-              { value: "Imagem", label: "presenca mais forte para vender melhor" },
-              { value: "Contato", label: "caminho simples para chamar e pedir" },
-              { value: "Rotina", label: "menos retrabalho no dia a dia" },
+              "Site e marca com cara de operacao seria",
+              "Contato simples para quem ja esta pronto para chamar",
+              "Automacoes e integracoes quando a rotina pede escala",
             ].map((item) => (
               <div
-                key={item.value}
-                className="rounded-[28px] border border-white/70 bg-white/82 p-4 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.28)] backdrop-blur"
+                key={item}
+                className="flex items-start gap-3 rounded-[24px] border border-white/70 bg-white/82 p-4 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.28)] backdrop-blur"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">{item.value}</p>
-                <p className="mt-3 text-sm font-medium leading-6 text-foreground/80">{item.label}</p>
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Check className="h-4 w-4" />
+                </span>
+                <p className="text-sm font-medium leading-6 text-foreground/80">{item}</p>
               </div>
             ))}
           </motion.div>
@@ -94,11 +96,13 @@ const HeroSection = () => {
         >
           <div className="absolute inset-x-10 -top-6 h-24 rounded-full bg-primary/15 blur-3xl" />
           <div className="relative overflow-hidden rounded-[34px] border border-border/80 bg-[linear-gradient(160deg,rgba(255,252,246,0.98),rgba(255,244,225,0.84))] p-4 shadow-[0_40px_120px_-60px_rgba(30,25,20,0.55)]">
-            <img
-              src="/assets/codigo5/logos/hero-ai.webp"
-              alt="Especialista em inteligencia artificial da Codigo5"
-              className="h-full w-full rounded-[24px] object-cover"
-            />
+            <div className="overflow-hidden rounded-[24px]">
+              <img
+                src="/assets/codigo5/logos/hero-ai.webp"
+                alt="Especialista em inteligencia artificial da Codigo5"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </motion.div>
       </div>
@@ -111,7 +115,7 @@ const HeroSection = () => {
                 Marcas atendidas
               </p>
               <p className="mt-2 text-sm text-foreground/70">
-                Portifolio real em varejo, saude, midia, institucional e servicos.
+                Presenca real em saude, varejo, construcao, midia e institucional.
               </p>
             </div>
             <a href="/portfolio" className="text-sm font-medium text-primary transition hover:text-primary/80">

@@ -5,6 +5,16 @@ const TrustBar = () => {
   return (
     <section className="border-y border-border bg-ink py-10 text-ink-foreground">
       <div className="container">
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-ink-foreground/55">
+              Base da operacao
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-semibold text-ink-foreground">
+              Experiencia local com portfolio que atravessa mercados
+            </h2>
+          </div>
+        </div>
         <motion.div
           className="grid gap-4 md:grid-cols-4"
           initial={{ opacity: 0, y: 20 }}

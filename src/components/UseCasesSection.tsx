@@ -14,8 +14,11 @@ const UseCasesSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Segmentos</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Mercados em que a entrega faz sentido rapido
+            Recortes que mostram onde a entrega encaixa com clareza
           </h2>
+          <p className="text-lg leading-8 text-muted-foreground">
+            Exemplos de mercados onde site, conteudo e operacao digital costumam abrir oportunidade real.
+          </p>
         </motion.div>
 
         <div className="grid gap-6 md:grid-cols-3">

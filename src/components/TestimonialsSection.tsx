@@ -26,6 +26,8 @@ const TestimonialsSection = () => {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 4);
 
+  const leadClients = portfolioClients.slice(0, 6);
+
   const segmentSamples = Object.entries(
     portfolioClients.reduce<Record<string, string[]>>((acc, client) => {
       const group = normalizeSegment(client.segment);
@@ -55,8 +57,11 @@ const TestimonialsSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Clientes e experiencia</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
-            Credibilidade construída em mercados diferentes
+            Portfolio real para passar seguranca antes da reuniao
           </h2>
+          <p className="text-lg leading-8 text-muted-foreground">
+            Marcas de areas diferentes ajudam a mostrar repertorio, nao so volume.
+          </p>
         </motion.div>
 
         <div className="grid gap-4 lg:grid-cols-4">
@@ -71,7 +76,7 @@ const TestimonialsSection = () => {
               <p className="mt-4 font-display text-2xl font-semibold leading-tight text-foreground">
                 {segment}
               </p>
-              <p className="mt-3 text-sm text-muted-foreground">{count} marcas no portifolio</p>
+              <p className="mt-3 text-sm text-muted-foreground">{count} marcas no portfolio</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {(segmentSamples[segment] ?? []).map((name) => (
                   <span
@@ -86,8 +91,19 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        <div className="grid gap-5 rounded-[32px] border border-border bg-card p-8 md:grid-cols-2 xl:grid-cols-3">
-          {portfolioClients.map((client, index) => (
+        <div className="rounded-[32px] border border-border bg-card p-8">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                Destaques do portfolio
+              </p>
+              <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
+                Algumas marcas que ajudam a contar essa historia
+              </h3>
+            </div>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {leadClients.map((client, index) => (
             <motion.div
               key={client.name}
               className="rounded-[28px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.45)] transition-transform duration-300 hover:-translate-y-1"
@@ -115,6 +131,7 @@ const TestimonialsSection = () => {
               <p className="mt-2 break-words text-sm text-muted-foreground">{client.site}</p>
             </motion.div>
           ))}
+          </div>
         </div>
 
         <div className="rounded-[32px] border border-border bg-card p-8">
@@ -124,7 +141,7 @@ const TestimonialsSection = () => {
                 Recorte rapido
               </p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Marcas lembradas de imediato
+                Mais marcas atendidas
               </h3>
             </div>
           </div>

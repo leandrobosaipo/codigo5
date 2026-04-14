@@ -14,8 +14,11 @@ const ProcessSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Processo</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Como a entrega acontece
+            Como a entrega acontece sem virar projeto confuso
           </h2>
+          <p className="text-lg leading-8 text-muted-foreground">
+            Menos improviso, mais clareza do que entra antes, durante e depois da publicacao.
+          </p>
         </motion.div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

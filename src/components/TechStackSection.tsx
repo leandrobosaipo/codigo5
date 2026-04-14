@@ -6,14 +6,17 @@ const TechStackSection = () => {
     <section className="bg-[radial-gradient(circle_at_top,rgba(204,149,55,0.18),rgba(27,24,20,0.96)_48%)] py-16 text-ink-foreground">
       <div className="container">
         <motion.div
-          className="mb-10 text-center"
+          className="mb-10 mx-auto max-w-3xl text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Tecnologias</span>
-          <h2 className="mt-3 text-2xl font-bold sm:text-3xl">Ferramentas reais usadas no projeto</h2>
+          <h2 className="mt-3 text-2xl font-bold sm:text-3xl">Ferramentas reais, escolhidas pelo que entregam</h2>
+          <p className="mt-3 text-base leading-7 text-ink-foreground/75">
+            O cliente nao precisa conhecer a stack. Precisa ver que o projeto usa ferramentas confiaveis.
+          </p>
         </motion.div>
 
         <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">

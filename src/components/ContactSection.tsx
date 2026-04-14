@@ -9,21 +9,25 @@ const ContactSection = () => {
       title: "Site institucional",
       image:
         "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+      text: "Para empresa que precisa se apresentar melhor.",
     },
     {
       title: "Loja virtual",
       image:
         "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
+      text: "Para vender catalogo, pedido e campanha no mesmo fluxo.",
     },
     {
       title: "SEO e conteudo",
       image:
         "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+      text: "Para aparecer melhor e parecer referencia no mercado.",
     },
     {
       title: "WhatsApp e automacao",
       image:
         "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+      text: "Para responder mais rapido e organizar a rotina comercial.",
     },
   ];
 
@@ -42,10 +46,10 @@ const ContactSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Contato</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
-            Se a ideia faz sentido, a conversa pode comecar agora
+            Quando a ideia esta madura, a conversa pode comecar agora
           </h2>
           <p className="text-lg leading-8 text-muted-foreground">
-            O caminho mais rapido e pelo WhatsApp. Se preferir, tambem tem e-mail e mapa.
+            O caminho mais rapido e pelo WhatsApp. O resto entra para quem prefere outro formato.
           </p>
         </motion.div>
 
@@ -57,6 +61,23 @@ const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
+            <div className="rounded-[30px] border border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)] p-6 text-slate-50 shadow-[0_30px_90px_-58px_rgba(15,15,15,0.6)]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">Caminho mais rapido</p>
+              <h3 className="mt-3 font-display text-3xl font-semibold text-white">
+                Fale pelo WhatsApp e veja o melhor formato para o projeto.
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-slate-300">
+                Site, loja virtual, SEO, conteudo, automacao ou integracao. A conversa pode comecar pelo que hoje mais pesa na operacao.
+              </p>
+              <Button asChild className="mt-5">
+                <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
+                  Falar no WhatsApp
+                  <ArrowUpRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/78 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <MapPin className="h-5 w-5 text-primary" />
@@ -93,18 +114,6 @@ const ContactSection = () => {
                 <p className="text-sm text-muted-foreground">Segunda a Sexta: 09:00 – 18:00</p>
               </div>
             </div>
-
-            <div className="rounded-[30px] border border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)] p-6 text-slate-50 shadow-[0_30px_90px_-58px_rgba(15,15,15,0.6)]">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">Caminho mais rapido</p>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                Se a ideia ja esta clara, vale abrir a conversa agora e entender o melhor formato.
-              </p>
-              <Button asChild className="mt-5">
-                <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
-                  Falar no WhatsApp
-                  <ArrowUpRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
             </div>
 
             <div className="h-48 overflow-hidden rounded-[24px] border border-border shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
@@ -140,10 +149,8 @@ const ContactSection = () => {
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,16,12,0.08),rgba(20,16,12,0.76))]" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur">
-                    Demanda
-                  </span>
                   <h3 className="mt-4 font-display text-3xl font-semibold leading-tight text-white">{item.title}</h3>
+                  <p className="mt-3 max-w-xs text-sm leading-6 text-white/78">{item.text}</p>
                 </div>
               </div>
             ))}

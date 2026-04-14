@@ -312,49 +312,49 @@ export const portfolioClients = [
 export const services = [
   {
     name: "Sites institucionais",
-    description: "Empresa bem apresentada, proposta clara e contato mais facil.",
+    description: "Presenca forte para explicar, convencer e facilitar o primeiro contato.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80",
-    items: ["Marca forte", "Clareza", "Contato"],
+    items: ["Marca", "Clareza", "Contato"],
   },
   {
     name: "Lojas virtuais",
-    description: "Catalogo, campanha e pedido alinhados para vender com menos atrito.",
+    description: "Catalogo, campanha e pedido conectados para vender com menos atrito.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=80",
-    items: ["Catalogo", "Checkout", "Midia"],
+    items: ["Catalogo", "Checkout", "Campanha"],
   },
   {
     name: "SEO e conteudo",
-    description: "Conteudo util para aparecer melhor e parecer referencia no seu mercado.",
+    description: "Conteudo que ajuda a aparecer melhor e parecer referencia no mercado.",
     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
     items: ["Busca", "Blog", "Autoridade"],
   },
   {
     name: "Automacoes e IA",
-    description: "Atendimento e rotina integrados para ganhar tempo e responder melhor.",
+    description: "Atendimento, integracoes e rotina conectados para ganhar tempo.",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80",
-    items: ["WhatsApp", "Fluxos", "Integracoes"],
+    items: ["WhatsApp", "Fluxos", "IA"],
   },
 ];
 
 export const methodologies = [
   {
-    name: "1. Clareza da oferta",
-    detail: "O cliente precisa entender rapido o que voce vende.",
+    name: "Oferta clara",
+    detail: "O cliente entende rapido o que a empresa entrega.",
     logos: ["/assets/codigo5/tools/googleanalytics.svg", "/assets/codigo5/tools/googlesearchconsole.svg"],
   },
   {
-    name: "2. Estrutura certa",
-    detail: "Site, pagina e blog organizados para navegar sem atrito.",
+    name: "Estrutura certa",
+    detail: "Site, paginas e blog com navegacao simples.",
     logos: ["/assets/codigo5/tools/wordpress.svg", "/assets/codigo5/tools/cloudflare.svg"],
   },
   {
-    name: "3. Projeto no ar",
-    detail: "Tudo entra online com visual forte e leitura simples.",
+    name: "Projeto no ar",
+    detail: "Tudo entra online com visual forte e leitura leve.",
     logos: ["/assets/codigo5/tools/woocommerce.svg", "/assets/codigo5/tools/elementor.svg"],
   },
   {
-    name: "4. Escala e automacao",
-    detail: "Atendimento, conteudo e rotina conectados quando faz sentido.",
+    name: "Escala e automacao",
+    detail: "Atendimento e rotina conectados quando a operacao pede.",
     logos: ["/assets/codigo5/tools/n8n.svg", "/assets/codigo5/tools/openai.svg"],
   },
 ];
@@ -373,27 +373,27 @@ export const toolLogos = [
 export const useCases = [
   {
     title: "Bicicletas e bikes eletricas",
-    summary: "Loja, catalogo e pauta para um mercado em expansao.",
+    summary: "Loja, catalogo e conteudo para um mercado em expansao.",
     image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80",
     points: ["Loja", "E-bike", "Pos-venda"],
   },
   {
     title: "Clinicas e saude",
-    summary: "Agenda, presenca local e contato simples pelo WhatsApp.",
+    summary: "Agenda, presenca local e contato simples no WhatsApp.",
     image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
     points: ["Agenda", "Google Maps", "SEO local"],
   },
   {
     title: "Varejo e ecommerce",
-    summary: "Campanhas, categorias e operacao mais agil para vender.",
+    summary: "Campanhas, categorias e operacao mais agil para vender melhor.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80",
     points: ["Campanhas", "CRM", "Recuperacao"],
   },
 ];
 
 export const trustNumbers = [
-  { label: "Anos criando presenca digital", value: "15+" },
-  { label: "Marcas atendidas", value: "40+" },
-  { label: "Mercados no portifolio", value: "10+" },
-  { label: "Base de operacao", value: "Cuiaba" },
+  { label: "Anos de mercado", value: "15+" },
+  { label: "Marcas no portifolio", value: "40+" },
+  { label: "Segmentos atendidos", value: "10+" },
+  { label: "Base local", value: "Cuiaba" },
 ];

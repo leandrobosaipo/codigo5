@@ -13,10 +13,10 @@ const SolutionsSection = () => {
         >
           <span className="section-kicker">Solucoes</span>
           <h2 className="section-heading">
-            O que a Codigo5 coloca no ar para a empresa vender melhor
+            O que entra no projeto para sua empresa vender melhor
           </h2>
           <p className="section-lead">
-            Quatro frentes que costumam resolver o que mais pesa na presenca digital.
+            Site, ecommerce, busca e automação para tirar peso da operação e dar mais resultado ao comercial.
           </p>
         </Reveal>
 

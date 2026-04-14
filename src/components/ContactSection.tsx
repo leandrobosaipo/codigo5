@@ -42,10 +42,10 @@ const ContactSection = () => {
         >
           <span className="section-kicker">Contato</span>
           <h2 className="section-heading">
-            Quando a ideia esta madura, a conversa pode comecar agora
+            Quando o projeto pede resposta, a conversa pode começar agora
           </h2>
           <p className="section-lead">
-            O caminho mais rapido e pelo WhatsApp. O resto entra para quem prefere outro formato.
+            O caminho mais rápido é pelo WhatsApp. O restante fica pronto para quem prefere outro formato.
           </p>
         </Reveal>
 
@@ -56,10 +56,10 @@ const ContactSection = () => {
             <div className="panel-dark p-6 text-slate-50">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">Caminho mais rapido</p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-white">
-                Fale pelo WhatsApp e veja o melhor formato para o projeto.
+                Fale pelo WhatsApp e descubra o melhor formato para o seu projeto.
               </h3>
               <p className="mt-3 text-sm leading-6 text-slate-200">
-                Site, loja virtual, SEO, conteudo, automacao ou integracao. A conversa pode comecar pelo que hoje mais pesa na operacao.
+                Site, loja virtual, SEO, conteúdo, automação ou integração. A conversa pode começar pelo ponto que hoje mais trava sua operação.
               </p>
               <Button asChild className="mt-5">
                 <a href={contact.whatsappHref} target="_blank" rel="noreferrer">

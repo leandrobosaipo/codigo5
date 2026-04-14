@@ -68,10 +68,10 @@ const TestimonialsSection = () => {
         >
           <span className="section-kicker">Clientes e experiencia</span>
           <h2 className="section-heading">
-            Marcas reais para mostrar repertorio antes da reuniao
+            Marcas reais para dar segurança antes do primeiro contato
           </h2>
           <p className="section-lead">
-            Quando o portfolio aparece com clareza, a experiencia fica mais facil de perceber.
+            Quem contrata entende mais rápido quando vê variedade de mercado, marcas conhecidas e repertório de entrega.
           </p>
         </Reveal>
 
@@ -109,7 +109,7 @@ const TestimonialsSection = () => {
                 Marcas ancora
               </p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Alguns nomes que ajudam a ler esse portfolio mais rapido
+                Alguns nomes que ajudam a entender o nível da entrega
               </h3>
             </div>
           </div>
@@ -156,7 +156,7 @@ const TestimonialsSection = () => {
                 Outras marcas
               </p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Mais experiencias em mercados diferentes
+                Mais marcas atendidas em mercados diferentes
               </h3>
             </div>
           </div>

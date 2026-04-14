@@ -8,10 +8,10 @@ const TrustBar = () => {
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-ink-foreground/55">
-              Base da operacao
+              Prova de estrada
             </p>
             <h2 className="mt-2 font-display text-2xl font-semibold text-ink-foreground">
-              Experiencia local com portfolio que atravessa mercados
+              Experiência local para projeto que precisa entrar no ar e vender melhor
             </h2>
           </div>
         </div>

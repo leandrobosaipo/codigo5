@@ -19,10 +19,10 @@ const EditorialSection = () => {
             Blog da Código5
           </span>
           <h2 className="section-heading mt-5 max-w-3xl">
-            Conteudo para empresa que quer entender melhor onde vale investir
+            Conteúdo para empresa que quer enxergar oportunidade antes da concorrência
           </h2>
           <p className="section-lead max-w-2xl">
-            Noticias, mercado e leitura util para quem quer crescer com mais clareza.
+            Mercado, movimento de setores e ideias que ajudam a transformar interesse em projeto.
           </p>
         </Reveal>
 
@@ -77,10 +77,10 @@ const EditorialSection = () => {
         >
           <div className="max-w-2xl">
             <h3 className="font-display text-2xl font-semibold text-foreground">
-              Leitura curta, util e com direcao comercial
+              Leitura curta, útil e pensada para gerar conversa
             </h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Pautas por segmento, cidade e mercado para transformar interesse em conversa.
+              Pautas por segmento, cidade e mercado para aproximar conteúdo e demanda real.
             </p>
           </div>
           <Button asChild size="lg">

@@ -7,6 +7,23 @@ import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/content/blog";
 import { SITE_URL } from "@/lib/site";
 import NotFound from "./NotFound";
 
+const extractFaqItems = (contentHtml: string) => {
+  const faqStart = contentHtml.indexOf("FAQ:");
+  if (faqStart === -1) {
+    return [];
+  }
+
+  const faqHtml = contentHtml.slice(faqStart);
+  const matches = [...faqHtml.matchAll(/<h3 class="wp-block-heading">([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g)];
+
+  return matches
+    .map(([, question, answer]) => ({
+      question: question.replace(/<[^>]+>/g, "").trim(),
+      answer: answer.replace(/<[^>]+>/g, "").trim(),
+    }))
+    .filter((item) => item.question && item.answer);
+};
+
 const BlogPostPage = () => {
   const { slug } = useParams();
   const post = getBlogPostBySlug(slug);
@@ -25,6 +42,7 @@ const BlogPostPage = () => {
     )
     .slice(0, 3);
   const { previousPost, nextPost } = getAdjacentPosts(post.slug);
+  const faqItems = extractFaqItems(post.contentHtml);
 
   return (
     <>
@@ -77,6 +95,21 @@ const BlogPostPage = () => {
                 },
               ],
             },
+            ...(faqItems.length > 0
+              ? [
+                  {
+                    "@type": "FAQPage",
+                    mainEntity: faqItems.map((item) => ({
+                      "@type": "Question",
+                      name: item.question,
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: item.answer,
+                      },
+                    })),
+                  },
+                ]
+              : []),
           ],
         }}
       />

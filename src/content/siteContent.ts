@@ -95,8 +95,9 @@ export const clients = [
     logo: "/assets/codigo5/client-catalog/ifc-2026.png",
     segment: "Igreja e comunidade",
     site: "igrejafamiliadacruz.com.br",
-    surface: "light",
-    logoClass: "max-h-16",
+    surface: "dark",
+    logoClass: "max-h-14",
+    invertOnDark: false,
   },
   {
     name: "A Folha Livre",
@@ -278,8 +279,9 @@ export const portfolioClients = [
     segment: "Igreja e comunidade",
     site: "igrejafamiliadacruz.com.br",
     logo: "/assets/codigo5/client-catalog/ifc-2026.png",
-    surface: "light",
-    logoClass: "max-h-16",
+    surface: "dark",
+    logoClass: "max-h-14",
+    invertOnDark: false,
   },
   {
     name: "A Folha Livre",

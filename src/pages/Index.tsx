@@ -39,15 +39,17 @@ const Index = () => {
         }}
       />
       <Navbar />
-      <HeroSection />
-      <TrustBar />
-      <SolutionsSection />
-      <TechStackSection />
-      <UseCasesSection />
-      <ProcessSection />
-      <TestimonialsSection />
-      <EditorialSection />
-      <ContactSection />
+      <main id="conteudo">
+        <HeroSection />
+        <TrustBar />
+        <SolutionsSection />
+        <TechStackSection />
+        <UseCasesSection />
+        <ProcessSection />
+        <TestimonialsSection />
+        <EditorialSection />
+        <ContactSection />
+      </main>
       <Footer />
     </>
   );

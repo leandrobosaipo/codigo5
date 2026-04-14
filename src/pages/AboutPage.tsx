@@ -24,7 +24,7 @@ const AboutPage = () => {
         }}
       />
       <Navbar />
-      <main className="pt-24">
+      <main id="conteudo" className="pt-24">
         <section className="border-b border-border bg-background-alt py-20">
           <div className="container max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Sobre a Código5</p>

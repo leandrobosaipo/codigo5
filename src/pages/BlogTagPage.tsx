@@ -26,7 +26,7 @@ const BlogTagPage = () => {
         type="website"
       />
       <Navbar />
-      <main className="pt-24">
+      <main id="conteudo" className="pt-24">
         <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
           <div className="container">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Tag</p>

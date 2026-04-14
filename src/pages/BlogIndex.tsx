@@ -28,7 +28,7 @@ const BlogIndex = () => {
         }}
       />
       <Navbar />
-      <main className="pt-24">
+      <main id="conteudo" className="pt-24">
         <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
           <div className="container">
             <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">

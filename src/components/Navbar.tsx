@@ -19,6 +19,13 @@ const Navbar = () => {
 
   return (
     <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
+      <a
+        href="#conteudo"
+        className="skip-link"
+        onClick={() => setOpen(false)}
+      >
+        Pular para o conteúdo principal
+      </a>
       <div className="container flex min-h-[4.5rem] items-center justify-between gap-6 py-3">
         <Link to="/" className="flex items-center gap-3">
           <img
@@ -47,13 +54,23 @@ const Navbar = () => {
           </Button>
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
+        <button
+          type="button"
+          className="md:hidden text-foreground"
+          aria-label={open ? "Fechar menu principal" : "Abrir menu principal"}
+          aria-expanded={open}
+          aria-controls="menu-principal-mobile"
+          onClick={() => setOpen(!open)}
+        >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden bg-background border-b border-border pb-4">
+        <div
+          id="menu-principal-mobile"
+          className="md:hidden bg-background border-b border-border pb-4"
+        >
           <div className="container flex flex-col gap-3">
             {navLinks.map((l) => (
               <a

@@ -114,7 +114,7 @@ const BlogPostPage = () => {
         }}
       />
       <Navbar />
-      <main className="pt-24">
+      <main id="conteudo" className="pt-24">
         <article className="pb-20">
           <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
             <div className="container max-w-5xl">

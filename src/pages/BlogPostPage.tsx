@@ -166,6 +166,32 @@ const BlogPostPage = () => {
                   </div>
                 )}
               </div>
+
+              <div className="mt-8 rounded-[32px] border border-primary/20 bg-[linear-gradient(135deg,rgba(204,149,55,0.16),rgba(255,250,240,0.96))] p-8 shadow-[0_24px_70px_-50px_rgba(30,25,20,0.18)]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
+                  Proximo passo
+                </p>
+                <h2 className="mt-3 font-display text-3xl font-semibold text-foreground">
+                  Quer transformar esse assunto em projeto?
+                </h2>
+                <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
+                  A Código5 pode organizar site, conteudo, SEO e automacoes para sua empresa parecer mais forte e vender melhor.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <Link
+                    to="/contato"
+                    className="inline-flex rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background transition hover:opacity-90"
+                  >
+                    Falar com a Código5
+                  </Link>
+                  <Link
+                    to="/servicos"
+                    className="inline-flex rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-foreground transition hover:border-primary/30 hover:text-primary"
+                  >
+                    Ver servicos
+                  </Link>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-6">

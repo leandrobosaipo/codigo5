@@ -50,7 +50,7 @@ const BlogCategoryPage = () => {
                   {category.name}
                 </h1>
                 <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
-                  {posts.length} publicacoes reunidas para facilitar a leitura e a navegacao por esse tema.
+                  {posts.length} publicacoes reunidas para quem quer acompanhar esse assunto com mais contexto.
                 </p>
               </div>
 
@@ -60,7 +60,7 @@ const BlogCategoryPage = () => {
                 </p>
                 <p className="mt-4 text-base leading-7 text-foreground/80">
                   Aqui voce encontra conteudo da Código5 sobre <strong>{category.name}</strong>,
-                  com leitura mais direta, contexto comercial e links para outros assuntos do blog.
+                  com leitura mais direta, repertorio de mercado e caminhos para continuar navegando pelo blog.
                 </p>
               </div>
             </div>

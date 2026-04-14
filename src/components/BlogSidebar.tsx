@@ -24,9 +24,9 @@ const BlogSidebar = ({
     <aside className="space-y-6 lg:sticky lg:top-28">
       <div className="overflow-hidden rounded-[30px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,232,0.9))] shadow-[0_30px_90px_-58px_rgba(30,25,20,0.45)]">
         <div className="border-b border-border bg-[linear-gradient(135deg,rgba(204,149,55,0.16),rgba(255,250,240,0.96))] p-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Navegacao do blog</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Continuar lendo</p>
           <h2 className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-            Continue por tema,
+            Navegue por tema,
             <span className="block">categoria ou leitura recente</span>
           </h2>
         </div>
@@ -104,12 +104,12 @@ const BlogSidebar = ({
       </div>
 
       <div className="rounded-[30px] border border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)] p-6 text-slate-50 shadow-[0_30px_90px_-58px_rgba(15,15,15,0.7)]">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">Projeto novo</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">Proximo passo</p>
         <h3 className="mt-3 font-display text-2xl font-semibold leading-tight">
-          Quer esse nivel de cuidado no seu site?
+          Quer levar esse nivel de cuidado para o seu site?
         </h3>
         <p className="mt-3 text-sm leading-7 text-slate-300">
-          A Código5 organiza conteudo, apresentacao e caminho de contato para sua empresa parecer mais forte.
+          A Código5 organiza conteudo, apresentacao e caminho de contato para sua empresa parecer mais forte e vender melhor.
         </p>
         <Link
           to="/#contato"

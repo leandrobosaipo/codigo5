@@ -37,19 +37,19 @@ const BlogIndex = () => {
                   Blog e noticias
                 </p>
                 <h1 className="mt-4 text-balance font-display text-5xl font-bold leading-[0.95] text-foreground sm:text-6xl">
-                  Leitura para quem quer decidir melhor onde investir no digital
+                  Um blog para empresa que quer entender mercado, oportunidade e presenca digital
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-                  Um blog com leitura mais leve, visual mais editorial e temas pensados para empresario,
-                  gestor e marca que querem crescer com clareza.
+                  Leitura direta, visual mais editorial e conteudo pensado para empresario, gestor e marca
+                  que querem crescer com mais clareza.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
                 {[
-                  { label: "Foco", value: "mercado, oportunidades e presenca digital" },
-                  { label: "Leitura", value: "rapida, organizada e sem excesso de jargao" },
-                  { label: "Uso", value: "servir tanto ao cliente quanto ao Google" },
+                  { label: "Foco", value: "mercado, oportunidades e movimento real de cada segmento" },
+                  { label: "Leitura", value: "direta, clara e sem excesso de linguagem tecnica" },
+                  { label: "Valor", value: "ajudar a entender o que vale investir agora" },
                 ].map((item) => (
                   <div
                     key={item.label}
@@ -139,7 +139,7 @@ const BlogIndex = () => {
               </section>
 
               <div className="rounded-[30px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,232,0.9))] p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.25)]">
-                <h2 className="font-display text-2xl font-semibold text-foreground">Assuntos do blog</h2>
+                <h2 className="font-display text-2xl font-semibold text-foreground">Entradas por assunto</h2>
                 <div className="mt-4 flex flex-wrap gap-3">
                   {blogCategories.map((category) => (
                     <Link

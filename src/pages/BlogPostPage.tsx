@@ -205,10 +205,10 @@ const BlogPostPage = () => {
                   Proximo passo
                 </p>
                 <h2 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                  Quer transformar esse assunto em projeto?
+                  Quer transformar esse assunto em um projeto mais forte?
                 </h2>
                 <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
-                  A Código5 pode organizar site, conteudo, SEO e automacoes para sua empresa parecer mais forte e vender melhor.
+                  A Código5 pode organizar site, conteudo, SEO e automacoes para sua empresa aparecer melhor, explicar melhor e vender melhor.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <Link

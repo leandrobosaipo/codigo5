@@ -27,7 +27,7 @@ const BlogTagPage = () => {
       />
       <Navbar />
       <main className="pt-24">
-        <section className="border-b border-border bg-background-alt py-20">
+        <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
           <div className="container">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Tag</p>
             <nav aria-label="Breadcrumb" className="mt-6 text-sm text-muted-foreground">
@@ -38,7 +38,7 @@ const BlogTagPage = () => {
             </nav>
             <h1 className="mt-4 text-balance font-display text-5xl font-bold text-foreground">#{tag.name}</h1>
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              {posts.length} publicacoes relacionadas com esse tema.
+              {posts.length} publicacoes relacionadas com esse tema para continuar a leitura por interesse.
             </p>
           </div>
         </section>

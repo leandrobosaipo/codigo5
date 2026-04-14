@@ -26,7 +26,22 @@ const TestimonialsSection = () => {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 4);
 
-  const leadClients = portfolioClients.slice(0, 6);
+  const anchorClientNames = [
+    "Axis Construcoes",
+    "Clinica Petterle",
+    "Portal 163",
+    "Perrengue Mato Grosso",
+    "CREF17/MT",
+    "Franca & Moraes",
+  ];
+
+  const anchorClients = anchorClientNames
+    .map((name) => portfolioClients.find((client) => client.name === name))
+    .filter(Boolean);
+
+  const supportingClients = clients.filter(
+    (client) => !anchorClientNames.includes(client.name),
+  );
 
   const segmentSamples = Object.entries(
     portfolioClients.reduce<Record<string, string[]>>((acc, client) => {
@@ -57,10 +72,10 @@ const TestimonialsSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Clientes e experiencia</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
-            Portfolio real para passar seguranca antes da reuniao
+            Marcas reais para mostrar repertorio antes da reuniao
           </h2>
           <p className="text-lg leading-8 text-muted-foreground">
-            Marcas de areas diferentes ajudam a mostrar repertorio, nao so volume.
+            Quando o portfolio aparece com clareza, a experiencia fica mais facil de perceber.
           </p>
         </motion.div>
 
@@ -95,42 +110,42 @@ const TestimonialsSection = () => {
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                Destaques do portfolio
+                Marcas ancora
               </p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Algumas marcas que ajudam a contar essa historia
+                Alguns nomes que ajudam a ler esse portfolio mais rapido
               </h3>
             </div>
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {leadClients.map((client, index) => (
-            <motion.div
-              key={client.name}
-              className="rounded-[28px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.45)] transition-transform duration-300 hover:-translate-y-1"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: index * 0.05 }}
-            >
-              <div
-                className={`flex min-h-[136px] items-center justify-center rounded-[24px] border px-6 py-6 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
+            {anchorClients.map((client, index) => (
+              <motion.div
+                key={client.name}
+                className="rounded-[28px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.45)] transition-transform duration-300 hover:-translate-y-1"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: index * 0.05 }}
               >
-                <img
-                  src={client.logo}
-                  alt={client.name}
-                  loading="lazy"
-                  width="240"
-                  height="80"
-                  className={`${client.logoClass ?? "max-h-14"} max-w-full w-auto object-contain ${
-                    client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
-                  }`}
-                />
-              </div>
-              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">{client.segment}</p>
-              <h3 className="mt-2 font-display text-2xl font-semibold text-foreground">{client.name}</h3>
-              <p className="mt-2 break-words text-sm text-muted-foreground">{client.site}</p>
-            </motion.div>
-          ))}
+                <div
+                  className={`flex min-h-[152px] items-center justify-center rounded-[24px] border px-6 py-6 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
+                >
+                  <img
+                    src={client.logo}
+                    alt={client.name}
+                    loading="lazy"
+                    width="260"
+                    height="88"
+                    className={`${client.logoClass ?? "max-h-14"} max-w-full w-auto object-contain ${
+                      client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
+                    }`}
+                  />
+                </div>
+                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">{client.segment}</p>
+                <h3 className="mt-2 font-display text-2xl font-semibold text-foreground">{client.name}</h3>
+                <p className="mt-2 break-words text-sm text-muted-foreground">{client.site}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
 
@@ -138,18 +153,18 @@ const TestimonialsSection = () => {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                Recorte rapido
+                Outras marcas
               </p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Mais marcas atendidas
+                Mais experiencias em mercados diferentes
               </h3>
             </div>
           </div>
-          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
-            {clients.map((client, index) => (
+          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
+            {supportingClients.map((client, index) => (
               <motion.div
                 key={client.name}
-                className={`flex min-h-[116px] items-center justify-center rounded-3xl border px-6 py-5 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
+                className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-6 py-5 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

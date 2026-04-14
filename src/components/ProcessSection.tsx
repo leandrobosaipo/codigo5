@@ -8,11 +8,11 @@ const ProcessSection = () => {
         <Reveal
           className="mx-auto mb-16 max-w-2xl text-center"
         >
-          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Processo</span>
-          <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
+          <span className="section-kicker">Processo</span>
+          <h2 className="section-heading sm:text-4xl">
             Como a entrega acontece sem virar projeto confuso
           </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
+          <p className="section-lead">
             Menos improviso, mais clareza do que entra antes, durante e depois da publicacao.
           </p>
         </Reveal>
@@ -21,7 +21,7 @@ const ProcessSection = () => {
           {methodologies.map((item, i) => (
             <Reveal
               key={item.name}
-              className="overflow-hidden rounded-[28px] border border-border bg-card transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+              className="panel-soft overflow-hidden rounded-[28px] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_30px_80px_-54px_rgba(30,25,20,0.3)]"
               delay={i * 80}
             >
               <div className="border-b border-border bg-[linear-gradient(135deg,rgba(204,149,55,0.12),rgba(255,251,245,0.96))] p-6">

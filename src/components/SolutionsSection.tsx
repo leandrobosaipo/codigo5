@@ -11,11 +11,11 @@ const SolutionsSection = () => {
         <Reveal
           className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Solucoes</span>
-          <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
+          <span className="section-kicker">Solucoes</span>
+          <h2 className="section-heading">
             O que a Codigo5 coloca no ar para a empresa vender melhor
           </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
+          <p className="section-lead">
             Quatro frentes que costumam resolver o que mais pesa na presenca digital.
           </p>
         </Reveal>
@@ -24,7 +24,7 @@ const SolutionsSection = () => {
           {services.map((service, i) => (
             <Reveal
               key={service.name}
-              className="group overflow-hidden rounded-[34px] border border-border/80 bg-card/90 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_32px_90px_-52px_rgba(30,25,20,0.45)]"
+              className="group panel-soft overflow-hidden rounded-[34px] bg-card/90 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_32px_90px_-52px_rgba(30,25,20,0.45)]"
               delay={i * 80}
             >
               <div className="relative aspect-[16/10] overflow-hidden">

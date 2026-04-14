@@ -66,11 +66,11 @@ const TestimonialsSection = () => {
         <Reveal
           className="mx-auto mb-10 max-w-3xl text-center"
         >
-          <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Clientes e experiencia</span>
-          <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
+          <span className="section-kicker">Clientes e experiencia</span>
+          <h2 className="section-heading">
             Marcas reais para mostrar repertorio antes da reuniao
           </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
+          <p className="section-lead">
             Quando o portfolio aparece com clareza, a experiencia fica mais facil de perceber.
           </p>
         </Reveal>
@@ -79,7 +79,7 @@ const TestimonialsSection = () => {
           {highlightSegments.map(([segment, count]) => (
             <div
               key={segment}
-              className="rounded-[28px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,243,235,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.38)]"
+              className="panel-soft rounded-[28px] p-5"
             >
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
                 Segmento recorrente
@@ -102,7 +102,7 @@ const TestimonialsSection = () => {
           ))}
         </div>
 
-        <div className="rounded-[32px] border border-border bg-card p-8">
+        <div className="panel-soft rounded-[32px] bg-card p-8">
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
@@ -149,7 +149,7 @@ const TestimonialsSection = () => {
           </div>
         </div>
 
-        <div className="rounded-[32px] border border-border bg-card p-8">
+        <div className="panel-soft rounded-[32px] bg-card p-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">

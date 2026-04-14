@@ -183,6 +183,27 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
+
+  .section-kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.24em] text-primary;
+  }
+
+  .section-heading {
+    @apply mt-3 font-display text-4xl font-bold leading-[0.96] text-foreground sm:text-5xl;
+  }
+
+  .section-lead {
+    @apply mt-4 text-lg leading-8 text-muted-foreground;
+  }
+
+  .panel-soft {
+    @apply rounded-[30px] border border-border/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,243,235,0.9))] shadow-[0_24px_70px_-52px_rgba(30,25,20,0.28)];
+  }
+
+  .panel-dark {
+    @apply rounded-[30px] border border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)] shadow-[0_30px_90px_-58px_rgba(15,15,15,0.6)];
+  }
+
   .bg-dot-pattern {
     background-image: radial-gradient(circle, hsl(var(--border) / 0.7) 1px, transparent 1px);
     background-size: 22px 22px;

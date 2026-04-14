@@ -40,11 +40,11 @@ const ContactSection = () => {
         <Reveal
           className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Contato</span>
-          <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
+          <span className="section-kicker">Contato</span>
+          <h2 className="section-heading">
             Quando a ideia esta madura, a conversa pode comecar agora
           </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
+          <p className="section-lead">
             O caminho mais rapido e pelo WhatsApp. O resto entra para quem prefere outro formato.
           </p>
         </Reveal>
@@ -53,7 +53,7 @@ const ContactSection = () => {
           <Reveal
             className="space-y-8"
           >
-            <div className="rounded-[30px] border border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)] p-6 text-slate-50 shadow-[0_30px_90px_-58px_rgba(15,15,15,0.6)]">
+            <div className="panel-dark p-6 text-slate-50">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">Caminho mais rapido</p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-white">
                 Fale pelo WhatsApp e veja o melhor formato para o projeto.

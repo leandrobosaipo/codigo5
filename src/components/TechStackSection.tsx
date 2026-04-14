@@ -8,9 +8,11 @@ const TechStackSection = () => {
         <Reveal
           className="mb-10 mx-auto max-w-3xl text-center"
         >
-          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Tecnologias</span>
-          <h2 className="mt-3 text-2xl font-bold sm:text-3xl">Ferramentas reais, escolhidas pelo que entregam</h2>
-          <p className="mt-3 text-base leading-7 text-ink-foreground/75">
+          <span className="section-kicker text-primary/90">Tecnologias</span>
+          <h2 className="section-heading text-ink-foreground sm:text-4xl">
+            Ferramentas reais, escolhidas pelo que entregam
+          </h2>
+          <p className="section-lead mx-auto max-w-2xl text-base text-ink-foreground/75">
             O cliente nao precisa conhecer a stack. Precisa ver que o projeto usa ferramentas confiaveis.
           </p>
         </Reveal>
@@ -19,7 +21,7 @@ const TechStackSection = () => {
           {toolLogos.map((tool, i) => (
             <Reveal
               key={tool.name}
-              className="flex flex-col items-center gap-2 rounded-3xl border border-white/10 bg-white/5 px-5 py-4"
+              className="flex flex-col items-center gap-2 rounded-3xl border border-white/10 bg-white/5 px-5 py-4 shadow-[0_24px_70px_-54px_rgba(0,0,0,0.32)]"
               delay={i * 50}
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10">

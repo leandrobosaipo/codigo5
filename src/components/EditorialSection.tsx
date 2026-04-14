@@ -18,10 +18,10 @@ const EditorialSection = () => {
             <Sparkles className="h-3.5 w-3.5" />
             Blog da Código5
           </span>
-          <h2 className="mt-5 max-w-3xl font-display text-4xl font-bold text-foreground sm:text-5xl">
+          <h2 className="section-heading mt-5 max-w-3xl">
             Conteudo para empresa que quer entender melhor onde vale investir
           </h2>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-muted-foreground">
+          <p className="section-lead max-w-2xl">
             Noticias, mercado e leitura util para quem quer crescer com mais clareza.
           </p>
         </Reveal>
@@ -42,7 +42,7 @@ const EditorialSection = () => {
           {featuredBlogPosts.map((post, index) => (
             <Reveal
               key={post.slug}
-              className="group overflow-hidden rounded-[30px] border border-border bg-card shadow-[0_30px_90px_-58px_rgba(30,25,20,0.38)]"
+              className="group panel-soft overflow-hidden rounded-[30px]"
               delay={index * 80}
             >
               <div className={`overflow-hidden bg-muted ${index === 0 ? "aspect-[16/11]" : "aspect-[16/10]"}`}>

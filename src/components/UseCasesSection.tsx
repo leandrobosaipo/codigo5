@@ -8,11 +8,11 @@ const UseCasesSection = () => {
         <Reveal
           className="mx-auto mb-16 max-w-2xl text-center"
         >
-          <span className="text-sm font-semibold uppercase tracking-wider text-primary">Segmentos</span>
-          <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
+          <span className="section-kicker">Segmentos</span>
+          <h2 className="section-heading sm:text-4xl">
             Recortes que mostram onde a entrega encaixa com clareza
           </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
+          <p className="section-lead">
             Exemplos de mercados onde site, conteudo e operacao digital costumam abrir oportunidade real.
           </p>
         </Reveal>
@@ -21,7 +21,7 @@ const UseCasesSection = () => {
           {useCases.map((item, i) => (
             <Reveal
               key={item.title}
-              className="group relative overflow-hidden rounded-[30px] border border-border bg-card transition-all duration-200 hover:border-primary/30 hover:shadow-lg"
+              className="group panel-soft relative overflow-hidden transition-all duration-200 hover:border-primary/30 hover:shadow-[0_32px_90px_-54px_rgba(30,25,20,0.4)]"
               delay={i * 100}
             >
               <div className="absolute inset-0">

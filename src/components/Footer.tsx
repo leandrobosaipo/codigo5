@@ -2,12 +2,12 @@ import { contact } from "@/content/siteContent";
 
 const Footer = () => {
   return (
-    <footer className="bg-ink py-14 text-ink-foreground">
+    <footer className="bg-[#050505] py-14 text-ink-foreground">
       <div className="container">
         <div className="mb-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="inline-flex rounded-[28px] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.04))] px-5 py-4 shadow-[0_24px_70px_-50px_rgba(0,0,0,0.55)] backdrop-blur">
-              <img src="/assets/codigo5/logos/logo-invertida.png" alt="Codigo5 Web" className="h-11 w-auto" />
+            <div className="inline-flex rounded-[28px] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(243,239,233,0.92))] px-5 py-4 shadow-[0_24px_70px_-50px_rgba(0,0,0,0.55)]">
+              <img src="/assets/codigo5/logos/logo-codigo5.jpg" alt="Codigo5 Web" className="h-11 w-auto" />
             </div>
             <p className="mt-4 text-sm leading-relaxed text-ink-foreground/70">
               Sites, ecommerce, SEO, conteudo, integracoes e automacoes para empresas

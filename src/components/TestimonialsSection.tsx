@@ -37,6 +37,12 @@ const TestimonialsSection = () => {
     return acc;
   }, {});
 
+  const brandSurfaceClass = (surface?: string) => {
+    if (surface === "dark") return "border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)]";
+    if (surface === "sand") return "border-amber-200 bg-[linear-gradient(135deg,#fff7e7,#f0dfba)]";
+    return "border-border/70 bg-white";
+  };
+
   return (
     <section id="clientes" className="py-24">
       <div className="container space-y-14">
@@ -84,20 +90,14 @@ const TestimonialsSection = () => {
           {portfolioClients.map((client, index) => (
             <motion.div
               key={client.name}
-              className="rounded-[28px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.45)]"
+              className="rounded-[28px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.45)] transition-transform duration-300 hover:-translate-y-1"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: index * 0.05 }}
             >
               <div
-                className={`flex min-h-[120px] items-center justify-center rounded-[24px] border px-6 py-5 shadow-sm ${
-                  client.surface === "dark"
-                    ? "border-slate-900/80 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)]"
-                    : client.surface === "sand"
-                      ? "border-amber-200 bg-[linear-gradient(135deg,#fff7e7,#f0dfba)]"
-                      : "border-border/70 bg-white"
-                }`}
+                className={`flex min-h-[136px] items-center justify-center rounded-[24px] border px-6 py-6 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
               >
                 <img
                   src={client.logo}
@@ -105,7 +105,7 @@ const TestimonialsSection = () => {
                   loading="lazy"
                   width="240"
                   height="80"
-                  className={`${client.logoClass ?? "max-h-14"} w-auto object-contain ${
+                  className={`${client.logoClass ?? "max-h-14"} max-w-full w-auto object-contain ${
                     client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
                   }`}
                 />
@@ -128,17 +128,11 @@ const TestimonialsSection = () => {
               </h3>
             </div>
           </div>
-          <div className="grid gap-4 md:grid-cols-4 xl:grid-cols-6">
+          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
             {clients.map((client, index) => (
               <motion.div
                 key={client.name}
-                className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-5 py-4 ${
-                  client.surface === "dark"
-                    ? "border-slate-900/80 bg-slate-950"
-                    : client.surface === "sand"
-                      ? "border-amber-200 bg-[linear-gradient(135deg,#fff8eb,#f4e3bf)]"
-                      : "border-border/70 bg-white"
-                }`}
+                className={`flex min-h-[116px] items-center justify-center rounded-3xl border px-6 py-5 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -150,7 +144,7 @@ const TestimonialsSection = () => {
                   loading="lazy"
                   width="180"
                   height="56"
-                  className={`${client.logoClass ?? "max-h-12"} w-auto object-contain ${
+                  className={`${client.logoClass ?? "max-h-12"} max-w-full w-auto object-contain ${
                     client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
                   }`}
                 />

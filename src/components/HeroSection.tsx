@@ -22,7 +22,7 @@ const HeroSection = () => {
           >
             <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-white/75 px-4 py-2 text-sm font-medium text-primary shadow-sm backdrop-blur">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Sites, lojas e automacoes para empresas que querem vender melhor
+              Marca forte, site melhor e operacao mais leve
             </span>
           </motion.div>
 
@@ -33,8 +33,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             Sua empresa precisa
-            <span className="block text-primary">parecer maior</span>
-            para vender melhor.
+            <span className="block text-primary">passar confianca</span>
+            antes da primeira conversa.
           </motion.h1>
 
           <motion.p
@@ -43,9 +43,8 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            A Código5 junta site, loja virtual, conteudo e automacao
-            em uma estrutura que passa confianca, facilita o contato
-            e sustenta o crescimento da operacao.
+            A Código5 organiza visual, conteudo e tecnologia para sua empresa
+            parecer pronta, ser encontrada e responder melhor.
           </motion.p>
 
           <motion.div
@@ -72,13 +71,13 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {[
-              { value: "Site", label: "com cara de empresa estabelecida" },
-              { value: "Loja", label: "pronta para campanha e pedido" },
-              { value: "Rotina", label: "mais leve com automacoes" },
+              { value: "Imagem", label: "presenca mais forte para vender melhor" },
+              { value: "Contato", label: "caminho simples para chamar e pedir" },
+              { value: "Rotina", label: "menos retrabalho no dia a dia" },
             ].map((item) => (
               <div
                 key={item.value}
-                className="rounded-[28px] border border-white/70 bg-white/78 p-4 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.28)] backdrop-blur"
+                className="rounded-[28px] border border-white/70 bg-white/82 p-4 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.28)] backdrop-blur"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">{item.value}</p>
                 <p className="mt-3 text-sm font-medium leading-6 text-foreground/80">{item.label}</p>
@@ -103,21 +102,18 @@ const HeroSection = () => {
             <div className="absolute left-6 top-6 max-w-[15rem] rounded-[24px] border border-white/60 bg-white/88 p-5 shadow-lg backdrop-blur">
               <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
-                Estrategia digital
+                Direcao certa
               </span>
               <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                O visual precisa vender antes do atendimento comecar.
-              </p>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Clareza, prova real e caminho simples para o cliente chamar.
+                Visual bom nao e detalhe. E argumento de venda.
               </p>
             </div>
             <div className="absolute bottom-6 right-6 max-w-[16rem] rounded-[26px] border border-slate-900/85 bg-slate-950/92 p-5 text-slate-50 shadow-2xl">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">
-                O que muda
+                Resultado
               </p>
               <p className="mt-3 font-display text-2xl font-semibold leading-tight">
-                Menos cara de improviso.
+                Menos improviso.
               </p>
               <p className="mt-3 text-sm leading-6 text-slate-300">
                 Mais confianca para cliente, parceiro e equipe comercial.
@@ -135,7 +131,7 @@ const HeroSection = () => {
                 Marcas atendidas
               </p>
               <p className="mt-2 text-sm text-foreground/70">
-                Experiencia em varejo, saude, midia, institucional e servicos.
+                Portifolio real em varejo, saude, midia, institucional e servicos.
               </p>
             </div>
             <a href="/portfolio" className="text-sm font-medium text-primary transition hover:text-primary/80">

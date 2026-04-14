@@ -17,12 +17,8 @@ const SolutionsSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Solucoes</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
-            O que a Código5 coloca para trabalhar a favor do seu negocio
+            O que entra em cena quando o projeto precisa vender de verdade
           </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
-            Menos explicacao tecnica. Mais estrutura para apresentar bem, vender melhor
-            e ganhar tempo na operacao.
-          </p>
         </motion.div>
 
         <div className="grid gap-6 sm:grid-cols-2">
@@ -56,8 +52,13 @@ const SolutionsSection = () => {
                 </div>
               </div>
               <div className="p-8">
-                <h3 className="mb-3 font-display text-3xl font-semibold text-foreground">{service.name}</h3>
-                <p className="max-w-md text-base leading-7 text-muted-foreground">{service.description}</p>
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="font-display text-3xl font-semibold text-foreground">{service.name}</h3>
+                  <span className="rounded-full border border-border/80 bg-background-alt px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Codigo5
+                  </span>
+                </div>
+                <p className="mt-3 max-w-md text-base leading-7 text-muted-foreground">{service.description}</p>
               </div>
             </motion.div>
           ))}

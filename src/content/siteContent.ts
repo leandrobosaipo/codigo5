@@ -261,27 +261,27 @@ export const portfolioClients = [
 export const services = [
   {
     name: "Sites institucionais",
-    description: "Presenca forte para apresentar sua empresa e abrir conversa sem atrito.",
+    description: "Empresa bem apresentada, proposta clara e contato mais facil.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80",
-    items: ["Apresentar", "Provar", "Receber contato"],
+    items: ["Marca forte", "Clareza", "Contato"],
   },
   {
     name: "Lojas virtuais",
-    description: "Loja pronta para vender com mais clareza, campanha e operacao organizada.",
+    description: "Catalogo, campanha e pedido alinhados para vender com menos atrito.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=80",
-    items: ["Catalogo", "Pedido", "Campanha"],
+    items: ["Catalogo", "Checkout", "Midia"],
   },
   {
     name: "SEO e conteudo",
-    description: "Conteudo e estrutura para aparecer melhor e explicar melhor o que voce vende.",
+    description: "Conteudo util para aparecer melhor e parecer referencia no seu mercado.",
     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
-    items: ["Google", "Blog", "Autoridade"],
+    items: ["Busca", "Blog", "Autoridade"],
   },
   {
     name: "Automacoes e IA",
-    description: "Rotinas e atendimento conectados para ganhar tempo e reduzir retrabalho.",
+    description: "Atendimento e rotina integrados para ganhar tempo e responder melhor.",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80",
-    items: ["WhatsApp", "Integracoes", "Fluxos"],
+    items: ["WhatsApp", "Fluxos", "Integracoes"],
   },
 ];
 
@@ -341,8 +341,8 @@ export const useCases = [
 ];
 
 export const trustNumbers = [
-  { label: "Tempo de estrada", value: "15+ anos" },
-  { label: "Marcas no portifolio", value: "40+" },
-  { label: "Segmentos atendidos", value: "10+" },
-  { label: "Base de atendimento", value: "Cuiaba - MT" },
+  { label: "Anos criando presenca digital", value: "15+" },
+  { label: "Marcas atendidas", value: "40+" },
+  { label: "Mercados no portifolio", value: "10+" },
+  { label: "Base de operacao", value: "Cuiaba" },
 ];

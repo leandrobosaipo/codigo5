@@ -15,7 +15,7 @@ const TrustBar = () => {
           {trustNumbers.map((item) => (
             <div
               key={item.label}
-              className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-5"
+              className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-5 shadow-[0_18px_60px_-52px_rgba(0,0,0,0.75)]"
             >
               <p className="text-[11px] uppercase tracking-[0.24em] text-ink-foreground/55">{item.label}</p>
               <p className="mt-4 font-display text-3xl font-bold leading-none">{item.value}</p>

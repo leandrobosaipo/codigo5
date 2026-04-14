@@ -26,6 +26,17 @@ const TestimonialsSection = () => {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 4);
 
+  const segmentSamples = Object.entries(
+    portfolioClients.reduce<Record<string, string[]>>((acc, client) => {
+      const group = normalizeSegment(client.segment);
+      acc[group] = [...(acc[group] ?? []), client.name];
+      return acc;
+    }, {}),
+  ).reduce<Record<string, string[]>>((acc, [segment, names]) => {
+    acc[segment] = names.slice(0, 3);
+    return acc;
+  }, {});
+
   return (
     <section id="clientes" className="py-24">
       <div className="container space-y-14">
@@ -38,12 +49,8 @@ const TestimonialsSection = () => {
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Clientes e experiencia</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
-            Experiencia visivel em mercados que exigem credibilidade
+            Credibilidade construída em mercados diferentes
           </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
-            A prova nao esta em uma promessa. Esta nas marcas atendidas, nos segmentos
-            recorrentes e no repertorio acumulado em projetos diferentes.
-          </p>
         </motion.div>
 
         <div className="grid gap-4 lg:grid-cols-4">
@@ -58,9 +65,17 @@ const TestimonialsSection = () => {
               <p className="mt-4 font-display text-2xl font-semibold leading-tight text-foreground">
                 {segment}
               </p>
-              <p className="mt-3 text-sm text-muted-foreground">
-                {count} marcas no portifolio
-              </p>
+              <p className="mt-3 text-sm text-muted-foreground">{count} marcas no portifolio</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {(segmentSamples[segment] ?? []).map((name) => (
+                  <span
+                    key={name}
+                    className="rounded-full border border-border/80 bg-white/90 px-3 py-1 text-[11px] font-medium text-foreground"
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -109,7 +124,7 @@ const TestimonialsSection = () => {
                 Recorte rapido
               </p>
               <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Algumas marcas que reforcam essa trajetoria
+                Marcas lembradas de imediato
               </h3>
             </div>
           </div>

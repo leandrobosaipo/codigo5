@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Reveal from "@/components/Reveal";
 import { contact } from "@/content/siteContent";
 
 const ContactSection = () => {
@@ -37,12 +37,8 @@ const ContactSection = () => {
       className="border-t border-border bg-[linear-gradient(180deg,#f5efe5_0%,#fbf8f3_52%,#fffdf9_100%)] py-24"
     >
       <div className="container">
-        <motion.div
+        <Reveal
           className="mx-auto mb-16 max-w-3xl text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Contato</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
@@ -51,15 +47,11 @@ const ContactSection = () => {
           <p className="text-lg leading-8 text-muted-foreground">
             O caminho mais rapido e pelo WhatsApp. O resto entra para quem prefere outro formato.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-          <motion.div
+          <Reveal
             className="space-y-8"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
           >
             <div className="rounded-[30px] border border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)] p-6 text-slate-50 shadow-[0_30px_90px_-58px_rgba(15,15,15,0.6)]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">Caminho mais rapido</p>
@@ -128,14 +120,11 @@ const ContactSection = () => {
                 title="Localizacao Codigo5 Web"
               />
             </div>
-          </motion.div>
+          </Reveal>
 
-          <motion.div
+          <Reveal
             className="grid gap-6 sm:grid-cols-2"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            delay={80}
           >
             {demandCards.map((item) => (
               <div
@@ -154,7 +143,7 @@ const ContactSection = () => {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

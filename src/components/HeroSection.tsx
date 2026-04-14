@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Reveal from "@/components/Reveal";
 import { clients, contact } from "@/content/siteContent";
 
 const HeroSection = () => {
@@ -15,43 +15,35 @@ const HeroSection = () => {
 
       <div className="container relative z-10 grid min-h-[calc(100vh-6rem)] items-center gap-14 py-12 lg:grid-cols-[1.02fr_0.98fr]">
         <div className="max-w-3xl pb-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <Reveal delay={0}>
             <span className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/78 px-4 py-2 text-sm font-medium text-primary shadow-sm backdrop-blur">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
               Código5 Web • Cuiabá
             </span>
-          </motion.div>
+          </Reveal>
 
-          <motion.h1
+          <Reveal
+            as="h1"
             className="mb-6 max-w-4xl font-display text-5xl font-extrabold leading-[0.9] text-foreground sm:text-6xl lg:text-[5.2rem]"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            delay={90}
           >
             Seu negócio precisa
             <span className="block text-primary">parecer pronto</span>
             para crescer.
-          </motion.h1>
+          </Reveal>
 
-          <motion.p
+          <Reveal
+            as="p"
             className="mb-9 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            delay={150}
           >
             Site, ecommerce, SEO e automações para empresa que quer passar
             confiança, organizar a operação e vender melhor no digital.
-          </motion.p>
+          </Reveal>
 
-          <motion.div
+          <Reveal
             className="flex flex-wrap gap-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            delay={220}
           >
             <Button size="lg" asChild>
               <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
@@ -62,13 +54,11 @@ const HeroSection = () => {
             <Button size="lg" variant="outline" asChild>
               <a href="/portfolio">Ver marcas atendidas</a>
             </Button>
-          </motion.div>
+          </Reveal>
 
-          <motion.div
+          <Reveal
             className="mt-10 flex flex-wrap gap-3"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            delay={300}
           >
             {[
               "Sites institucionais",
@@ -83,14 +73,12 @@ const HeroSection = () => {
                 {item}
               </span>
             ))}
-          </motion.div>
+          </Reveal>
         </div>
 
-        <motion.div
+        <Reveal
           className="relative lg:pl-8"
-          initial={{ opacity: 0, scale: 0.95, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.2 }}
+          delay={180}
         >
           <div className="absolute inset-x-10 -top-6 h-24 rounded-full bg-primary/15 blur-3xl" />
           <div className="absolute -left-4 top-14 hidden rounded-full border border-white/70 bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-foreground/65 shadow-sm backdrop-blur lg:block">
@@ -132,7 +120,7 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="container relative z-10 pb-12">

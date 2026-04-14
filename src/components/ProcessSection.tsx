@@ -1,16 +1,12 @@
-import { motion } from "framer-motion";
+import Reveal from "@/components/Reveal";
 import { methodologies } from "@/content/siteContent";
 
 const ProcessSection = () => {
   return (
     <section className="bg-background-alt py-24">
       <div className="container">
-        <motion.div
+        <Reveal
           className="mx-auto mb-16 max-w-2xl text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
         >
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Processo</span>
           <h2 className="mt-3 mb-4 text-3xl font-bold text-foreground sm:text-4xl">
@@ -19,17 +15,14 @@ const ProcessSection = () => {
           <p className="text-lg leading-8 text-muted-foreground">
             Menos improviso, mais clareza do que entra antes, durante e depois da publicacao.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {methodologies.map((item, i) => (
-            <motion.div
+            <Reveal
               key={item.name}
               className="overflow-hidden rounded-[28px] border border-border bg-card transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              delay={i * 80}
             >
               <div className="border-b border-border bg-[linear-gradient(135deg,rgba(204,149,55,0.12),rgba(255,251,245,0.96))] p-6">
                 <div className="flex gap-3">
@@ -47,7 +40,7 @@ const ProcessSection = () => {
                 <h3 className="font-display text-xl font-semibold text-foreground">{item.name}</h3>
                 <p className="mt-3 text-base leading-7 text-muted-foreground">{item.detail}</p>
               </div>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

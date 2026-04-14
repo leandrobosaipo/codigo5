@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import Reveal from "@/components/Reveal";
 import { services } from "@/content/siteContent";
 
 const SolutionsSection = () => {
@@ -8,12 +8,8 @@ const SolutionsSection = () => {
       className="bg-[linear-gradient(180deg,#fbf8f3_0%,#f3ede3_100%)] py-24"
     >
       <div className="container">
-        <motion.div
+        <Reveal
           className="mx-auto mb-16 max-w-3xl text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Solucoes</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
@@ -22,17 +18,14 @@ const SolutionsSection = () => {
           <p className="text-lg leading-8 text-muted-foreground">
             Quatro frentes que costumam resolver o que mais pesa na presenca digital.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid gap-6 sm:grid-cols-2">
           {services.map((service, i) => (
-            <motion.div
+            <Reveal
               key={service.name}
               className="group overflow-hidden rounded-[34px] border border-border/80 bg-card/90 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_32px_90px_-52px_rgba(30,25,20,0.45)]"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              delay={i * 80}
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <img
@@ -66,7 +59,7 @@ const SolutionsSection = () => {
                   Ver como isso entra no projeto
                 </a>
               </div>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

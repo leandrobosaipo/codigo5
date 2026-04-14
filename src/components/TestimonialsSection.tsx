@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import Reveal from "@/components/Reveal";
 import { clients, portfolioClients } from "@/content/siteContent";
 
 const TestimonialsSection = () => {
@@ -63,12 +63,8 @@ const TestimonialsSection = () => {
   return (
     <section id="clientes" className="py-24">
       <div className="container space-y-14">
-        <motion.div
+        <Reveal
           className="mx-auto mb-10 max-w-3xl text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
         >
           <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Clientes e experiencia</span>
           <h2 className="mt-3 mb-4 font-display text-4xl font-bold text-foreground sm:text-5xl">
@@ -77,7 +73,7 @@ const TestimonialsSection = () => {
           <p className="text-lg leading-8 text-muted-foreground">
             Quando o portfolio aparece com clareza, a experiencia fica mais facil de perceber.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid gap-4 lg:grid-cols-4">
           {highlightSegments.map(([segment, count]) => (
@@ -119,13 +115,10 @@ const TestimonialsSection = () => {
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {anchorClients.map((client, index) => (
-              <motion.div
+              <Reveal
                 key={client.name}
                 className="rounded-[28px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.45)] transition-transform duration-300 hover:-translate-y-1"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
+                delay={index * 50}
               >
                 <div
                   className={`flex min-h-[152px] items-center justify-center rounded-[24px] border px-6 py-6 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
@@ -151,7 +144,7 @@ const TestimonialsSection = () => {
                 >
                   {client.site}
                 </a>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -169,13 +162,10 @@ const TestimonialsSection = () => {
           </div>
           <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
             {supportingClients.map((client, index) => (
-              <motion.div
+              <Reveal
                 key={client.name}
                 className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-6 py-5 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] transition-transform duration-300 hover:-translate-y-0.5 ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
+                delay={index * 45}
               >
                 <img
                   src={client.logo}
@@ -187,7 +177,7 @@ const TestimonialsSection = () => {
                     client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
                   }`}
                 />
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>

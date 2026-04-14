@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { clients, contact } from "@/content/siteContent";
 
@@ -22,7 +22,7 @@ const HeroSection = () => {
           >
             <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-white/75 px-4 py-2 text-sm font-medium text-primary shadow-sm backdrop-blur">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Marca forte, site melhor e operacao mais leve
+              Presenca digital para empresa que quer crescer
             </span>
           </motion.div>
 
@@ -99,25 +99,26 @@ const HeroSection = () => {
               alt="Especialista em inteligencia artificial da Codigo5"
               className="h-full w-full rounded-[24px] object-cover"
             />
-            <div className="absolute left-6 top-6 max-w-[15rem] rounded-[24px] border border-white/60 bg-white/88 p-5 shadow-lg backdrop-blur">
-              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/88 px-4 py-3 shadow-lg backdrop-blur">
+              <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
-                Direcao certa
+                Marca forte
               </span>
-              <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                Visual bom nao e detalhe. E argumento de venda.
-              </p>
             </div>
-            <div className="absolute bottom-6 right-6 max-w-[16rem] rounded-[26px] border border-slate-900/85 bg-slate-950/92 p-5 text-slate-50 shadow-2xl">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">
-                Resultado
-              </p>
-              <p className="mt-3 font-display text-2xl font-semibold leading-tight">
-                Menos improviso.
-              </p>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                Mais confianca para cliente, parceiro e equipe comercial.
-              </p>
+            <div className="absolute bottom-6 right-6 rounded-[26px] border border-slate-900/85 bg-slate-950/92 p-4 text-slate-50 shadow-2xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
+                  <MessageCircle className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-300">
+                    Contato facil
+                  </p>
+                  <p className="mt-1 font-display text-xl font-semibold leading-tight">
+                    Chama. Entende. Decide.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>

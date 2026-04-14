@@ -4,6 +4,29 @@ import { Button } from "@/components/ui/button";
 import { contact } from "@/content/siteContent";
 
 const ContactSection = () => {
+  const demandCards = [
+    {
+      title: "Site institucional",
+      image:
+        "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      title: "Loja virtual",
+      image:
+        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      title: "SEO e conteudo",
+      image:
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      title: "WhatsApp e automacao",
+      image:
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+    },
+  ];
+
   return (
     <section
       id="contato"
@@ -105,15 +128,23 @@ const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            {[
-              "Novo site institucional",
-              "Loja virtual",
-              "SEO local e blog",
-              "WhatsApp e automacao",
-            ].map((item) => (
-              <div key={item} className="rounded-[30px] border border-border bg-white/82 p-8 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Demanda</p>
-                <h3 className="mt-4 font-display text-2xl font-semibold text-foreground">{item}</h3>
+            {demandCards.map((item) => (
+              <div
+                key={item.title}
+                className="group relative overflow-hidden rounded-[30px] border border-border/80 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.2)]"
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full min-h-[240px] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,16,12,0.08),rgba(20,16,12,0.76))]" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur">
+                    Demanda
+                  </span>
+                  <h3 className="mt-4 font-display text-3xl font-semibold leading-tight text-white">{item.title}</h3>
+                </div>
               </div>
             ))}
           </motion.div>

@@ -66,7 +66,7 @@ const ContactSection = () => {
               <h3 className="mt-3 font-display text-3xl font-semibold text-white">
                 Fale pelo WhatsApp e veja o melhor formato para o projeto.
               </h3>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
+              <p className="mt-3 text-sm leading-6 text-slate-200">
                 Site, loja virtual, SEO, conteudo, automacao ou integracao. A conversa pode comecar pelo que hoje mais pesa na operacao.
               </p>
               <Button asChild className="mt-5">
@@ -78,40 +78,40 @@ const ContactSection = () => {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/78 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
+            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/88 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <MapPin className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h3 className="mb-1 font-display font-semibold text-foreground">Endereco</h3>
-                <p className="text-sm text-muted-foreground">{contact.address}</p>
+                <p className="text-sm font-medium text-foreground/72">{contact.address}</p>
               </div>
             </div>
-            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/78 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
+            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/88 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <Phone className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h3 className="mb-1 font-display font-semibold text-foreground">Telefone / WhatsApp</h3>
-                <p className="text-sm text-muted-foreground">{contact.phone}</p>
+                <p className="text-sm font-medium text-foreground/72">{contact.phone}</p>
               </div>
             </div>
-            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/78 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
+            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/88 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <Mail className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h3 className="mb-1 font-display font-semibold text-foreground">E-mail</h3>
-                <p className="text-sm text-muted-foreground">{contact.email}</p>
+                <p className="text-sm font-medium text-foreground/72">{contact.email}</p>
               </div>
             </div>
-            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/78 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
+            <div className="flex gap-4 rounded-[24px] border border-border/70 bg-white/88 p-5 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.16)]">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <Clock className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h3 className="mb-1 font-display font-semibold text-foreground">Horario</h3>
-                <p className="text-sm text-muted-foreground">Segunda a Sexta: 09:00 – 18:00</p>
+                <p className="text-sm font-medium text-foreground/72">Segunda a Sexta: 09:00 – 18:00</p>
               </div>
             </div>
             </div>
@@ -147,10 +147,10 @@ const ContactSection = () => {
                   alt={item.title}
                   className="h-full min-h-[240px] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,16,12,0.08),rgba(20,16,12,0.76))]" />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,16,12,0.12),rgba(20,16,12,0.82))]" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <h3 className="mt-4 font-display text-3xl font-semibold leading-tight text-white">{item.title}</h3>
-                  <p className="mt-3 max-w-xs text-sm leading-6 text-white/78">{item.text}</p>
+                  <p className="mt-3 max-w-xs text-sm leading-6 text-white/88">{item.text}</p>
                 </div>
               </div>
             ))}

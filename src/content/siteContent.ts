@@ -20,6 +20,7 @@ export const clients = [
     site: "sonatamusical.com.br",
     surface: "light",
     logoClass: "max-h-10",
+    frameClass: "bg-[linear-gradient(135deg,#fffdfa,#efe1c4)]",
   },
   {
     name: "Stilo Assessoria",
@@ -35,6 +36,7 @@ export const clients = [
     site: "cref17.org.br",
     surface: "light",
     logoClass: "max-h-14",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f0f5fb)]",
   },
   {
     name: "Axis Construcoes",
@@ -59,6 +61,7 @@ export const clients = [
     site: "clinicapetterle.com.br",
     surface: "light",
     logoClass: "max-h-16",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#eef7f8)]",
   },
   {
     name: "Portal 163",
@@ -67,6 +70,7 @@ export const clients = [
     site: "portal163.com.br",
     surface: "light",
     logoClass: "max-h-10",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f5f3ef)]",
   },
   {
     name: "Perrengue Mato Grosso",
@@ -75,6 +79,7 @@ export const clients = [
     site: "perrenguematogrosso.com.br",
     surface: "light",
     logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#fffaf3,#f3e3cc)]",
   },
   {
     name: "AlphaVille Buffet",
@@ -106,6 +111,7 @@ export const clients = [
     site: "afolhalivre.com",
     surface: "light",
     logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f8f2e8)]",
   },
   {
     name: "Portal Pantanal MT",
@@ -114,6 +120,7 @@ export const clients = [
     site: "portalpantanalmt.com",
     surface: "light",
     logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f2f7fb)]",
   },
   {
     name: "Portal Norte MT",
@@ -122,6 +129,7 @@ export const clients = [
     site: "portalnortemt.com",
     surface: "light",
     logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f6f4ef)]",
   },
 ];
 
@@ -140,6 +148,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/sonata.webp",
     surface: "light",
     logoClass: "max-h-11",
+    frameClass: "bg-[linear-gradient(135deg,#fffdfa,#efe1c4)]",
   },
   {
     name: "Stilo Assessoria",
@@ -155,6 +164,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/cref17-official.png",
     surface: "light",
     logoClass: "max-h-14",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f0f5fb)]",
   },
   {
     name: "Axis Construcoes",
@@ -179,6 +189,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/francaemoraes-topo.png",
     surface: "light",
     logoClass: "max-h-11",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f4efe7)]",
   },
   {
     name: "Nobres Racoes",
@@ -211,6 +222,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/mariocardi-blue.webp",
     surface: "light",
     logoClass: "max-h-11",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#eef5fb)]",
   },
   {
     name: "Clinica Petterle",
@@ -219,6 +231,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/clinicapetterle-2025.png",
     surface: "light",
     logoClass: "max-h-16",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#eef7f8)]",
   },
   {
     name: "Portal 163",
@@ -227,6 +240,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/portal163-inline.png",
     surface: "light",
     logoClass: "max-h-10",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f5f3ef)]",
   },
   {
     name: "Regional MT News",
@@ -243,6 +257,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/impactogeral-inline.png",
     surface: "light",
     logoClass: "max-h-10",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f4f0e8)]",
   },
   {
     name: "O Matogrossense",
@@ -251,6 +266,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/omatogrossense-inline.webp",
     surface: "light",
     logoClass: "max-h-10",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f7f1e6)]",
   },
   {
     name: "Roo Noticias",
@@ -259,6 +275,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/roonoticias-official.png",
     surface: "light",
     logoClass: "max-h-14",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f3f7fb)]",
   },
   {
     name: "AlphaVille Buffet",
@@ -290,6 +307,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/afolhalivre.png",
     surface: "light",
     logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f8f2e8)]",
   },
   {
     name: "Portal Pantanal MT",
@@ -298,6 +316,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/portalpantanalmt.jpg",
     surface: "light",
     logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f2f7fb)]",
   },
   {
     name: "Portal Norte MT",
@@ -306,6 +325,7 @@ export const portfolioClients = [
     logo: "/assets/codigo5/client-catalog/portalnortemt.png",
     surface: "light",
     logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#f6f4ef)]",
   },
 ];
 

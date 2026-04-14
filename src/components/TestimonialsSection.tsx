@@ -91,12 +91,12 @@ const TestimonialsSection = () => {
               <p className="mt-4 font-display text-2xl font-semibold leading-tight text-foreground">
                 {segment}
               </p>
-              <p className="mt-3 text-sm text-muted-foreground">{count} marcas no portfolio</p>
+              <p className="mt-3 text-sm font-medium text-foreground/72">{count} marcas no portfolio</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {(segmentSamples[segment] ?? []).map((name) => (
                   <span
                     key={name}
-                    className="rounded-full border border-border/80 bg-white/90 px-3 py-1 text-[11px] font-medium text-foreground"
+                    className="rounded-full border border-border/80 bg-white/95 px-3 py-1 text-[11px] font-semibold text-foreground shadow-sm"
                   >
                     {name}
                   </span>
@@ -128,7 +128,7 @@ const TestimonialsSection = () => {
                 transition={{ duration: 0.35, delay: index * 0.05 }}
               >
                 <div
-                  className={`flex min-h-[152px] items-center justify-center rounded-[24px] border px-6 py-6 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
+                  className={`flex min-h-[152px] items-center justify-center rounded-[24px] border px-6 py-6 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
                 >
                   <img
                     src={client.logo}
@@ -143,7 +143,14 @@ const TestimonialsSection = () => {
                 </div>
                 <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">{client.segment}</p>
                 <h3 className="mt-2 font-display text-2xl font-semibold text-foreground">{client.name}</h3>
-                <p className="mt-2 break-words text-sm text-muted-foreground">{client.site}</p>
+                <a
+                  href={`https://${client.site}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex break-words text-sm font-medium text-foreground/70 transition hover:text-primary"
+                >
+                  {client.site}
+                </a>
               </motion.div>
             ))}
           </div>
@@ -164,7 +171,7 @@ const TestimonialsSection = () => {
             {supportingClients.map((client, index) => (
               <motion.div
                 key={client.name}
-                className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-6 py-5 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)}`}
+                className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-6 py-5 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] transition-transform duration-300 hover:-translate-y-0.5 ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

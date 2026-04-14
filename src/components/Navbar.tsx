@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="container flex min-h-[4.5rem] items-center justify-between gap-6 py-3">
         <Link to="/" className="flex items-center gap-3">
           <img
-            src="/assets/codigo5/logos/logo-dark.webp"
+            src="/assets/codigo5/logos/logo-codigo5.jpg"
             alt="Codigo5 Web"
             className="h-10 w-auto drop-shadow-[0_12px_24px_rgba(15,15,15,0.08)]"
           />

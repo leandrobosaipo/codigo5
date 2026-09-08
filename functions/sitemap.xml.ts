@@ -80,7 +80,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
     );
   }
 
-  const urls = [
+  const urls: { loc: string; lastmod?: string }[] = [
     ...staticRoutes.map(({ path, lastmod }) => ({
       loc: `${SITE_URL}${path}`,
       lastmod,

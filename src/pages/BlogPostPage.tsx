@@ -6,7 +6,10 @@ import { getAdjacentPosts, getBlogPostBySlug } from "@/content/blog";
 import { useRuntimeBlog } from "@/hooks/use-runtime-blog";
 import { SITE_URL } from "@/lib/site";
 import NotFound from "./NotFound";
-import { safeArticleHtml } from "@/lib/safeArticleHtml";
+import {
+  normalizeLegacyBlogLinks,
+  safeArticleHtml,
+} from "@/lib/safeArticleHtml";
 
 const extractFaqItems = (contentHtml: string) => {
   const faqStart = contentHtml.indexOf("FAQ:");
@@ -168,7 +171,11 @@ const BlogPostPage = () => {
             )}
             <div
               className="article-content"
-              dangerouslySetInnerHTML={{ __html: safeArticleHtml(post.contentHtml) }}
+              dangerouslySetInnerHTML={{
+                __html: safeArticleHtml(
+                  normalizeLegacyBlogLinks(post.contentHtml, blogPosts),
+                ),
+              }}
             />
             <nav className="c5-category-links" aria-label="Assuntos do artigo">
               {post.tags.map((tag) => (

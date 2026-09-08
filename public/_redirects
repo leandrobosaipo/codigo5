@@ -20,6 +20,10 @@
 /service-details/ /servicos 301
 /coaching /servicos 301
 /coaching/ /servicos 301
+/servicos/seo-local/ /servicos#audiencia 301
+/servicos/seo-local /servicos#audiencia 301
+/suporte-wordpress/ /servicos#operacao 301
+/suporte-wordpress /servicos#operacao 301
 /elementor-286617 / 301
 /elementor-286617/ / 301
 /category/blog /blog 301

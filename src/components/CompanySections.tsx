@@ -20,13 +20,13 @@ export function ServiceList({ expanded = false }: { expanded?: boolean }) {
           <div>
             <h3>{item.title}</h3>
             <p>{expanded ? item.detail : item.summary}</p>
+            {expanded && <ul>{item.items.map((text) => <li key={text}>{text}</li>)}</ul>}
           </div>
           {expanded ? (
-            <ul>
-              {item.items.map((text) => (
-                <li key={text}>{text}</li>
-              ))}
-            </ul>
+            <figure className="c5-service-figure">
+              <img src={item.image} alt={`Exemplo de projeto: ${item.caption}`} loading="lazy" width="720" height="480" />
+              <figcaption>{item.caption}</figcaption>
+            </figure>
           ) : (
             <Link
               to={`/servicos#${item.id}`}
@@ -40,10 +40,10 @@ export function ServiceList({ expanded = false }: { expanded?: boolean }) {
     </div>
   );
 }
-export function WorkList() {
+export function WorkList({ limit }: { limit?: number }) {
   return (
     <div className="c5-work-grid">
-      {selectedWork.map((work) => (
+      {selectedWork.slice(0, limit).map((work) => (
         <a
           className="c5-work"
           href={work.url}

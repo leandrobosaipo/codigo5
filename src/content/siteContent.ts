@@ -1,3 +1,14 @@
+type Client = {
+  name: string;
+  logo: string;
+  segment?: string;
+  site?: string;
+  surface: string;
+  logoClass?: string;
+  frameClass?: string;
+  invertOnDark?: boolean;
+};
+
 export const contact = {
   phone: "(65) 99982-2022",
   whatsappHref: "https://wa.me/5565999822022",
@@ -5,11 +16,11 @@ export const contact = {
   address: "R. Três, 2 - Morada do Ouro, Cuiabá - MT, CEP 78053-208",
 };
 
-export const clients = [
+export const clients: Client[] = [
   {
     name: "PraticLar",
     logo: "/assets/codigo5/clients-extended/praticlar.png",
-    segment: "Industria e varejo",
+    segment: "Indústria e varejo",
     site: "praticlar.com.br",
     surface: "light",
   },
@@ -39,23 +50,23 @@ export const clients = [
     frameClass: "bg-[linear-gradient(135deg,#ffffff,#f0f5fb)]",
   },
   {
-    name: "Axis Construcoes",
+    name: "Axis Construções",
     logo: "/assets/codigo5/client-catalog/axis-white.png",
-    segment: "Construcao civil",
+    segment: "Construção civil",
     site: "axisconstrucoes.com.br",
     surface: "dark",
     logoClass: "max-h-11",
     invertOnDark: false,
   },
   {
-    name: "Calcario Alianca",
+    name: "Calcário Aliança",
     logo: "/assets/codigo5/clients-extended/calcario-alianca.svg",
-    segment: "Industria mineral",
+    segment: "Indústria mineral",
     site: "calcarioalianca.com",
     surface: "sand",
   },
   {
-    name: "Clinica Petterle",
+    name: "Clínica Petterle",
     logo: "/assets/codigo5/client-catalog/clinicapetterle-2025.png",
     segment: "Saude",
     site: "clinicapetterle.com.br",
@@ -66,7 +77,7 @@ export const clients = [
   {
     name: "Portal 163",
     logo: "/assets/codigo5/client-catalog/portal163-inline.png",
-    segment: "Midia regional",
+    segment: "Mídia regional",
     site: "portal163.com.br",
     surface: "light",
     logoClass: "max-h-10",
@@ -75,7 +86,7 @@ export const clients = [
   {
     name: "Perrengue Mato Grosso",
     logo: "/assets/codigo5/client-catalog/perrengue-2026.png",
-    segment: "Midia e entretenimento",
+    segment: "Mídia e entretenimento",
     site: "perrenguematogrosso.com.br",
     surface: "light",
     logoClass: "max-h-12",
@@ -89,9 +100,9 @@ export const clients = [
     surface: "dark",
   },
   {
-    name: "Fundacao Abrigo Bom Jesus",
+    name: "Fundação Abrigo Bom Jesus",
     logo: "/assets/codigo5/clients/abrigo.png",
-    segment: "Instituicao social",
+    segment: "Instituição social",
     site: "abrigobomjesus.com.br",
     surface: "light",
   },
@@ -107,7 +118,7 @@ export const clients = [
   {
     name: "A Folha Livre",
     logo: "/assets/codigo5/client-catalog/afolhalivre.png",
-    segment: "Midia regional",
+    segment: "Mídia regional",
     site: "afolhalivre.com",
     surface: "light",
     logoClass: "max-h-12",
@@ -133,10 +144,14 @@ export const clients = [
   },
 ];
 
-export const portfolioClients = [
+export const portfolioClients: Client[] = [
+  { name: "Shop10", segment: "Materiais para construção", site: "shop10mt.com.br", logo: "/assets/codigo5/clients/shop10.webp", surface: "light" },
+  { name: "Rbike Shop MT", segment: "Bicicletas e mobilidade elétrica", site: "rbikeshopmt.com.br", logo: "/assets/codigo5/client-catalog/rbike.webp", surface: "dark" },
+  { name: "Titaniun Implantes", segment: "Tecnologia e produtos para saúde", site: "titaniunimplantes.com.br", logo: "/assets/codigo5/client-catalog/titaniun.png", surface: "dark" },
+  clients.find((client) => client.name === "Perrengue Mato Grosso")!,
   {
     name: "PraticLar",
-    segment: "Industria e varejo de limpeza",
+    segment: "Indústria e varejo de limpeza",
     site: "praticlar.com.br",
     logo: "/assets/codigo5/clients-extended/praticlar.png",
     surface: "light",
@@ -152,7 +167,7 @@ export const portfolioClients = [
   },
   {
     name: "Stilo Assessoria",
-    segment: "Credito consignado",
+    segment: "Crédito consignado",
     site: "stiloassessoria.com.br",
     logo: "/assets/codigo5/clients-extended/stiloassessoria.webp",
     surface: "light",
@@ -167,8 +182,8 @@ export const portfolioClients = [
     frameClass: "bg-[linear-gradient(135deg,#ffffff,#f0f5fb)]",
   },
   {
-    name: "Axis Construcoes",
-    segment: "Construcao civil",
+    name: "Axis Construções",
+    segment: "Construção civil",
     site: "axisconstrucoes.com.br",
     logo: "/assets/codigo5/client-catalog/axis-white.png",
     surface: "dark",
@@ -176,8 +191,8 @@ export const portfolioClients = [
     invertOnDark: false,
   },
   {
-    name: "Calcario Alianca",
-    segment: "Industria mineral",
+    name: "Calcário Aliança",
+    segment: "Indústria mineral",
     site: "calcarioalianca.com",
     logo: "/assets/codigo5/clients-extended/calcario-alianca.svg",
     surface: "sand",
@@ -192,19 +207,19 @@ export const portfolioClients = [
     frameClass: "bg-[linear-gradient(135deg,#ffffff,#f4efe7)]",
   },
   {
-    name: "Nobres Racoes",
-    segment: "Nutricao animal",
+    name: "Nobres Rações",
+    segment: "Nutrição animal",
     site: "nobresracoes.com.br",
-    logo: "https://nobresracoes.com.br/app/uploads/2023/12/logo-nr-color-hor.png",
+    logo: "/assets/codigo5/client-catalog/nobres-racoes.png",
     surface: "light",
     logoClass: "max-h-14",
   },
   {
     name: "Usical",
-    segment: "Industria e concreto",
+    segment: "Indústria e concreto",
     site: "usicalnbs.com.br",
-    logo: "https://usicalnbs.com.br/app/uploads/2023/10/logo_pos_azul@2x.png",
-    surface: "light",
+    logo: "/assets/codigo5/client-catalog/usical.png",
+    surface: "dark",
     logoClass: "max-h-14",
   },
   {
@@ -217,7 +232,7 @@ export const portfolioClients = [
   },
   {
     name: "Instituto Mario Cardi",
-    segment: "Saude e instituto",
+    segment: "Saúde e instituto",
     site: "institutomariocardi.com.br",
     logo: "/assets/codigo5/client-catalog/mariocardi-blue.webp",
     surface: "light",
@@ -225,8 +240,8 @@ export const portfolioClients = [
     frameClass: "bg-[linear-gradient(135deg,#ffffff,#eef5fb)]",
   },
   {
-    name: "Clinica Petterle",
-    segment: "Saude vascular",
+    name: "Clínica Petterle",
+    segment: "Saúde vascular",
     site: "clinicapetterle.com.br",
     logo: "/assets/codigo5/client-catalog/clinicapetterle-2025.png",
     surface: "light",
@@ -235,7 +250,7 @@ export const portfolioClients = [
   },
   {
     name: "Portal 163",
-    segment: "Midia regional",
+    segment: "Mídia regional",
     site: "portal163.com.br",
     logo: "/assets/codigo5/client-catalog/portal163-inline.png",
     surface: "light",
@@ -244,7 +259,7 @@ export const portfolioClients = [
   },
   {
     name: "Regional MT News",
-    segment: "Portal de noticias",
+    segment: "Portal de notícias",
     site: "regionalmtnews.com.br",
     logo: "/assets/codigo5/client-catalog/regionalmtnews.webp",
     surface: "dark",
@@ -269,8 +284,8 @@ export const portfolioClients = [
     frameClass: "bg-[linear-gradient(135deg,#ffffff,#f7f1e6)]",
   },
   {
-    name: "Roo Noticias",
-    segment: "Noticias locais",
+    name: "Roo Notícias",
+    segment: "Notícias locais",
     site: "roonoticias.com",
     logo: "/assets/codigo5/client-catalog/roonoticias-official.png",
     surface: "light",
@@ -285,14 +300,14 @@ export const portfolioClients = [
     surface: "dark",
   },
   {
-    name: "Fundacao Abrigo Bom Jesus",
-    segment: "Instituicao social",
+    name: "Fundação Abrigo Bom Jesus",
+    segment: "Instituição social",
     site: "abrigobomjesus.com.br",
     logo: "/assets/codigo5/clients/abrigo.png",
     surface: "light",
   },
   {
-    name: "Igreja Familia da Cruz",
+    name: "Igreja Família da Cruz",
     segment: "Igreja e comunidade",
     site: "igrejafamiliadacruz.com.br",
     logo: "/assets/codigo5/client-catalog/ifc-2026.png",
@@ -329,9 +344,9 @@ export const portfolioClients = [
   },
 ];
 
-const extraProofClients = [
+const extraProofClients: Client[] = [
   {
-    name: "Roo Noticias",
+    name: "Roo Notícias",
     logo: "/assets/codigo5/client-catalog/roonoticias-official.png",
     surface: "light",
     logoClass: "max-h-12",
@@ -352,7 +367,7 @@ const proofClientCatalog = [...portfolioClients, ...clients, ...extraProofClient
 
 export const homeAnchorClients = [
   "Perrengue Mato Grosso",
-  "Roo Noticias",
+  "Roo Notícias",
   "Portal Pantanal MT",
   "Portal Norte MT",
   "Shop10",

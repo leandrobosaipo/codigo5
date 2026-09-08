@@ -32,10 +32,10 @@ export default function PortfolioPage() {
             <WorkList />
           </div>
         </section>
-        <section className="c5-section c5-tinted">
+        <section className="c5-section c5-tinted" id="clientes">
           <div className="c5-container">
             <div className="c5-section-heading">
-              <span className="c5-label">Marcas da nossa história</span>
+              <span className="c5-label">Clientes e marcas da nossa história</span>
               <h2>Experiência que atravessa setores.</h2>
               <p>
                 Projetos realizados ao longo do tempo. Os sites podem evoluir
@@ -48,7 +48,7 @@ export default function PortfolioPage() {
                   key={client.name}
                   className={client.surface === "dark" ? "is-dark" : ""}
                 >
-                  {client.logo.startsWith("/") && (
+                  {client.logo && (
                     <img
                       src={client.logo}
                       alt=""

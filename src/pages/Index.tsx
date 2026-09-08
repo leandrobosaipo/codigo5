@@ -10,7 +10,7 @@ import {
   Method,
   ContactBand,
 } from "@/components/CompanySections";
-import { clients } from "@/content/siteContent";
+import { portfolioClients as clients } from "@/content/siteContent";
 import { useRuntimeBlog } from "@/hooks/use-runtime-blog";
 import { SITE_URL } from "@/lib/site";
 export default function Index() {
@@ -116,25 +116,31 @@ export default function Index() {
             <div className="c5-logo-row">
               {[
                 "CREF17/MT",
-                "Clinica Petterle",
+                "Clínica Petterle",
                 "Sonata Musical",
                 "PraticLar",
                 "Portal 163",
                 "Stilo Assessoria",
+                "Shop10",
+                "Rbike Shop MT",
+                "FlechaTur",
+                "Titaniun Implantes",
+                "Perrengue Mato Grosso",
+                "Nobres Rações",
               ].map((name) => {
                 const client = clients.find((item) => item.name === name)!;
                 return (
-                  <img
-                    key={name}
+                  <span key={name} className={client.surface === "dark" ? "c5-logo-dark" : ""}><img
                     src={client.logo}
                     alt={client.name}
                     loading="lazy"
                     width="140"
                     height="58"
-                  />
+                  /></span>
                 );
               })}
             </div>
+            <Link className="c5-text-link c5-all-clients" to="/portfolio#clientes">Conheça os clientes e seus mercados <ArrowRight size={17} /></Link>
           </div>
         </section>
         <section className="c5-section" id="solucoes">
@@ -173,7 +179,7 @@ export default function Index() {
                 Conheça o portfólio <ArrowRight size={17} />
               </Link>
             </div>
-            <WorkList />
+            <WorkList limit={3} />
           </div>
         </section>
         <section className="c5-section" id="casos">

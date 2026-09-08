@@ -28,6 +28,7 @@ export const cod5_replace_canonical_url = (html: string, pathname: string) => {
 export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(context.request.url);
   const { pathname } = url;
+  let redirectLookupFailed = false;
 
   if (
     pathname.startsWith("/api/") ||
@@ -37,20 +38,30 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     return context.next();
   }
 
-  const redirect = await getRedirectBySourcePath(context.env, pathname);
-  if (redirect) {
-    const targetPath = String((redirect as Record<string, unknown>).target_path ?? "/blog");
-    const statusCode = Number((redirect as Record<string, unknown>).status_code ?? 301);
-    return Response.redirect(new URL(targetPath, url).toString(), statusCode);
+  try {
+    const redirect = await getRedirectBySourcePath(context.env, pathname);
+    if (redirect) {
+      const targetPath = String(
+        (redirect as Record<string, unknown>).target_path ?? "/blog",
+      );
+      const statusCode = Number((redirect as Record<string, unknown>).status_code ?? 301);
+      return Response.redirect(new URL(targetPath, url).toString(), statusCode);
+    }
+  } catch {
+    console.warn("Redirect lookup failed; continuing without rewrite.");
+    redirectLookupFailed = true;
   }
 
   const response = await context.next();
   const contentType = response.headers.get("content-type") ?? "";
+  const headers = new Headers(response.headers);
+  if (redirectLookupFailed) headers.set("cache-control", "no-store");
   if (!response.ok || !contentType.includes("text/html")) {
-    return response;
+    return redirectLookupFailed
+      ? new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+      : response;
   }
 
-  const headers = new Headers(response.headers);
   headers.delete("content-length");
   return new Response(cod5_replace_canonical_url(await response.text(), pathname), {
     status: response.status,

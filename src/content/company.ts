@@ -1,6 +1,8 @@
 export const capabilities = [
   {
     id: "presenca",
+    image: "/assets/codigo5/cases/rbike-2026-09.jpg",
+    caption: "Rbike Shop MT · catálogo digital integrado ao ERP",
     title: "Sites e comércio digital",
     summary: "Da primeira apresentação da empresa à compra online.",
     detail:
@@ -9,10 +11,14 @@ export const capabilities = [
       "Sites e landing pages",
       "E-commerce e catálogos",
       "WordPress e desenvolvimento sob medida",
+      "Catálogos integrados a ERP, preço e estoque",
+      "Painéis para gestão de conteúdo",
     ],
   },
   {
     id: "audiencia",
+    image: "/assets/codigo5/cases/flechatur-2026-09.jpg",
+    caption: "FlechaTur · presença local e estrutura de conteúdo",
     title: "SEO, conteúdo e audiência",
     summary: "Sua experiência precisa ser encontrada.",
     detail:
@@ -21,10 +27,13 @@ export const capabilities = [
       "SEO técnico e local",
       "Conteúdo e planejamento editorial",
       "Google Analytics e Search Console",
+      "Relatórios de audiência e desempenho",
     ],
   },
   {
     id: "editorial",
+    image: "/assets/codigo5/cases/portal163-2026-09.jpg",
+    caption: "Portal 163 · conteúdo, audiência e mídia regional",
     title: "Portais e operação de mídia",
     summary: "Estrutura para quem publica todos os dias.",
     detail:
@@ -33,22 +42,31 @@ export const capabilities = [
       "Portais e fluxos de publicação",
       "Vídeo e distribuição de conteúdo",
       "AdOps e comprovação de campanhas",
+      "Captação de pautas e adaptação por portal",
+      "Tratamento de mídia e integração com CMS",
     ],
   },
   {
     id: "sistemas",
+    image: "/assets/codigo5/cases/shop10-2026-09.jpg",
+    caption: "Shop10 · site com gestão de conteúdo integrada",
     title: "Sistemas, integrações e IA",
     summary: "Menos trabalho repetido entre uma ferramenta e outra.",
     detail:
-      "Painéis, sistemas internos e integrações entre site, atendimento e gestão. IA aplicada à produção e organização de conteúdo, transcrição e rotinas que precisam de revisão e acompanhamento.",
+      "Painéis e integrações entre site, atendimento e gestão. Organização de contatos, deduplicação de dados, relatórios e rotinas financeiras. IA aplicada à produção de conteúdo e transcrição, com revisão e acompanhamento.",
     items: [
       "Painéis e sistemas sob medida",
       "Integrações e automações de rotina",
       "WhatsApp, transcrição e IA aplicada",
+      "BI de contatos, deduplicação e relatórios",
+      "Painéis e automações de rotinas financeiras",
+      "Integrações com ERP e ferramentas de gestão",
     ],
   },
   {
     id: "operacao",
+    image: "/assets/codigo5/cases/cref17-2026-09.jpg",
+    caption: "CREF17/MT · presença institucional e continuidade",
     title: "Infraestrutura e continuidade",
     summary: "O trabalho continua depois da publicação.",
     detail:
@@ -57,6 +75,7 @@ export const capabilities = [
       "Hospedagem e migrações",
       "Manutenção, segurança e backups",
       "Monitoramento e suporte técnico",
+      "Servidores, containers e publicação de sistemas",
     ],
   },
 ];
@@ -68,15 +87,15 @@ export const markets = [
   },
   {
     title: "Saúde e bem-estar",
-    examples: "Clínica Petterle e Instituto Mario Cardi.",
+    examples: "Clínica Petterle, Instituto Mario Cardi e Titaniun Implantes.",
   },
   {
     title: "Varejo, serviços e agro",
-    examples: "Sonata Musical, PraticLar, Stilo Assessoria e Nobres Rações.",
+    examples: "Rbike Shop MT, Sonata Musical, PraticLar, Stilo Assessoria e Nobres Rações.",
   },
   {
     title: "Indústria e construção",
-    examples: "Axis Construções, Calcário Aliança e Usical.",
+    examples: "Shop10, Axis Construções, Calcário Aliança e Usical.",
   },
   {
     title: "Instituições e comunidades",
@@ -112,4 +131,12 @@ export const selectedWork = [
       "Informação institucional e serviços para profissionais de Educação Física.",
     url: "https://cref17.org.br",
   },
+  {"name": "Rbike Shop MT", "market": "Varejo e mobilidade", "image": "/assets/codigo5/cases/rbike-2026-09.jpg", "description": "Catálogo conectado ao ERP, com produtos, preços e estoque sincronizados.", "url": "https://rbikeshopmt.com.br"},
+  {"name": "Shop10", "market": "Materiais para construção", "image": "/assets/codigo5/cases/shop10-2026-09.jpg", "description": "Site institucional com catálogo, páginas por segmento e painel de conteúdo.", "url": "https://shop10mt.com.br"},
+  {"name": "FlechaTur", "market": "Turismo e fretamento", "image": "/assets/codigo5/cases/flechatur-2026-09.jpg", "description": "Apresentação da frota e dos serviços, com contato direto para orçamento.", "url": "https://flechaturmt.com.br"},
+  {"name": "Titaniun Implantes", "market": "Tecnologia para saúde", "image": "/assets/codigo5/cases/titaniun-2026-09.jpg", "description": "Site institucional para apresentar produtos, especialidades e canais de contato.", "url": "https://titaniunimplantes.com.br"},
+  {"name": "PraticLar", "market": "Indústria e varejo", "image": "/assets/codigo5/cases/praticlar-2026-09.jpg", "description": "Catálogo institucional de produtos de limpeza e seus usos.", "url": "https://praticlar.com.br"},
+  {"name": "Nobres Rações", "market": "Agronegócio", "image": "/assets/codigo5/cases/nobresracoes-2026-09.jpg", "description": "Produtos, nutrição animal e informação institucional organizados para o cliente.", "url": "https://nobresracoes.com.br"},
+  {"name": "Usical", "market": "Indústria e construção", "image": "/assets/codigo5/cases/usical-2026-09.jpg", "description": "Catálogo de soluções para construção, reforma e revenda.", "url": "https://usicalnbs.com.br"},
+  {"name": "Portal 163", "market": "Jornalismo regional", "image": "/assets/codigo5/cases/portal163-2026-09.jpg", "description": "Portal de notícias com operação editorial e presença comercial.", "url": "https://portal163.com.br"},
 ];

@@ -75,4 +75,13 @@ describe("site guardrails", () => {
       expect(offenders, `Pattern "${pattern}" should not appear in public files`).toHaveLength(0);
     }
   });
+
+  it("keeps legacy service hash redirects in static file routing rules", () => {
+    const redirects = fs.readFileSync(path.join(projectRoot, "public/_redirects"), "utf8");
+
+    expect(redirects).toContain("/servicos/seo-local/ /servicos#audiencia 301");
+    expect(redirects).toContain("/servicos/seo-local /servicos#audiencia 301");
+    expect(redirects).toContain("/suporte-wordpress/ /servicos#operacao 301");
+    expect(redirects).toContain("/suporte-wordpress /servicos#operacao 301");
+  });
 });

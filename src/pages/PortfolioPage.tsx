@@ -1,9 +1,17 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { WorkList, ContactBand } from "@/components/CompanySections";
 import { portfolioClients } from "@/content/siteContent";
 export default function PortfolioPage() {
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (hash !== "#clientes") return;
+    const frame = requestAnimationFrame(() => document.getElementById("clientes")?.scrollIntoView());
+    return () => cancelAnimationFrame(frame);
+  }, [hash]);
   return (
     <div className="c5-site">
       <Seo

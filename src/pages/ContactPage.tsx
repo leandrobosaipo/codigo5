@@ -17,12 +17,10 @@ export default function ContactPage() {
           <div className="c5-container">
             <span className="c5-label">Contato</span>
             <h1>
-              Vamos entender
-              <br />o seu próximo passo.
+              Vamos conversar sobre o seu projeto
             </h1>
             <p>
-              Um projeto novo, uma melhoria ou uma operação que precisa de
-              cuidado. Conte o que está acontecendo na sua empresa.
+              Envie o nome da empresa e conte o que precisa: criar um site, melhorar o atual, montar uma loja ou organizar uma tarefa da equipe.
             </p>
           </div>
         </section>

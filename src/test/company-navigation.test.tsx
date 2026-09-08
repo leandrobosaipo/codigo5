@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import PortfolioPage from "@/pages/PortfolioPage";
 import Navbar from "@/components/Navbar";
 import { ServiceList } from "@/components/CompanySections";
 import { capabilities } from "@/content/company";
@@ -46,5 +47,18 @@ describe("company navigation", () => {
       expect(document.getElementById(service.id)).toHaveTextContent(
         service.detail,
       );
+  });
+});
+
+describe("portfolio filtering", () => {
+  it("filters projects by market and restores the complete collection", () => {
+    render(<MemoryRouter><PortfolioPage /></MemoryRouter>);
+    expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(33);
+    fireEvent.click(screen.getByRole("button", { name: "Saúde", exact: true }));
+    expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(2);
+    expect(screen.getByRole("button", { name: "Saúde", exact: true })).toHaveAttribute("aria-pressed", "true");
+    expect(document.getElementById("projetos")).not.toHaveTextContent("Roo Notícias");
+    fireEvent.click(screen.getByRole("button", { name: "Todos", exact: true }));
+    expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(33);
   });
 });

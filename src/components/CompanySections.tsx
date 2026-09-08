@@ -18,6 +18,7 @@ export function ServiceList({ expanded = false }: { expanded?: boolean }) {
       {capabilities.map((item) => (
         <article key={item.id} id={item.id} className="c5-service">
           <div>
+            {expanded && <span className="c5-service-audience">{item.audience}</span>}
             <h3>{item.title}</h3>
             <p>{expanded ? item.detail : item.summary}</p>
             {expanded && <ul>{item.items.map((text) => <li key={text}>{text}</li>)}</ul>}
@@ -40,10 +41,10 @@ export function ServiceList({ expanded = false }: { expanded?: boolean }) {
     </div>
   );
 }
-export function WorkList({ limit }: { limit?: number }) {
+export function WorkList({ limit, sector = "Todos" }: { limit?: number; sector?: string }) {
   return (
     <div className="c5-work-grid">
-      {selectedWork.slice(0, limit).map((work) => (
+      {selectedWork.filter((work) => sector === "Todos" || work.sector === sector).slice(0, limit).map((work) => (
         <a
           className="c5-work"
           href={work.url}
@@ -54,7 +55,7 @@ export function WorkList({ limit }: { limit?: number }) {
           <div className="c5-work-image">
             <img
               src={work.image}
-              alt={`Página do site ${work.name}`}
+              alt={`Imagem do projeto ${work.name}`}
               loading="lazy"
               width="720"
               height="480"
@@ -92,24 +93,22 @@ export function Method() {
         <div className="c5-section-heading">
           <span className="c5-label">Como trabalhamos</span>
           <h2>
-            Entender primeiro.
-            <br />
-            Construir com propósito.
+            Como o seu projeto sai do papel
           </h2>
         </div>
         <ol>
           {[
             [
-              "Conversa e diagnóstico",
-              "Entendemos o negócio, a rotina e o que precisa mudar. O ponto de partida pode ser um projeto novo ou uma estrutura que já existe.",
+              "Primeiro, conhecemos a sua empresa",
+              "Conversamos sobre o público, o que você vende e as dificuldades da rotina. Se já existe um site ou sistema, avaliamos o que pode ser aproveitado.",
             ],
             [
-              "Escopo e execução",
-              "Definimos prioridades, entregas e o caminho técnico. Design, conteúdo e desenvolvimento seguem a mesma direção.",
+              "Você sabe o que será entregue",
+              "Combinamos as páginas, os recursos, as responsabilidades e o prazo antes de começar. Você acompanha o projeto e participa das decisões que afetam o seu negócio.",
             ],
             [
-              "Publicação e evolução",
-              "Testamos, colocamos no ar e acompanhamos o funcionamento. Suporte e melhorias entram conforme o escopo combinado.",
+              "Acompanhamos a entrada no ar",
+              "Conferimos o funcionamento no computador e no celular, publicamos e orientamos sua equipe. A manutenção e as melhorias seguem o acompanhamento contratado.",
             ],
           ].map(([title, text]) => (
             <li key={title}>
@@ -129,13 +128,10 @@ export function ContactBand() {
         <div>
           <span className="c5-label">Vamos conversar</span>
           <h2>
-            O que o seu negócio
-            <br />
-            precisa resolver agora?
+            Conte o que você precisa fazer.
           </h2>
           <p>
-            Conte o momento da empresa. A gente ajuda a definir por onde
-            começar.
+            Pode ser um site novo, uma loja virtual ou uma tarefa que está tomando tempo demais. Fale diretamente com a Código5.
           </p>
         </div>
         <div className="c5-contact-actions">

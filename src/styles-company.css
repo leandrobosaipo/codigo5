@@ -1092,3 +1092,12 @@
     font-size: 27px;
   }
 }
+
+.c5-service-audience { display: block; color: #526477; font-size: 12px; margin-bottom: 12px; }
+
+.c5-portfolio-filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.c5-portfolio-filters button { border:1px solid #b9c7d3; border-radius:6px; padding:10px 16px; font-size:14px; background:#fff; color:#172d42; cursor:pointer; }
+.c5-portfolio-filters button[aria-pressed="true"] { background:#164cc7; border-color:#164cc7; color:#fff; }
+.c5-portfolio-filters button:focus-visible { outline:3px solid #d65c35; outline-offset:3px; }
+.c5-result-count { color:#526477; font-size:13px; margin-bottom:28px; }
+.c5-work-image img[src*="client-catalog/"] { object-fit:contain; object-position:center; padding:24px; box-shadow:none; }

@@ -35,30 +35,24 @@ export default function Index() {
           <div className="c5-container c5-hero-grid">
             <div className="c5-hero-copy">
               <span className="c5-label">
-                <i /> De Cuiabá, há mais de 15 anos
+                <i /> De Cuiabá · experiência de mais de 15 anos
               </span>
               <h1>
-                Seu negócio.
-                <br />
-                Nossa experiência.
-                <br />
-                <span>O próximo passo.</span>
+                Sua empresa bem apresentada <span>na internet.</span>
               </h1>
               <p>
-                Sites, sistemas e operação digital. Conectamos design, conteúdo
-                e tecnologia para a sua empresa se apresentar melhor e trabalhar
-                melhor.
+                Criamos sites, lojas e sistemas para quem tem uma empresa para cuidar. Da apresentação dos serviços ao pedido do cliente, organizamos o que precisa funcionar no seu dia a dia.
               </p>
               <div className="c5-hero-actions">
                 <Link className="c5-button" to="/servicos">
-                  Conheça o que fazemos <ArrowRight size={18} />
+                  Veja como podemos ajudar <ArrowRight size={18} />
                 </Link>
                 <Link className="c5-text-link" to="/portfolio">
-                  Veja os trabalhos <ArrowUpRight size={17} />
+                  Conheça os clientes <ArrowUpRight size={17} />
                 </Link>
               </div>
               <div className="c5-hero-note">
-                Da presença na web à automação do dia a dia.
+                Sites, conteúdo e suporte com atendimento direto.
               </div>
             </div>
             <div
@@ -66,7 +60,7 @@ export default function Index() {
               aria-label="Seleção de sites do portfólio Código5"
             >
               <div className="c5-showcase-top">
-                <span>Trabalho que já está no mundo</span>
+                <span>Projetos para empresas da região</span>
                 <span aria-hidden="true">↗</span>
               </div>
               <div className="c5-browser c5-browser-main">
@@ -99,7 +93,7 @@ export default function Index() {
                 />
               </div>
               <div className="c5-showcase-bottom">
-                <span>Design. Desenvolvimento. Continuidade.</span>
+                <span>Conheça quem já trabalha com a Código5.</span>
                 <Link to="/portfolio" aria-label="Ver portfólio completo">
                   <ArrowUpRight size={24} />
                 </Link>
@@ -148,18 +142,13 @@ export default function Index() {
             <div className="c5-section-heading">
               <span className="c5-label">O que fazemos</span>
               <h2>
-                Uma boa presença.
-                <br />
-                Uma operação
-                <br />
-                bem resolvida.
+                O que você precisa melhorar na sua empresa?
               </h2>
               <p>
-                O site pode ser o começo. Conteúdo, vendas, atendimento e gestão
-                precisam conversar com ele.
+                Um cliente que não encontra informação, um catálogo desatualizado, uma tarefa repetida todos os dias. É a partir dessas necessidades que o projeto começa.
               </p>
               <Link className="c5-text-link" to="/servicos">
-                Explore os serviços <ArrowRight size={17} />
+                Veja os serviços <ArrowRight size={17} />
               </Link>
             </div>
             <ServiceList />
@@ -171,15 +160,14 @@ export default function Index() {
               <div>
                 <span className="c5-label">Trabalhos selecionados</span>
                 <h2>
-                  Contextos diferentes.
-                  <br />O mesmo cuidado.
+                  Alguns dos nossos projetos
                 </h2>
               </div>
               <Link className="c5-text-link" to="/portfolio">
                 Conheça o portfólio <ArrowRight size={17} />
               </Link>
             </div>
-            <WorkList limit={3} />
+            <WorkList limit={6} />
           </div>
         </section>
         <section className="c5-section" id="casos">
@@ -188,9 +176,7 @@ export default function Index() {
               <div>
                 <span className="c5-label">Experiência de mercado</span>
                 <h2>
-                  Conhecer o negócio
-                  <br />
-                  muda a entrega.
+                  Experiência com empresas como a sua
                 </h2>
               </div>
               <p>
@@ -207,24 +193,15 @@ export default function Index() {
             <div>
               <span className="c5-label">A Código5, hoje e adiante</span>
               <h2>
-                A experiência da web.
-                <br />
-                As possibilidades
-                <br />
-                do que vem agora.
+                Quem cuida do site também conhece a sua rotina.
               </h2>
             </div>
             <div>
               <p>
-                São mais de 15 anos em projetos digitais. Nesse caminho, a
-                criação de sites passou a se conectar com conteúdo, comércio,
-                infraestrutura e operação diária.
+                A Código5 é liderada por Leandro Bosaipo, desenvolvedor web com mais de 15 anos de experiência. O trabalho com empresas de Cuiabá e de outras regiões reúne criação de sites, conteúdo e acompanhamento depois da publicação.
               </p>
               <p>
-                Hoje, avançamos em sistemas próprios, integrações e IA aplicada:
-                organizar pautas, transcrever áudio, preparar conteúdo e
-                acompanhar tarefas. Tecnologia para resolver trabalho de
-                verdade, com revisão e responsabilidade.
+                Hoje também conectamos os pedidos ao sistema da loja, ajudamos portais a publicar e distribuímos melhor as informações que a equipe precisa. A tecnologia muda, mas a necessidade é concreta: fazer o trabalho andar.
               </p>
               <Link className="c5-text-link" to="/sobre">
                 Conheça nossa trajetória <ArrowRight size={17} />
@@ -238,7 +215,7 @@ export default function Index() {
             <div className="c5-section-heading c5-heading-row">
               <div>
                 <span className="c5-label">Do nosso blog</span>
-                <h2>Ideias para o seu próximo passo.</h2>
+                <h2>Dúvidas sobre sites e negócios na internet</h2>
               </div>
               <Link className="c5-text-link" to="/blog">
                 Todos os artigos <ArrowRight size={17} />
@@ -246,7 +223,7 @@ export default function Index() {
             </div>
             <div className="c5-articles">
               {featuredPosts.slice(0, 3).map((post) => (
-                <Link to={`/blog/${post.slug}`} key={post.id}>
+                <Link to={`/blog/${post.slug}`} key={post.slug}>
                   {post.image && (
                     <img
                       src={post.image}

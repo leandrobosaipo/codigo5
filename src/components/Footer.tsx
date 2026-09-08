@@ -14,8 +14,8 @@ export default function Footer() {
             />
           </Link>
           <p>
-            Tecnologia, comunicação
-            <br />e trabalho bem-feito.
+            Sites, sistemas e suporte
+            <br />para a sua empresa.
           </p>
           <nav aria-label="Navegação do rodapé">
             <Link to="/servicos">Serviços</Link>

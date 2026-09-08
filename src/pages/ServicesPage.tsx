@@ -16,14 +16,10 @@ export default function ServicesPage() {
           <div className="c5-container">
             <span className="c5-label">Serviços</span>
             <h1>
-              Do site à rotina
-              <br />
-              da sua empresa.
+              Como podemos ajudar sua empresa
             </h1>
             <p>
-              Um projeto bem resolvido começa pela necessidade do negócio.
-              Reunimos as competências para construir, conectar e manter a sua
-              operação digital.
+              Você pode precisar apresentar melhor um serviço, receber pedidos pela internet ou organizar o trabalho da equipe. Veja o que fazemos em cada uma dessas situações.
             </p>
           </div>
         </section>

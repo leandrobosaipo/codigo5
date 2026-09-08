@@ -145,6 +145,15 @@ export const clients: Client[] = [
 ];
 
 export const portfolioClients: Client[] = [
+{"name": "Domazi Seguros", "segment": "Seguros", "site": "domaziseguros.com.br", "logo": "", "surface": "light"},
+{"name": "Glaucia Nadaf", "segment": "Arquitetura", "site": "glaucianadaf.com.br", "logo": "", "surface": "light"},
+{"name": "Energia Solidária MT", "segment": "Energia", "site": "energiasolidariamt.com.br", "logo": "", "surface": "light"},
+{"name": "Clique Sim Notícias", "segment": "Jornalismo digital", "site": "cliquesimnoticias.com.br", "logo": "", "surface": "light"},
+{"name": "Spatium", "segment": "Comunicação", "site": "spatium.top", "logo": "", "surface": "light"},
+{"name": "Maurício Magalhães", "segment": "Advocacia", "site": "mauriciomagalhaes.adv.br", "logo": "", "surface": "light"},
+{"name": "Plastibras", "segment": "Indústria", "site": "plastibras.ind.br", "logo": "/assets/codigo5/client-catalog/plastibras.jpg", "surface": "light"},
+{"name": "Vini Ortega", "segment": "Esporte e patrocínio", "site": "viniortega.codigo5.com.br", "logo": "", "surface": "light"},
+{"name": "Veloztrix", "segment": "Tecnologia e serviços", "logo": "", "surface": "light"},
   { name: "Shop10", segment: "Materiais para construção", site: "shop10mt.com.br", logo: "/assets/codigo5/clients/shop10.webp", surface: "light" },
   { name: "Rbike Shop MT", segment: "Bicicletas e mobilidade elétrica", site: "rbikeshopmt.com.br", logo: "/assets/codigo5/client-catalog/rbike.webp", surface: "dark" },
   { name: "Titaniun Implantes", segment: "Tecnologia e produtos para saúde", site: "titaniunimplantes.com.br", logo: "/assets/codigo5/client-catalog/titaniun.png", surface: "dark" },

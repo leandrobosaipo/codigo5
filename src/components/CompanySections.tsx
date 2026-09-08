@@ -44,10 +44,12 @@ export function ServiceList({ expanded = false }: { expanded?: boolean }) {
 export function WorkList({ limit, sector = "Todos" }: { limit?: number; sector?: string }) {
   return (
     <div className="c5-work-grid">
-      {selectedWork.filter((work) => sector === "Todos" || work.sector === sector).slice(0, limit).map((work) => (
-        <a
+      {selectedWork.filter((work) => sector === "Todos" || work.sector === sector).slice(0, limit).map((work) => {
+        const Tag = work.url ? "a" : "article";
+        return (
+        <Tag
           className="c5-work"
-          href={work.url}
+          href={work.url || undefined}
           key={work.name}
           target="_blank"
           rel="noopener noreferrer"
@@ -66,11 +68,11 @@ export function WorkList({ limit, sector = "Todos" }: { limit?: number; sector?:
               <span className="c5-label">{work.market}</span>
               <h3>{work.name}</h3>
             </div>
-            <ArrowUpRight size={23} />
+            {work.url && <ArrowUpRight size={23} />}
           </div>
           <p>{work.description}</p>
-        </a>
-      ))}
+        </Tag>
+      );})}
     </div>
   );
 }

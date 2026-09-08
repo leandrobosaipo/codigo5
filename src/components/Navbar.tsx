@@ -3,6 +3,7 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { contact } from "@/content/siteContent";
 const links = [
+  ["Automação com IA", "/automacao-com-ia"],
   ["Serviços", "/servicos"],
   ["Trabalhos", "/portfolio"],
   ["A Código5", "/sobre"],

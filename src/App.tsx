@@ -7,6 +7,7 @@ import BlogCategoryPage from "./pages/BlogCategoryPage.tsx";
 import BlogIndex from "./pages/BlogIndex.tsx";
 import BlogPostPage from "./pages/BlogPostPage.tsx";
 import BlogTagPage from "./pages/BlogTagPage.tsx";
+const AutomationPage = lazy(() => import("./pages/AutomationPage.tsx"));
 const AboutPage = lazy(() => import("./pages/AboutPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
 const PortfolioPage = lazy(() => import("./pages/PortfolioPage.tsx"));
@@ -29,6 +30,7 @@ const App = () => (
         <Route path="/contato" element={<ContactPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/politica-de-privacidade" element={<PrivacyPage />} />
+        <Route path="/automacao-com-ia" element={<AutomationPage />} />
         <Route path="/servicos" element={<ServicesPage />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/categoria/:slug" element={<BlogCategoryPage />} />

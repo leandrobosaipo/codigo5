@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import PortfolioPage from "@/pages/PortfolioPage";
 import Navbar from "@/components/Navbar";
 import { ServiceList } from "@/components/CompanySections";
-import { capabilities } from "@/content/company";
+import { capabilities, selectedWork } from "@/content/company";
 afterEach(cleanup);
 describe("company navigation", () => {
   it("opens the mobile menu, closes on Escape and after following a route", () => {
@@ -53,12 +53,12 @@ describe("company navigation", () => {
 describe("portfolio filtering", () => {
   it("filters projects by market and restores the complete collection", () => {
     render(<MemoryRouter><PortfolioPage /></MemoryRouter>);
-    expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(33);
-    fireEvent.click(screen.getByRole("button", { name: "Saúde", exact: true }));
+    expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(selectedWork.length);
+    fireEvent.click(screen.getByRole("button", { name: "Saúde" }));
     expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(2);
-    expect(screen.getByRole("button", { name: "Saúde", exact: true })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "Saúde" })).toHaveAttribute("aria-pressed", "true");
     expect(document.getElementById("projetos")).not.toHaveTextContent("Roo Notícias");
-    fireEvent.click(screen.getByRole("button", { name: "Todos", exact: true }));
-    expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(33);
+    fireEvent.click(screen.getByRole("button", { name: "Todos" }));
+    expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(selectedWork.length);
   });
 });

@@ -19,6 +19,7 @@ const staticRoutes = [
   { path: "/portfolio" },
   { path: "/politica-de-privacidade" },
   { path: "/servicos" },
+  { path: "/automacao-com-ia" },
   { path: "/blog" },
 ];
 

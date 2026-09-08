@@ -51,11 +51,11 @@ export default function AboutPage() {
         </section>
         <section className="c5-evolution">
           <div className="c5-container c5-split">
-            <div><span className="c5-label">O trabalho que estamos ampliando</span><h2>Conectar o site ao que acontece dentro da empresa</h2></div>
+            <div><span className="c5-label">O trabalho que estamos ampliando</span><h2>Dos sites às automações que acompanham o trabalho</h2></div>
             <div>
-              <p>Estamos ampliando os sistemas e as automações que aproximam vendas, atendimento, conteúdo e gestão. Um cadastro pode alimentar mais de uma ferramenta. Um pedido pode chegar organizado à equipe. Um áudio pode virar texto para revisão.</p>
+              <p>Sites, lojas e aplicativos construíram a nossa experiência. A frente que estamos ampliando agora é a automação com IA: responder contatos, acompanhar agendas, pesquisar fontes e preparar conteúdo. O conhecimento da rotina dos clientes orienta o que precisa ser conectado.</p>
               <p>A inteligência artificial já participa de tarefas de conteúdo e transcrição. O critério é ter uma função definida, conferir a saída e acompanhar o uso. A experiência com os sites continua sendo a base para escolher o que vale a pena construir.</p>
-              <Link className="c5-text-link" to="/servicos">Veja como isso pode ajudar sua empresa →</Link>
+              <Link className="c5-text-link" to="/automacao-com-ia">Veja como isso pode ajudar sua empresa →</Link>
             </div>
           </div>
         </section>

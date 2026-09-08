@@ -18,7 +18,7 @@ export default function Index() {
   return (
     <div className="c5-site">
       <Seo
-        title="Código5 | Sites, sistemas e operação digital em Cuiabá"
+        title="Código5 | Automação com IA e criação de sites em Cuiabá"
         description="Mais de 15 anos conectando design, desenvolvimento e operação. Sites, e-commerce, SEO, portais, sistemas e automações com IA. Conheça a Código5."
         path="/"
         schema={{
@@ -38,14 +38,14 @@ export default function Index() {
                 <i /> De Cuiabá · experiência de mais de 15 anos
               </span>
               <h1>
-                Sua empresa bem apresentada <span>na internet.</span>
+                Sites que apresentam. <span>Automações que ajudam a atender.</span>
               </h1>
               <p>
-                Criamos sites, lojas e sistemas para quem tem uma empresa para cuidar. Da apresentação dos serviços ao pedido do cliente, organizamos o que precisa funcionar no seu dia a dia.
+                Criamos sites, lojas e automações com IA para empresas. Do primeiro contato à agenda, da pesquisa à publicação: conectamos as ferramentas para reduzir o trabalho repetido e cuidar melhor de cada cliente.
               </p>
               <div className="c5-hero-actions">
-                <Link className="c5-button" to="/servicos">
-                  Veja como podemos ajudar <ArrowRight size={18} />
+                <Link className="c5-button" to="/automacao-com-ia">
+                  Conheça as automações <ArrowRight size={18} />
                 </Link>
                 <Link className="c5-text-link" to="/portfolio">
                   Conheça os clientes <ArrowUpRight size={17} />
@@ -137,6 +137,7 @@ export default function Index() {
             <Link className="c5-text-link c5-all-clients" to="/portfolio#clientes">Conheça os clientes e seus mercados <ArrowRight size={17} /></Link>
           </div>
         </section>
+        <section className="c5-section c5-tinted"><div className="c5-container c5-automation-hero"><div className="c5-section-heading"><span className="c5-label">A próxima etapa do seu negócio</span><h2>O cliente não precisa esperar você terminar o atendimento</h2><p>Enquanto você trabalha, a automação pode responder dúvidas, organizar pedidos e ajudar a encontrar um horário. Para barbearias, oficinas, clínicas e empresas que precisam dar atenção a cada contato.</p><Link className="c5-button" to="/automacao-com-ia">Ver como funciona</Link></div><figure><img src="/assets/codigo5/automacoes/atendimento-humanizado.png" alt="Atendimento próximo e natural em uma barbearia" loading="lazy" width="1536" height="1024" /><figcaption>Imagem ilustrativa criada com IA.</figcaption></figure></div></section>
         <section className="c5-section" id="solucoes">
           <div className="c5-container c5-split">
             <div className="c5-section-heading">

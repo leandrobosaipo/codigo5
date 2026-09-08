@@ -370,5 +370,37 @@ export const selectedWork = [
     "image": "/assets/codigo5/cases/viniortega.codigo5.com.br-2026-09.jpg",
     "description": "Trajetória do atleta, resultados e apresentação do projeto para patrocinadores.",
     "url": "https://viniortega.codigo5.com.br"
+  },
+  {
+    "name": "AG Consultoria",
+    "market": "Consultoria empresarial",
+    "sector": "Serviços",
+    "image": "/assets/codigo5/cases/ag-consultoria.png",
+    "url": "https://agconsultoria.codigo5.com.br",
+    "description": "Site institucional para apresentar as consultorias, a experiência da equipe e facilitar o primeiro contato."
+  },
+  {
+    "name": "Veloztrix",
+    "market": "Mudanças e transportes",
+    "sector": "Serviços",
+    "image": "/assets/codigo5/client-catalog/veloztrix-logo.png",
+    "url": "",
+    "description": "Site, migração de hospedagem e formulário de contato. Projeto do acervo; domínio indisponível na última conferência."
+  },
+  {
+    "name": "Sonata Musical",
+    "market": "Instrumentos musicais",
+    "sector": "Comércio e indústria",
+    "image": "/assets/codigo5/cases/sonatamusical-home.png",
+    "url": "",
+    "description": "Loja virtual de instrumentos musicais. Registro do projeto no acervo da Código5."
+  },
+  {
+    "name": "Stilo Assessoria",
+    "market": "Serviços financeiros",
+    "sector": "Serviços",
+    "image": "/assets/codigo5/clients-extended/stiloassessoria.webp",
+    "url": "",
+    "description": "Presença digital e suporte. Projeto do acervo da Código5."
   }
 ];

@@ -35,8 +35,9 @@ describe("public content during database outage", () => {
     const xml = await response.text();
     expect(response.status).toBe(200);
     expect(xml).toContain("<loc>https://codigo5.com.br/servicos</loc>");
+    expect(xml).toContain("<loc>https://codigo5.com.br/automacao-com-ia</loc>");
     expect(xml).not.toContain("/blog/");
-    expect(xml.match(/<loc>/g)).toHaveLength(7);
+    expect(xml.match(/<loc>/g)).toHaveLength(8);
   });
 });
 

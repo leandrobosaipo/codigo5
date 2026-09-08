@@ -18,6 +18,7 @@ export default function Footer() {
             <br />para a sua empresa.
           </p>
           <nav aria-label="Navegação do rodapé">
+            <Link to="/automacao-com-ia">Automação com IA</Link>
             <Link to="/servicos">Serviços</Link>
             <Link to="/portfolio">Trabalhos</Link>
             <Link to="/sobre">A Código5</Link>

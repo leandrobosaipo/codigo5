@@ -550,6 +550,7 @@
 .c5-footer-top nav {
   margin-left: auto;
   display: flex;
+  flex-wrap: wrap;
   gap: 25px;
   font-size: 12px;
 }
@@ -1100,4 +1101,25 @@
 .c5-portfolio-filters button[aria-pressed="true"] { background:#164cc7; border-color:#164cc7; color:#fff; }
 .c5-portfolio-filters button:focus-visible { outline:3px solid #d65c35; outline-offset:3px; }
 .c5-result-count { color:#526477; font-size:13px; margin-bottom:28px; }
-.c5-work-image img[src*="client-catalog/"] { object-fit:contain; object-position:center; padding:24px; box-shadow:none; }
+.c5-work-image img[src*="client-catalog/"], .c5-work-image img[src*="clients-extended/"] { object-fit:contain; object-position:center; padding:24px; box-shadow:none; }
+
+.c5-automation-hero { display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center; }
+.c5-automation-hero h1 { font-size:clamp(36px,4vw,60px); }
+.c5-automation-hero figure { margin:0; }
+.c5-automation-hero img { width:100%; height:auto; border-radius:8px; }
+.c5-automation-hero figcaption { font-size:11px; color:#526477; margin-top:8px; }
+.c5-automation-hero .c5-button { margin-top:24px; }
+.c5-automation-solutions { display:grid; grid-template-columns:1fr 1fr; gap:40px 60px; margin-top:40px; }
+.c5-automation-solutions article { border-top:1px solid #dce3eb; padding-top:28px; scroll-margin-top:30px; }
+.c5-automation-solutions h3 { font-size:25px; line-height:1.25; margin-bottom:16px; }
+.c5-automation-solutions p, .c5-automation-solutions li, .c5-faq p { line-height:1.8; color:#526477; }
+.c5-automation-solutions ul { list-style:disc; padding-left:20px; margin-top:18px; }
+.c5-automation-callout { padding:32px; background:#f3f6fa; margin-bottom:40px; border-radius:8px; }
+.c5-automation-callout h2 { font-size:30px; }.c5-automation-callout p { margin:16px 0; }
+.c5-faq details { border-bottom:1px solid #dce3eb; padding:22px 0; }.c5-faq summary { cursor:pointer; font-weight:600; font-size:18px; }.c5-faq p { margin-top:16px; max-width:850px; }
+@media(max-width:900px) { .c5-automation-hero { grid-template-columns:1fr; gap:32px; } }
+@media(max-width:600px) { .c5-automation-solutions { grid-template-columns:1fr; } }
+
+.c5-automation-gallery h3 { font-size:23px; margin-top:20px; }.c5-automation-gallery small { display:block; color:#657586; font-size:11px; margin-top:10px; }
+
+.c5-client-directory .is-muted { background:#9aaaba; color:#172d42; }.c5-client-directory .is-muted span { color:#172d42; }

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
@@ -25,6 +26,7 @@ export default function ServicesPage() {
         </section>
         <section className="c5-section">
           <div className="c5-container c5-services-expanded">
+            <div className="c5-automation-callout"><h2>Atendimento, agenda e conteúdo com IA</h2><p>Conheça as automações para responder clientes, organizar horários, pesquisar fontes e preparar conteúdo para publicação.</p><Link className="c5-button" to="/automacao-com-ia">Conhecer as automações</Link></div>
             <ServiceList expanded />
           </div>
         </section>

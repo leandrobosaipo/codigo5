@@ -29,3 +29,9 @@ Capturas atualizadas em 08/09/2026 de Clínica Petterle, CREF17/MT e Roo Notíci
 A revisão pré-publicação identificou uma falha anterior de autenticação nas APIs da Mini App. Foi adicionada validação de dados assinados do Telegram nas rotas `/api/bot/*`, preservando o GET público de posts. O identificador recebido deve coincidir com o usuário assinado e autorizado. Testes cobrem acesso público, acesso anônimo, assinatura inválida, divergência de usuário e acesso válido.
 
 A leitura de HTML de artigos agora usa DOMPurify. Essa é a única dependência nova da repaginação, justificada pela filtragem de HTML não confiável; preserva texto, links e imagens e remove código executável. O banco e os artigos existentes não são reescritos.
+
+## Limite D1 observado após a publicação
+
+A validação em produção em 08/09/2026 encontrou erro explícito do provedor: limite diário de leituras do plano gratuito D1 atingido. O health anterior executava `SELECT 1` e retornava sucesso sem ler tabelas; foi corrigido para refletir o acesso real ao conteúdo.
+
+Durante indisponibilidade de leitura, a API pública serve o acervo estático já incluído no build, identificado por `source: static-fallback`, sem cache persistente. O sitemap limita-se às sete rotas institucionais, pois não pode confirmar redirects de artigos nesse período. Quando o banco volta a responder, o conteúdo dinâmico e o sitemap completo voltam a ser consultados automaticamente. A edição permanece dependente do banco. Nenhum upgrade de plano nem alteração de dados foi feito.

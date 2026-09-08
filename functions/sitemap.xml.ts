@@ -13,7 +13,7 @@ type StaticBlogPost = {
 const SITE_URL = "https://codigo5.com.br";
 
 const staticRoutes = [
-  { path: "/", lastmod: "2026-04-14" },
+  { path: "/", lastmod: "2026-09-08" },
   { path: "/sobre" },
   { path: "/contato" },
   { path: "/portfolio" },
@@ -37,11 +37,30 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
 
   staticPosts.forEach((post) => {
     post.categories.forEach((category) => {
-      if (category.slug && category.slug !== "blog") staticCategories.add(category.slug);
+      if (category.slug && category.slug !== "blog")
+        staticCategories.add(category.slug);
     });
   });
 
-  const dynamicRows = await listPublishedPosts(env);
+  let dynamicRows: Record<string, unknown>[];
+  try {
+    dynamicRows = await listPublishedPosts(env);
+  } catch {
+    // Do not advertise article URLs when their redirects cannot be verified.
+    console.warn(
+      "Sitemap database unavailable; serving institutional routes only.",
+    );
+    return new Response(
+      `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${staticRoutes.map(({ path }) => `<url><loc>${SITE_URL}${path}</loc></url>`).join("")}</urlset>`,
+      {
+        headers: {
+          "content-type": "application/xml; charset=utf-8",
+          "cache-control": "no-store",
+          "x-codigo5-content-source": "static-fallback",
+        },
+      },
+    );
+  }
   const dynamicSlugs = new Set<string>();
   const dynamicDates = new Map<string, string>();
 
@@ -66,7 +85,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
       loc: `${SITE_URL}${path}`,
       lastmod,
     })),
-    ...Array.from(staticCategories).map((slug) => ({ loc: `${SITE_URL}/blog/categoria/${slug}` })),
+    ...Array.from(staticCategories).map((slug) => ({
+      loc: `${SITE_URL}/blog/categoria/${slug}`,
+    })),
     ...staticPosts.map((post) => ({
       loc: `${SITE_URL}/blog/${post.slug}`,
       lastmod: post.modified ?? post.date,
@@ -77,14 +98,20 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
     })),
   ];
 
-  const deduped = Array.from(new Map(urls.map((item) => [item.loc, item])).values());
+  const deduped = Array.from(
+    new Map(urls.map((item) => [item.loc, item])).values(),
+  );
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${deduped
   .map(
     (item) => `  <url>
-    <loc>${escapeXml(item.loc)}</loc>${item.lastmod ? `
-    <lastmod>${escapeXml(item.lastmod)}</lastmod>` : ""}
+    <loc>${escapeXml(item.loc)}</loc>${
+      item.lastmod
+        ? `
+    <lastmod>${escapeXml(item.lastmod)}</lastmod>`
+        : ""
+    }
   </url>`,
   )
   .join("\n")}

@@ -1,0 +1,20 @@
+name = "codigo5-web"
+compatibility_date = "2026-04-14"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "BOT_DB"
+database_name = "codigo5-bot"
+database_id = "3ade0339-6d22-4a4a-9456-a7bf50d482bb"
+
+[[kv_namespaces]]
+binding = "BOT_SESSIONS"
+id = "9c9ede60233744eea735e3f0f71d16e0"
+
+[vars]
+BOT_APP_NAME = "Código5 Bot Editorial"
+BOT_DEFAULT_TIMEZONE = "America/Cuiaba"
+TELEGRAM_MINI_APP_URL = "https://codigo5.com.br/telegram-mini-app"
+ADMIN_ALLOWED_EMAILS = "leandro@codigo5.com.br"
+ADMIN_PANEL_URL = "https://codigo5.com.br/admin/editorial"
+DO_SPACES_UPLOAD_PREFIX = "site-assets/telegram-bot"

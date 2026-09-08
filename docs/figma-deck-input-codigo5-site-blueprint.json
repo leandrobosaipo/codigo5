@@ -1,0 +1,20 @@
+{
+  "title": "Código5 Site Blueprint Figma Ready",
+  "description": "Blueprint visual do site da Código5 para designer e time de produto, com foco em site institucional e editorial premium para uma empresa brasileira de tecnologia aplicada. Público: fundador, designer e implementador frontend. Estilo e tom: tech startup bold com base editorial premium, alto contraste, tipografia forte, grids modulares, menos texto, mais prova visual real. Incluir home, páginas internas, portfólio, blog hub, artigo e páginas utilitárias, além de regras de design system, tokens, componentes, distribuição de prova social e uso de assets reais.",
+  "objectives": [
+    "Consolidar a direção visual do site público completo da Código5 em um artefato editável no Figma.",
+    "Definir um mini design system com tokens, componentes e variantes suficientes para desenhar home, internas e blog sem novas decisões estruturais.",
+    "Estabelecer templates de página com ordem de seções, função de cada bloco, uso de assets e budget de copy.",
+    "Distribuir prova social e screenshots de cases reais de forma coerente entre home, portfólio, internas e blog."
+  ],
+  "templateQuery": {
+    "palette": ["dark", "accent", "neutral"],
+    "style": ["modern", "bold", "editorial", "professional"],
+    "useCase": ["design_spec", "design_review", "moodboard"]
+  },
+  "theme": {
+    "palette": ["#091321", "#0D1B2F", "#67E8F9", "#F3F7FD", "#A3E635", "#FF8A5B"],
+    "paletteDescription": "navy tecnológico profundo com cyan elétrico, lime de prova e laranja quente de acento comercial"
+  },
+  "userIntent": "Criar um blueprint visual completo do site da Código5 em formato Figma-ready, com direção tech startup bold, para orientar o desenho da home, internas, portfólio, blog e design system."
+}

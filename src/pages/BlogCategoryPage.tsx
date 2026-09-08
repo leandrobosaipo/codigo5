@@ -1,107 +1,96 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import BlogArchiveCard from "@/components/BlogArchiveCard";
+import BlogCollectionHero from "@/components/BlogCollectionHero";
 import BlogSidebar from "@/components/BlogSidebar";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
 import { getCategoryBySlug, getPostsByCategory } from "@/content/blog";
+import { useRuntimeBlog } from "@/hooks/use-runtime-blog";
 import { SITE_URL } from "@/lib/site";
 import NotFound from "./NotFound";
 
 const BlogCategoryPage = () => {
   const { slug } = useParams();
-  const category = getCategoryBySlug(slug);
+  const { categories, posts: allPosts, recentPosts, tags, ready } = useRuntimeBlog();
+  const category = getCategoryBySlug(slug, categories);
+  const categoryName = category?.name ?? "Categoria";
+  const categorySlug = category?.slug ?? slug ?? "";
 
-  if (!category) {
+  if (ready && !category) {
     return <NotFound />;
   }
 
-  const posts = getPostsByCategory(slug);
+  const posts = getPostsByCategory(slug, allPosts);
 
   return (
-    <>
+    <div className="c5-site c5-blog-collection">
       <Seo
-        title={`${category.name} | Blog Código5 Web`}
-        description={`Noticias e artigos da Código5 sobre ${category.name}.`}
-        path={`/blog/categoria/${category.slug}`}
+        title={`${categoryName} | Blog Código5 Web`}
+        description={`Noticias e artigos da Código5 sobre ${categoryName}.`}
+        path={`/blog/categoria/${categorySlug}`}
         type="website"
-        keywords={`${category.name}, blog codigo5, ${category.name} cuiaba, seo de conteudo`}
+        keywords={`${categoryName}, blog codigo5, ${categoryName} cuiaba, seo de conteudo`}
         schema={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: `${category.name} | Blog Código5 Web`,
-          description: `Publicacoes da categoria ${category.name} no blog da Código5.`,
-          url: `${SITE_URL}/blog/categoria/${category.slug}`,
+          name: `${categoryName} | Blog Código5 Web`,
+          description: `Publicacoes da categoria ${categoryName} no blog da Código5.`,
+          url: `${SITE_URL}/blog/categoria/${categorySlug}`,
         }}
       />
       <Navbar />
-      <main id="conteudo" className="pt-24">
-        <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
-          <div className="container">
-            <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Categoria</p>
-                <nav aria-label="Breadcrumb" className="mt-6 text-sm text-muted-foreground">
-                  <Link to="/blog" className="transition hover:text-primary">
-                    Blog
-                  </Link>{" "}
-                  / <span>{category.name}</span>
-                </nav>
-                <h1 className="mt-4 text-balance font-display text-5xl font-bold leading-[0.95] text-foreground sm:text-6xl">
-                  {category.name}
-                </h1>
-                <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
-                  {posts.length} publicacoes reunidas para quem quer acompanhar esse assunto com mais contexto.
-                </p>
-              </div>
-
-              <div className="rounded-[30px] border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.22)] backdrop-blur">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
-                  Nesta colecao
-                </p>
-                <p className="mt-4 text-base leading-7 text-foreground/80">
-                  Aqui voce encontra conteudo da Código5 sobre <strong>{category.name}</strong>,
-                  com leitura mais direta, repertorio de mercado e caminhos para continuar navegando pelo blog.
-                </p>
-              </div>
+      <main id="conteudo" >
+        <BlogCollectionHero
+          kicker="Categoria"
+          title={categoryName}
+          lead={`${posts.length} artigos sobre este assunto.`}
+          crumb={categoryName}
+          stats={[
+            { value: String(posts.length), label: "artigos nesta coleção" },
+            { value: "Categoria", label: "recorte editorial ativo" },
+            { value: "Blog", label: "navegação conectada ao acervo" },
+          ]}
+          visual={posts[0]?.image ? (
+            <div className="overflow-hidden rounded-[20px] border border-white/10">
+              <img src={posts[0].image} alt="" aria-hidden="true" className="h-[180px] w-full object-cover sm:h-[220px]" />
             </div>
-          </div>
-        </section>
-        <section className="py-16">
+          ) : undefined}
+          aside={(
+            <p>
+              Esta coleção organiza <strong>{categoryName}</strong> como trilha editorial curta e direta.
+            </p>
+          )}
+        />
+
+        <section className="bg-[linear-gradient(180deg,#eef4ff_0%,#f8fbff_100%)] py-16">
           <div className="container grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
-            <div className="grid gap-8 lg:grid-cols-2">
+            <div className="blog-archive-grid">
               {posts.map((post) => (
-                <article
+                <BlogArchiveCard
                   key={post.slug}
-                  className="overflow-hidden rounded-[32px] border border-border bg-card shadow-[0_24px_70px_-54px_rgba(30,25,20,0.35)]"
-                >
-                  <Link to={`/blog/${post.slug}`} className="block aspect-[16/10] overflow-hidden bg-muted">
-                    <img
-                      src={post.image ?? "/assets/codigo5/blog/metodologia.webp"}
-                      alt={post.title}
-                      className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
-                    />
-                  </Link>
-                  <div className="space-y-4 p-8">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                      {new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
-                        new Date(post.date),
-                      )}
-                    </p>
-                    <h2 className="text-balance font-display text-3xl font-semibold leading-tight text-foreground">
-                      <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-                    </h2>
-                    <p className="line-clamp-3 text-base leading-7 text-muted-foreground">{post.excerpt}</p>
-                  </div>
-                </article>
+                  slug={post.slug}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  image={post.image}
+                  date={post.date}
+                  readingMinutes={post.readingMinutes}
+                  categories={post.categories}
+                />
               ))}
             </div>
 
-            <BlogSidebar currentCategorySlug={category.slug} />
+            <BlogSidebar
+              currentCategorySlug={categorySlug}
+              categories={categories}
+              tags={tags}
+              recentPosts={recentPosts}
+            />
           </div>
         </section>
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

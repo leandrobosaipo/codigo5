@@ -29,14 +29,16 @@ type BlogCollectionTerm = BlogTerm & {
 
 export const blogPosts = blogPostsData as BlogPost[];
 
-export const sortedBlogPosts = [...blogPosts].sort(
+export const sortBlogPosts = (posts: BlogPost[]) => [...posts].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 );
 
-const buildTerms = (selector: (post: BlogPost) => BlogTerm[]) => {
+export const sortedBlogPosts = sortBlogPosts(blogPosts);
+
+export const buildTerms = (posts: BlogPost[], selector: (post: BlogPost) => BlogTerm[]) => {
   const map = new Map<string, BlogCollectionTerm>();
 
-  blogPosts.forEach((post) => {
+  posts.forEach((post) => {
     selector(post).forEach((term) => {
       const current = map.get(term.slug);
       if (current) {
@@ -54,33 +56,33 @@ const buildTerms = (selector: (post: BlogPost) => BlogTerm[]) => {
   return [...map.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 };
 
-export const blogCategories = buildTerms((post) =>
+export const blogCategories = buildTerms(blogPosts, (post) =>
   post.categories.filter((category) => category.slug !== "blog"),
 );
 
-export const blogTags = buildTerms((post) => post.tags);
+export const blogTags = buildTerms(blogPosts, (post) => post.tags);
 
 export const featuredBlogPosts = sortedBlogPosts.slice(0, 3);
 
 export const recentBlogPosts = sortedBlogPosts.slice(0, 6);
 
-export const getBlogPostBySlug = (slug?: string) =>
-  sortedBlogPosts.find((post) => post.slug === slug);
+export const getBlogPostBySlug = (slug?: string, posts: BlogPost[] = sortedBlogPosts) =>
+  posts.find((post) => post.slug === slug);
 
-export const getPostsByCategory = (slug?: string) =>
-  sortedBlogPosts.filter((post) => post.categories.some((category) => category.slug === slug));
+export const getPostsByCategory = (slug?: string, posts: BlogPost[] = sortedBlogPosts) =>
+  posts.filter((post) => post.categories.some((category) => category.slug === slug));
 
-export const getPostsByTag = (slug?: string) =>
-  sortedBlogPosts.filter((post) => post.tags.some((tag) => tag.slug === slug));
+export const getPostsByTag = (slug?: string, posts: BlogPost[] = sortedBlogPosts) =>
+  posts.filter((post) => post.tags.some((tag) => tag.slug === slug));
 
-export const getCategoryBySlug = (slug?: string) =>
-  blogCategories.find((category) => category.slug === slug);
+export const getCategoryBySlug = (slug?: string, categories: BlogCollectionTerm[] = blogCategories) =>
+  categories.find((category) => category.slug === slug);
 
-export const getTagBySlug = (slug?: string) =>
-  blogTags.find((tag) => tag.slug === slug);
+export const getTagBySlug = (slug?: string, tags: BlogCollectionTerm[] = blogTags) =>
+  tags.find((tag) => tag.slug === slug);
 
-export const getAdjacentPosts = (slug?: string) => {
-  const currentIndex = sortedBlogPosts.findIndex((post) => post.slug === slug);
+export const getAdjacentPosts = (slug?: string, posts: BlogPost[] = sortedBlogPosts) => {
+  const currentIndex = posts.findIndex((post) => post.slug === slug);
 
   if (currentIndex === -1) {
     return {
@@ -90,7 +92,21 @@ export const getAdjacentPosts = (slug?: string) => {
   }
 
   return {
-    previousPost: sortedBlogPosts[currentIndex - 1] ?? null,
-    nextPost: sortedBlogPosts[currentIndex + 1] ?? null,
+    previousPost: posts[currentIndex - 1] ?? null,
+    nextPost: posts[currentIndex + 1] ?? null,
   };
+};
+
+export const mergeBlogPosts = (dynamicPosts: BlogPost[]) => {
+  const map = new Map<string, BlogPost>();
+
+  blogPosts.forEach((post) => {
+    map.set(post.slug, post);
+  });
+
+  dynamicPosts.forEach((post) => {
+    map.set(post.slug, post);
+  });
+
+  return sortBlogPosts([...map.values()]);
 };

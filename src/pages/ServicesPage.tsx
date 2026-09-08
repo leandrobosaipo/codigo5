@@ -1,54 +1,41 @@
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import ProcessSection from "@/components/ProcessSection";
+import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
-import SolutionsSection from "@/components/SolutionsSection";
-import TechStackSection from "@/components/TechStackSection";
-import { SITE_URL } from "@/lib/site";
-
-const ServicesPage = () => {
+import { ServiceList, Method, ContactBand } from "@/components/CompanySections";
+export default function ServicesPage() {
   return (
-    <>
+    <div className="c5-site">
       <Seo
-        title="Servicos Código5 Web | Sites, ecommerce, SEO e automacoes"
-        description="Conheca os servicos da Código5 Web em criacao de sites, ecommerce, SEO, conteudo, integracoes e automacoes."
+        title="Serviços | Sites, sistemas, SEO e automações — Código5"
+        description="Desenvolvimento de sites, lojas virtuais, portais, SEO, sistemas, automações e infraestrutura. Conheça as frentes de trabalho da Código5."
         path="/servicos"
-        keywords="servicos codigo5, criacao de sites cuiaba, ecommerce, seo, automacao"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "Service",
-          serviceType: "Desenvolvimento web, SEO, ecommerce e automacoes",
-          provider: {
-            "@type": "Organization",
-            name: "Código5 Web",
-          },
-          areaServed: "Brasil",
-          url: `${SITE_URL}/servicos`,
-        }}
       />
       <Navbar />
-      <main id="conteudo" className="pt-24">
-        <section className="border-b border-border bg-background-alt py-20">
-          <div className="container max-w-4xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Servicos</p>
-            <h1 className="mt-4 text-balance font-display text-5xl font-bold leading-tight text-foreground">
-              Estrutura digital para vender melhor, aparecer mais e automatizar rotinas
+      <main id="conteudo">
+        <section className="c5-page-hero">
+          <div className="c5-container">
+            <span className="c5-label">Serviços</span>
+            <h1>
+              Do site à rotina
+              <br />
+              da sua empresa.
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-              Reunimos site, loja virtual, SEO, conteudo, integracoes e IA aplicada em uma
-              estrutura pensada para negocios que precisam resultado e clareza.
+            <p>
+              Um projeto bem resolvido começa pela necessidade do negócio.
+              Reunimos as competências para construir, conectar e manter a sua
+              operação digital.
             </p>
           </div>
         </section>
-        <SolutionsSection />
-        <TechStackSection />
-        <ProcessSection />
-        <ContactSection />
+        <section className="c5-section">
+          <div className="c5-container c5-services-expanded">
+            <ServiceList expanded />
+          </div>
+        </section>
+        <Method />
+        <ContactBand />
       </main>
       <Footer />
-    </>
+    </div>
   );
-};
-
-export default ServicesPage;
+}

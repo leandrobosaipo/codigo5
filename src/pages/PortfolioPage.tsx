@@ -1,49 +1,72 @@
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import UseCasesSection from "@/components/UseCasesSection";
-import { SITE_URL } from "@/lib/site";
-
-const PortfolioPage = () => {
+import { WorkList, ContactBand } from "@/components/CompanySections";
+import { portfolioClients } from "@/content/siteContent";
+export default function PortfolioPage() {
   return (
-    <>
+    <div className="c5-site">
       <Seo
-        title="Portfolio Código5 Web | Clientes, segmentos e projetos digitais"
-        description="Veja clientes, segmentos atendidos e o tipo de projeto que a Código5 entrega em sites, ecommerce, SEO e automacoes."
+        title="Trabalhos e mercados | Portfólio Código5"
+        description="Conheça marcas que fazem parte da trajetória da Código5 em saúde, mídia, comércio, indústria, serviços e instituições."
         path="/portfolio"
-        keywords="portfolio codigo5, clientes codigo5, projetos digitais cuiaba"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          name: "Portfolio Código5 Web",
-          url: `${SITE_URL}/portfolio`,
-          description:
-            "Portfolio com clientes, segmentos atendidos e experiencia da Código5 Web em projetos digitais.",
-        }}
       />
       <Navbar />
-      <main id="conteudo" className="pt-24">
-        <section className="border-b border-border bg-background-alt py-20">
-          <div className="container max-w-4xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Portfolio</p>
-            <h1 className="mt-4 text-balance font-display text-5xl font-bold leading-tight text-foreground">
-              Marcas, segmentos e projetos que ajudam a provar nossa experiencia
+      <main id="conteudo">
+        <section className="c5-page-hero">
+          <div className="c5-container">
+            <span className="c5-label">Portfólio</span>
+            <h1>
+              Trabalho real.
+              <br />
+              Negócios de muitos jeitos.
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-              A Código5 atende negocios de setores diferentes, com foco em estrutura digital,
-              presenca de marca e ganho de resultado.
+            <p>
+              Uma seleção de projetos e marcas que fazem parte da nossa
+              trajetória. Diferentes desafios, públicos e momentos de negócio.
             </p>
           </div>
         </section>
-        <TestimonialsSection />
-        <UseCasesSection />
-        <ContactSection />
+        <section className="c5-section">
+          <div className="c5-container">
+            <WorkList />
+          </div>
+        </section>
+        <section className="c5-section c5-tinted">
+          <div className="c5-container">
+            <div className="c5-section-heading">
+              <span className="c5-label">Marcas da nossa história</span>
+              <h2>Experiência que atravessa setores.</h2>
+              <p>
+                Projetos realizados ao longo do tempo. Os sites podem evoluir
+                após a entrega original.
+              </p>
+            </div>
+            <div className="c5-client-directory">
+              {portfolioClients.map((client) => (
+                <article
+                  key={client.name}
+                  className={client.surface === "dark" ? "is-dark" : ""}
+                >
+                  {client.logo.startsWith("/") && (
+                    <img
+                      src={client.logo}
+                      alt=""
+                      loading="lazy"
+                      width="140"
+                      height="65"
+                    />
+                  )}
+                  <strong>{client.name}</strong>
+                  <span>{client.segment}</span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+        <ContactBand />
       </main>
       <Footer />
-    </>
+    </div>
   );
-};
-
-export default PortfolioPage;
+}

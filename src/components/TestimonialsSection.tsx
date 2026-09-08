@@ -1,127 +1,117 @@
 import Reveal from "@/components/Reveal";
-import { clients, portfolioClients } from "@/content/siteContent";
+import SectionFrame from "@/components/SectionFrame";
+import SectionHeader from "@/components/SectionHeader";
+import { portfolioClients, supportingProofClients } from "@/content/siteContent";
+
+const anchorClientNames = [
+  "Perrengue Mato Grosso",
+  "Roo Noticias",
+  "AlphaVille Buffet",
+];
+
+const brandSurfaceClass = (surface?: string) => {
+  if (surface === "dark") return "border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)]";
+  if (surface === "sand") return "border-slate-200/80 bg-[linear-gradient(135deg,#ffffff,#eef4ff)]";
+  return "border-slate-200/80 bg-white";
+};
 
 const TestimonialsSection = () => {
-  const normalizeSegment = (segment: string) => {
-    const label = segment.toLowerCase();
-
-    if (/(midia|portal|noticias|jornal|editorial|entretenimento)/.test(label)) return "Midia e conteudo";
-    if (/(saude|vascular|instituto)/.test(label)) return "Saude e bem-estar";
-    if (/(industria|mineral|construcao|concreto)/.test(label)) return "Industria e construcao";
-    if (/(varejo|instrumentos|limpeza|nutricao)/.test(label)) return "Varejo e distribuicao";
-    if (/(instituicao|conselho|igreja|social)/.test(label)) return "Institucional";
-    if (/(advocacia|credito)/.test(label)) return "Servicos profissionais";
-    if (/(turismo|eventos|buffet)/.test(label)) return "Turismo e eventos";
-
-    return "Outros segmentos";
-  };
-
-  const segmentCounts = portfolioClients.reduce<Record<string, number>>((acc, client) => {
-    const group = normalizeSegment(client.segment);
-    acc[group] = (acc[group] ?? 0) + 1;
-    return acc;
-  }, {});
-
-  const highlightSegments = Object.entries(segmentCounts)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 4);
-
-  const anchorClientNames = [
-    "Axis Construcoes",
-    "Clinica Petterle",
-    "Portal 163",
-    "Perrengue Mato Grosso",
-    "CREF17/MT",
-    "Franca & Moraes",
-  ];
-
   const anchorClients = anchorClientNames
     .map((name) => portfolioClients.find((client) => client.name === name))
     .filter(Boolean);
 
-  const supportingClients = clients.filter(
-    (client) => !anchorClientNames.includes(client.name),
-  );
-
-  const segmentSamples = Object.entries(
-    portfolioClients.reduce<Record<string, string[]>>((acc, client) => {
-      const group = normalizeSegment(client.segment);
-      acc[group] = [...(acc[group] ?? []), client.name];
-      return acc;
-    }, {}),
-  ).reduce<Record<string, string[]>>((acc, [segment, names]) => {
-    acc[segment] = names.slice(0, 3);
-    return acc;
-  }, {});
-
-  const brandSurfaceClass = (surface?: string) => {
-    if (surface === "dark") return "border-slate-900/85 bg-[radial-gradient(circle_at_top,#2b3240,#09090b_62%)]";
-    if (surface === "sand") return "border-amber-200 bg-[linear-gradient(135deg,#fff7e7,#f0dfba)]";
-    return "border-border/70 bg-white";
-  };
+  const supportingClients = supportingProofClients
+    .filter((client) => !anchorClientNames.includes(client.name))
+    .slice(0, 8);
 
   return (
-    <section id="clientes" className="py-24">
-      <div className="container space-y-14">
-        <Reveal
-          className="mx-auto mb-10 max-w-3xl text-center"
-        >
-          <span className="section-kicker">Clientes e experiencia</span>
-          <h2 className="section-heading">
-            Marcas reais para dar segurança antes do primeiro contato
-          </h2>
-          <p className="section-lead">
-            Quem contrata entende mais rápido quando vê variedade de mercado, marcas conhecidas e repertório de entrega.
-          </p>
+    <section id="clientes" className="bg-[linear-gradient(180deg,#eef4ff_0%,#f8fbff_100%)] py-24">
+      <div className="container space-y-10">
+        <Reveal>
+          <SectionHeader
+            kicker="Credenciais"
+            title="Experiência em projetos que exigem confiança, leitura rápida e presença forte."
+            lead="O repertório precisa ser percebido rápido. Menos discurso. Mais marca, contexto e prova visual."
+            aside="Aqui a função é simples: mostrar que a Código5 já atende operações reais em segmentos diferentes."
+          />
         </Reveal>
 
-        <div className="grid gap-4 lg:grid-cols-4">
-          {highlightSegments.map(([segment, count]) => (
-            <div
-              key={segment}
-              className="panel-soft rounded-[28px] p-5"
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
-                Segmento recorrente
+        <SectionFrame className="space-y-8">
+          <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
+            <Reveal className="panel-soft overflow-hidden">
+              <div className="grid gap-0 lg:grid-cols-[0.92fr_1.08fr]">
+                <div className="p-6 sm:p-7">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+                    Repertório visual
+                  </p>
+                  <h3 className="mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+                    Projetos em mídia, saúde, institucional, varejo e operação digital regional.
+                  </h3>
+                  <div className="mt-6 grid gap-3">
+                    {[
+                      "Marcas locais e regionais com necessidade real de presença forte.",
+                      "Portfólio com tipos de projeto diferentes sem perder direção visual.",
+                      "Entrega pensada para quem precisa vender, informar e operar melhor.",
+                    ].map((item) => (
+                      <div key={item} className="rounded-[20px] border border-border/80 bg-white/90 px-4 py-3 text-sm leading-6 text-foreground/80">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-px bg-slate-200/70">
+                  {supportingClients.slice(0, 4).map((client) => (
+                    <div
+                      key={client.name}
+                      className={`flex min-h-[150px] items-center justify-center bg-white px-5 py-5 ${client.frameClass ?? ""}`}
+                    >
+                      <img
+                        src={client.logo}
+                        alt={client.name}
+                        loading="lazy"
+                        width="180"
+                        height="56"
+                        className={`${client.logoClass ?? "max-h-12"} max-w-full w-auto object-contain ${
+                          client.surface === "dark" && client.invertOnDark !== false ? "brightness-0 invert" : ""
+                        }`}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal className="panel-dark p-7 text-white">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
+                Onde a entrega aparece
               </p>
-              <p className="mt-4 font-display text-2xl font-semibold leading-tight text-foreground">
-                {segment}
-              </p>
-              <p className="mt-3 text-sm font-medium text-foreground/72">{count} marcas no portfolio</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {(segmentSamples[segment] ?? []).map((name) => (
-                  <span
-                    key={name}
-                    className="rounded-full border border-border/80 bg-white/95 px-3 py-1 text-[11px] font-semibold text-foreground shadow-sm"
-                  >
-                    {name}
-                  </span>
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                {[
+                  { label: "Saúde", text: "Projetos com clareza, confiança e contato simples." },
+                  { label: "Mídia", text: "Operações com presença forte, ritmo e navegação clara." },
+                  { label: "Institucional", text: "Marcas que pedem solidez visual e credibilidade." },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-[22px] border border-white/10 bg-white/6 p-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100/84">
+                      {item.label}
+                    </p>
+                    <p className="mt-3 text-sm leading-6 text-slate-200">{item.text}</p>
+                  </div>
                 ))}
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="panel-soft rounded-[32px] bg-card p-8">
-          <div className="mb-6 flex items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                Marcas ancora
-              </p>
-              <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Alguns nomes que ajudam a entender o nível da entrega
-              </h3>
-            </div>
+            </Reveal>
           </div>
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+          <div className="grid gap-5 xl:grid-cols-3">
             {anchorClients.map((client, index) => (
               <Reveal
                 key={client.name}
-                className="rounded-[28px] border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,243,234,0.88))] p-5 shadow-[0_24px_60px_-48px_rgba(30,25,20,0.45)] transition-transform duration-300 hover:-translate-y-1"
-                delay={index * 50}
+                className="rounded-[30px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(242,247,255,0.95))] p-5 shadow-[0_24px_70px_-50px_rgba(16,27,53,0.18)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/20"
+                delay={index * 60}
               >
                 <div
-                  className={`flex min-h-[152px] items-center justify-center rounded-[24px] border px-6 py-6 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
+                  className={`flex min-h-[160px] items-center justify-center rounded-[24px] border px-6 py-6 ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
                 >
                   <img
                     src={client.logo}
@@ -134,38 +124,28 @@ const TestimonialsSection = () => {
                     }`}
                   />
                 </div>
-                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">{client.segment}</p>
-                <h3 className="mt-2 font-display text-2xl font-semibold text-foreground">{client.name}</h3>
+                <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+                  {client.segment}
+                </p>
+                <h3 className="mt-3 font-display text-2xl font-semibold text-foreground">{client.name}</h3>
                 <a
                   href={`https://${client.site}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 inline-flex break-words text-sm font-medium text-foreground/70 transition hover:text-primary"
+                  className="mt-3 inline-flex text-sm font-medium text-foreground/70 transition hover:text-primary"
                 >
                   {client.site}
                 </a>
               </Reveal>
             ))}
           </div>
-        </div>
 
-        <div className="panel-soft rounded-[32px] bg-card p-8">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                Outras marcas
-              </p>
-              <h3 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                Mais marcas atendidas em mercados diferentes
-              </h3>
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
-            {supportingClients.map((client, index) => (
+          <div className="grid gap-4 md:grid-cols-4">
+            {supportingClients.slice(4, 12).map((client, index) => (
               <Reveal
                 key={client.name}
-                className={`flex min-h-[108px] items-center justify-center rounded-3xl border px-6 py-5 shadow-[0_18px_40px_-32px_rgba(30,25,20,0.22)] transition-transform duration-300 hover:-translate-y-0.5 ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
-                delay={index * 45}
+                className={`flex min-h-[108px] items-center justify-center rounded-[24px] border px-5 py-4 shadow-[0_20px_60px_-50px_rgba(16,27,53,0.15)] ${brandSurfaceClass(client.surface)} ${client.frameClass ?? ""}`}
+                delay={index * 35}
               >
                 <img
                   src={client.logo}
@@ -180,7 +160,7 @@ const TestimonialsSection = () => {
               </Reveal>
             ))}
           </div>
-        </div>
+        </SectionFrame>
       </div>
     </section>
   );

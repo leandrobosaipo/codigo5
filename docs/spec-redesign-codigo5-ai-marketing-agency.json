@@ -1,0 +1,704 @@
+{
+  "spec_meta": {
+    "id": "codigo5-redesign-ai-marketing-agency-v1",
+    "title": "SPEC do redesign da Código5 inspirado em AI Marketing Agency",
+    "document_type": "SPEC",
+    "format": "json",
+    "status": "draft_ready_for_implementation",
+    "created_at": "2026-04-15",
+    "based_on_prd": "/Users/leandrobosaipo/.openclaw/codigo5-github/docs/prd-redesign-codigo5-ai-marketing-agency.md",
+    "review_workflow_reference": "/Users/leandrobosaipo/.openclaw/codigo5-github/specreviewerlionlab.md",
+    "visual_reference": "https://nextsaas-wp.pixels71.com/ai-marketing-agency/",
+    "project_root": "/Users/leandrobosaipo/.openclaw/codigo5-github"
+  },
+  "problem_statement": "A Código5 já tem uma base funcional sólida, mas ainda não apresenta uma linguagem visual tão forte, coesa e premium quanto a desejada. O redesign deve elevar percepção de marca, unificar home, blog, páginas internas e admin, e aproximar o site da atmosfera editorial e tecnológica de uma AI marketing agency de alto padrão.",
+  "goals": [
+    "Criar um sistema visual premium, tecnológico e editorial para a Código5.",
+    "Reestruturar a home para uma narrativa mais coesa, comercial e memorável.",
+    "Padronizar componentes e proporções entre home, blog, páginas internas e admin.",
+    "Fazer o blog parecer parte da mesma marca, não uma área paralela.",
+    "Melhorar o admin editorial para que pareça parte do mesmo produto digital.",
+    "Manter performance, responsividade, acessibilidade e estabilidade de produção."
+  ],
+  "non_goals": [
+    "Trocar a stack principal do projeto.",
+    "Reescrever o backend editorial do zero.",
+    "Copiar literalmente o template de referência.",
+    "Introduzir dependência em assets proprietários do template.",
+    "Mudar a lógica central de autenticação, bot Telegram ou publicação sem necessidade do redesign.",
+    "Executar rebranding completo de logo, nome ou posicionamento institucional."
+  ],
+  "success_metrics": [
+    "Home percebida como mais premium, mais forte e mais coesa.",
+    "Blog visualmente alinhado com a identidade da home.",
+    "Admin editorial percebido como parte do mesmo ecossistema de produto.",
+    "Nova base visual reutilizável para novas páginas, campanhas e seções.",
+    "Nenhuma regressão crítica em rotas, publicação, login admin, bot ou renderização do blog."
+  ],
+  "stack": {
+    "frontend": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "React Router"
+    ],
+    "backend_runtime": [
+      "Cloudflare Pages Functions",
+      "Cloudflare D1",
+      "Cloudflare KV"
+    ],
+    "storage": [
+      "DigitalOcean Spaces"
+    ],
+    "deployment": [
+      "Cloudflare Pages",
+      "Wrangler"
+    ],
+    "testing": [
+      "Vitest"
+    ]
+  },
+  "agent_ids": {
+    "product_owner": "agent-product-prd",
+    "designer_system": "agent-design-system",
+    "frontend_home_blog": "agent-home-blog-redesign",
+    "frontend_pages_admin": "agent-pages-admin-redesign",
+    "qa_acceptance": "agent-qa-acceptance",
+    "release_validation": "agent-release-check"
+  },
+  "data_models": {
+    "ui_design_tokens": {
+      "description": "Conjunto visual compartilhado para todo o site.",
+      "fields": [
+        "color_tokens",
+        "surface_tokens",
+        "type_scale",
+        "spacing_scale",
+        "radius_scale",
+        "shadow_scale",
+        "section_layout_rules",
+        "card_variants",
+        "button_variants",
+        "editorial_grid_rules"
+      ]
+    },
+    "blog_card_view_model": {
+      "description": "Modelo visual usado por home e blog index.",
+      "fields": [
+        "slug",
+        "title",
+        "excerpt",
+        "image",
+        "date",
+        "readingMinutes",
+        "primaryCategory",
+        "href"
+      ]
+    },
+    "admin_post_editor_view_model": {
+      "description": "Estado visual do editor admin.",
+      "fields": [
+        "draftId",
+        "sourceValue",
+        "title",
+        "slug",
+        "excerpt",
+        "seoTitle",
+        "seoDescription",
+        "contentHtml",
+        "segment",
+        "serviceFocus",
+        "imageUrl",
+        "redirectTo",
+        "editorMode"
+      ]
+    }
+  },
+  "api_spec": [
+    {
+      "path": "/api/admin/posts",
+      "methods": [
+        {
+          "method": "GET",
+          "purpose": "Listar itens do admin salvos no backend.",
+          "response_schema": {
+            "ok": "boolean",
+            "items": "AdminItem[]"
+          },
+          "status_codes": [200, 401, 500],
+          "notes": "Frontend complementa com acervo estático publicado."
+        },
+        {
+          "method": "POST",
+          "purpose": "Criar novo rascunho a partir de ideia ou link.",
+          "request_schema": {
+            "source": "string"
+          },
+          "response_schema": {
+            "ok": "boolean",
+            "item": "AdminItem"
+          },
+          "status_codes": [200, 400, 401, 422, 500]
+        }
+      ]
+    },
+    {
+      "path": "/api/admin/posts-import",
+      "methods": [
+        {
+          "method": "POST",
+          "purpose": "Importar um post estático publicado para a base editável do admin.",
+          "request_schema": {
+            "sourceValue": "string",
+            "title": "string",
+            "slug": "string",
+            "excerpt": "string|null",
+            "seoTitle": "string|null",
+            "seoDescription": "string|null",
+            "contentHtml": "string|null",
+            "categoriesJson": "string|null",
+            "tagsJson": "string|null",
+            "imageUrl": "string|null",
+            "updatedAt": "string|null"
+          },
+          "response_schema": {
+            "ok": "boolean",
+            "item": "AdminItem"
+          },
+          "status_codes": [200, 400, 401, 409, 422, 500]
+        }
+      ]
+    },
+    {
+      "path": "/api/admin/posts-save",
+      "methods": [
+        {
+          "method": "POST",
+          "purpose": "Salvar edição editorial do post.",
+          "request_schema": {
+            "draftId": "string",
+            "sourceValue": "string",
+            "title": "string|null",
+            "slug": "string|null",
+            "excerpt": "string|null",
+            "seoTitle": "string|null",
+            "seoDescription": "string|null",
+            "contentHtml": "string|null",
+            "segment": "string|null",
+            "serviceFocus": "string|null",
+            "imageUrl": "string|null",
+            "redirectTo": "string|null"
+          },
+          "response_schema": {
+            "ok": "boolean",
+            "item": "AdminItem"
+          },
+          "status_codes": [200, 400, 401, 404, 409, 422, 500]
+        }
+      ]
+    },
+    {
+      "path": "/api/admin/posts-generate",
+      "methods": [
+        {
+          "method": "POST",
+          "purpose": "Gerar preview editorial com base no draft.",
+          "status_codes": [200, 400, 401, 404, 422, 500]
+        }
+      ]
+    },
+    {
+      "path": "/api/admin/posts-publish",
+      "methods": [
+        {
+          "method": "POST",
+          "purpose": "Publicar post no site.",
+          "status_codes": [200, 400, 401, 404, 409, 422, 500]
+        }
+      ]
+    },
+    {
+      "path": "/api/admin/posts-delete",
+      "methods": [
+        {
+          "method": "POST",
+          "purpose": "Arquivar post e aplicar redirect.",
+          "status_codes": [200, 400, 401, 404, 422, 500]
+        }
+      ]
+    },
+    {
+      "path": "/api/admin/posts-upload-image",
+      "methods": [
+        {
+          "method": "POST",
+          "purpose": "Fazer upload de imagem destaque para o Spaces.",
+          "status_codes": [200, 400, 401, 413, 415, 422, 500]
+        }
+      ]
+    },
+    {
+      "path": "/api/bot/posts",
+      "methods": [
+        {
+          "method": "GET",
+          "purpose": "Servir posts publicados em runtime para home e blog.",
+          "status_codes": [200, 500]
+        }
+      ]
+    }
+  ],
+  "file_structure": {
+    "existing_files_to_update": [
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/index.css",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/Index.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/BlogIndex.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/BlogPostPage.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/AboutPage.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/ServicesPage.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/PortfolioPage.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/ContactPage.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/AdminEditorialPage.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/HeroSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/TrustBar.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/SolutionsSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/TechStackSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/UseCasesSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/ProcessSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/TestimonialsSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/EditorialSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/ContactSection.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/Navbar.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/Footer.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/BlogSidebar.tsx"
+    ],
+    "optional_new_files": [
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/SectionFrame.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/SectionHeader.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/BlogFeatureCard.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/AdminEditorShell.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/RichTextEditor.tsx",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/PreviewPostCard.tsx"
+    ],
+    "do_not_touch_unless_required": [
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/functions/api/admin/auth/*",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/functions/api/telegram/*",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/functions/_shared/bot/spaces.ts",
+      "/Users/leandrobosaipo/.openclaw/codigo5-github/functions/_shared/admin-auth.ts"
+    ]
+  },
+  "sprints": [
+    {
+      "id": 1,
+      "name": "Foundation and Design System",
+      "description": "Definir a base visual compartilhada do redesign inspirado em AI Marketing Agency sem quebrar a base atual.",
+      "deliverable": "Sistema de tokens, superfícies, grids editoriais e componentes-base pronto para uso em home, blog, páginas internas e admin.",
+      "risk": "medio",
+      "pre_requisite": null,
+      "features": [
+        {
+          "id": "1.1",
+          "category": "frontend",
+          "description": "Criar o novo design system visual global em CSS/Tailwind utilities.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/index.css"
+          ],
+          "steps": [
+            "Definir nova paleta principal e superfícies derivadas para áreas claras, escuras e híbridas.",
+            "Criar escala tipográfica para títulos hero, seções, cards e texto editorial.",
+            "Criar tokens reutilizáveis para sombras, bordas, radius, grids, wrappers e espaçamentos.",
+            "Criar padrões de card premium, card editorial, section frame e wrappers de layout.",
+            "Garantir que os tokens sejam reutilizáveis sem duplicação de estilos locais."
+          ],
+          "acceptance_criteria": [
+            "Existe um sistema visual centralizado e reutilizável no CSS global.",
+            "Os novos tokens permitem compor home, blog, páginas internas e admin com a mesma linguagem.",
+            "Não há dependência em assets proprietários do template de referência.",
+            "O build compila sem warnings novos causados por classes inválidas."
+          ],
+          "edge_cases": [
+            "Se um token visual conflitar com estilos atuais, deve ser versionado ou encapsulado para evitar regressão global.",
+            "Se um componente antigo depender de classes herdadas, o redesign deve preservar fallback até a migração completa.",
+            "Se a nova escala tipográfica gerar overflow em mobile, o componente deve degradar com clamp e line-height adequado."
+          ]
+        },
+        {
+          "id": "1.2",
+          "category": "frontend",
+          "description": "Criar componentes-base de seção e card para unificar a composição do site.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/SectionFrame.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/SectionHeader.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/BlogFeatureCard.tsx"
+          ],
+          "steps": [
+            "Criar abstrações para cabeçalhos de seção, blocos de conteúdo e cards de destaque.",
+            "Definir props suficientes para uso em home, blog e páginas internas.",
+            "Padronizar densidade visual, espaçamento interno e proporções de mídia.",
+            "Substituir gradualmente padrões repetidos por essas abstrações."
+          ],
+          "acceptance_criteria": [
+            "Existe pelo menos um componente-base de seção e um card editorial reaproveitável.",
+            "A mesma estrutura visual pode ser aplicada na home e no blog.",
+            "A UI não depende mais de múltiplos estilos únicos para blocos semelhantes."
+          ],
+          "edge_cases": [
+            "Se uma seção precisar de variação escura/clara, o componente-base deve suportar variantes e não forks independentes.",
+            "Se algum bloco precisar quebrar o grid em desktop, isso deve acontecer via prop/variant explícita."
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Home Redesign",
+      "description": "Refatorar a home inteira para uma narrativa premium e editorial, inspirada na referência visual.",
+      "deliverable": "Home redesenhada ponta a ponta com ritmo visual coeso e seções harmonizadas.",
+      "risk": "medio",
+      "pre_requisite": 1,
+      "features": [
+        {
+          "id": "2.1",
+          "category": "frontend",
+          "description": "Refatorar hero, trust bar e primeiro bloco comercial da home.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/HeroSection.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/TrustBar.tsx"
+          ],
+          "steps": [
+            "Redesenhar o hero com composição mais sofisticada e mais cara de produto/agência AI.",
+            "Redefinir hierarquia de headline, supporting copy e CTAs.",
+            "Integrar trust bar visualmente ao topo para reduzir sensação de quebra abrupta.",
+            "Garantir que o topo tenha impacto em desktop e clareza em mobile."
+          ],
+          "acceptance_criteria": [
+            "A primeira dobra comunica proposta de valor e autoridade com clareza em até 5 segundos.",
+            "O hero possui composição visual premium, sem parecer banner improvisado.",
+            "Os CTAs estão destacados sem parecer bloco destoante.",
+            "Em mobile, a primeira dobra continua legível e não fica comprimida."
+          ],
+          "edge_cases": [
+            "Se a imagem principal limitar a sofisticação, o layout deve se sustentar mesmo com asset neutro.",
+            "Se houver pouco espaço vertical em telas menores, os elementos devem empilhar sem perda de prioridade.",
+            "Se o texto crescer por ajuste editorial futuro, o hero não pode quebrar a composição."
+          ]
+        },
+        {
+          "id": "2.2",
+          "category": "frontend",
+          "description": "Refatorar seções de serviços, tecnologias, casos, processo e prova social com o novo sistema.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/SolutionsSection.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/TechStackSection.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/UseCasesSection.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/ProcessSection.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/TestimonialsSection.tsx"
+          ],
+          "steps": [
+            "Aplicar novo grid editorial e alternância de superfícies nas seções centrais.",
+            "Refinar serviços e prova social para parecerem parte da mesma direção visual.",
+            "Reduzir sensação de blocos soltos com section frames e consistência tipográfica.",
+            "Reorganizar densidade visual para evitar repetição de cards semelhantes."
+          ],
+          "acceptance_criteria": [
+            "As seções da home parecem parte do mesmo produto visual.",
+            "Existe ritmo claro entre blocos claros, escuros e de destaque.",
+            "A prova social mantém legibilidade e impacto premium.",
+            "Não há regressão de contraste, legibilidade ou clicabilidade."
+          ],
+          "edge_cases": [
+            "Se uma seção tiver poucos itens, ela não pode parecer vazia ou desproporcional.",
+            "Se uma logo ou imagem tiver contraste fraco, deve existir fallback de surface adequado.",
+            "Se a quantidade de casos/clientes crescer, o layout deve continuar sustentável."
+          ]
+        },
+        {
+          "id": "2.3",
+          "category": "frontend",
+          "description": "Refatorar seção editorial da home e bloco de contato para a nova linguagem.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/EditorialSection.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/ContactSection.tsx"
+          ],
+          "steps": [
+            "Aplicar a vitrine editorial compartilhada no destaque de blog da home.",
+            "Integrar o CTA de conteúdo à narrativa comercial da home.",
+            "Refatorar o bloco de contato com aparência mais premium e menos utilitária."
+          ],
+          "acceptance_criteria": [
+            "O bloco de blog na home parece editorial e pertence ao mesmo sistema visual da página /blog.",
+            "O bloco de contato parece fechamento de landing premium, não caixa utilitária isolada.",
+            "As proporções de cards e mídia permanecem consistentes."
+          ],
+          "edge_cases": [
+            "Se faltar imagem de post, o placeholder não pode comprometer a estética da grade.",
+            "Se o usuário chegar até o fim da home em mobile, o CTA continua forte e fácil de usar."
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Blog and Internal Pages Redesign",
+      "description": "Fazer o blog e as páginas internas parecerem parte da mesma marca, com linguagem editorial consistente.",
+      "deliverable": "Blog index, post interno e páginas institucionais redesenhados com o novo sistema visual.",
+      "risk": "medio",
+      "pre_requisite": 1,
+      "features": [
+        {
+          "id": "3.1",
+          "category": "frontend",
+          "description": "Refatorar o blog index com destaque consistente, grid organizado e sidebar alinhada.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/BlogIndex.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/BlogSidebar.tsx"
+          ],
+          "steps": [
+            "Padronizar cards de destaque e cards da listagem com o sistema visual compartilhado.",
+            "Eliminar mosaicos desorganizados e variações arbitrárias de proporção.",
+            "Refinar sidebar para parecer curadoria editorial, não coluna auxiliar genérica.",
+            "Garantir consistência entre featured posts e grid de listagem."
+          ],
+          "acceptance_criteria": [
+            "O topo do blog tem cards consistentes, sem mosaico confuso.",
+            "Os cards de destaque têm a mesma proporção visual.",
+            "A listagem abaixo não repete os destaques imediatamente.",
+            "A sidebar conversa com o restante do layout e não parece CMS default."
+          ],
+          "edge_cases": [
+            "Se existirem menos de 3 posts publicados, o layout deve continuar elegante sem lacunas estranhas.",
+            "Se um post tiver título longo, o card não pode desalinhar a grade.",
+            "Se houver posts sem imagem, o placeholder precisa manter a mesma proporção."
+          ]
+        },
+        {
+          "id": "3.2",
+          "category": "frontend",
+          "description": "Refatorar a página do post interno para uma leitura premium e mais editorial.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/BlogPostPage.tsx"
+          ],
+          "steps": [
+            "Redesenhar hero do post, metadata, área de leitura e CTA final.",
+            "Melhorar ritmo tipográfico do conteúdo longo.",
+            "Refinar elementos auxiliares como categorias, leitura, navegação e related posts."
+          ],
+          "acceptance_criteria": [
+            "A página do post parece um artigo premium, não um template genérico.",
+            "A leitura longa é confortável em desktop e mobile.",
+            "O CTA final é elegante e integrado ao artigo.",
+            "A tipografia do conteúdo não compete com a navegação e os metadados."
+          ],
+          "edge_cases": [
+            "Se o post tiver pouco conteúdo, a página não pode parecer vazia.",
+            "Se o conteúdo tiver listas, headings e blockquotes, todos devem herdar o novo padrão visual.",
+            "Se a imagem destacada faltar, o topo continua coerente."
+          ]
+        },
+        {
+          "id": "3.3",
+          "category": "frontend",
+          "description": "Refatorar páginas institucionais principais com o mesmo sistema visual.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/AboutPage.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/ServicesPage.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/PortfolioPage.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/ContactPage.tsx"
+          ],
+          "steps": [
+            "Aplicar a nova linguagem visual nas páginas institucionais.",
+            "Reaproveitar section frames, títulos, cards e superfícies criadas no Sprint 1.",
+            "Garantir continuidade entre home, páginas internas e blog."
+          ],
+          "acceptance_criteria": [
+            "As páginas internas parecem pertencer ao mesmo produto visual da home.",
+            "Não há quebra brusca de tipografia, paleta ou espaçamento.",
+            "A navegação entre páginas mantém a mesma sensação de marca."
+          ],
+          "edge_cases": [
+            "Se uma página tiver pouco conteúdo, o layout ainda precisa parecer intencional.",
+            "Se uma página tiver conteúdo institucional mais seco, o design deve ajudar a dar ritmo sem inventar blocos desnecessários."
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Admin Editorial Redesign",
+      "description": "Elevar o admin editorial para o mesmo padrão visual do site público, mantendo a produtividade da operação.",
+      "deliverable": "Admin mais visual, mais claro e mais coerente com a nova marca.",
+      "risk": "medio",
+      "pre_requisite": 1,
+      "features": [
+        {
+          "id": "4.1",
+          "category": "frontend",
+          "description": "Refatorar layout do admin para uma mesa editorial mais organizada.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/AdminEditorialPage.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/index.css"
+          ],
+          "steps": [
+            "Consolidar navegação, tabela, filtros e abertura do editor em um fluxo claro.",
+            "Transformar o editor em shell lateral ou layout focado que não confunda com a listagem.",
+            "Padronizar cards, tabela, drawers, filtros e estados vazios."
+          ],
+          "acceptance_criteria": [
+            "O admin não parece um painel improvisado ou visualmente separado do site.",
+            "Abrir um post para editar não compromete a leitura da lista.",
+            "Tabela, filtros e paginação são fáceis de entender em poucos segundos.",
+            "O fluxo de edição é mais claro do que a versão anterior."
+          ],
+          "edge_cases": [
+            "Se o usuário abrir um post estático do acervo, o fluxo de importação deve continuar compreensível.",
+            "Se existirem muitos posts, a tabela continua navegável com paginação e busca.",
+            "Se não houver nenhum item no filtro atual, deve existir empty state claro."
+          ]
+        },
+        {
+          "id": "4.2",
+          "category": "frontend",
+          "description": "Criar editor de conteúdo mais amigável, com modo visual priorizado.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/AdminEditorialPage.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/components/RichTextEditor.tsx"
+          ],
+          "steps": [
+            "Priorizar editor visual para escrita de conteúdo.",
+            "Manter modo HTML avançado como fallback, não como experiência padrão.",
+            "Adicionar toolbar útil para headings, listas, destaque e CTA.",
+            "Garantir sincronização correta entre visual e HTML."
+          ],
+          "acceptance_criteria": [
+            "O editor padrão é amigável para escrever e revisar post.",
+            "O modo HTML continua disponível sem ser obrigatório.",
+            "As ações de formatação funcionam sem corromper o conteúdo.",
+            "O conteúdo salvo reflete corretamente o que foi editado."
+          ],
+          "edge_cases": [
+            "Se o conteúdo vier com HTML legado, ele deve continuar editável.",
+            "Se o usuário alternar entre visual e HTML, o estado não pode perder conteúdo.",
+            "Se o navegador não suportar algum comando de rich text, deve existir fallback seguro."
+          ]
+        },
+        {
+          "id": "4.3",
+          "category": "frontend",
+          "description": "Melhorar CRUD de imagem, preview e estados operacionais do admin.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/AdminEditorialPage.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/functions/api/admin/posts-upload-image.ts",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/functions/api/admin/posts-save.ts"
+          ],
+          "steps": [
+            "Deixar upload, troca e remoção de imagem mais claros visualmente.",
+            "Exibir preview de capa com melhor hierarquia.",
+            "Melhorar feedback de ações como salvar, gerar preview, publicar e arquivar."
+          ],
+          "acceptance_criteria": [
+            "CRUD da imagem destaque é fácil de entender sem ler instruções.",
+            "Os estados de loading, sucesso e erro são claros.",
+            "A remoção da capa não reaplica a imagem anterior por engano."
+          ],
+          "edge_cases": [
+            "Se o upload falhar por formato ou tamanho, o erro deve ser explícito e não silencioso.",
+            "Se a imagem quebrar ou a URL for inválida, deve existir placeholder consistente.",
+            "Se o post não tiver capa, o editor continua completo sem parecer quebrado."
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Quality, Accessibility and Rollout",
+      "description": "Concluir a refatoração com validações de UX, acessibilidade, performance e rollout seguro.",
+      "deliverable": "Redesign validado em produção sem regressões críticas.",
+      "risk": "baixo",
+      "pre_requisite": [2, 3, 4],
+      "features": [
+        {
+          "id": "5.1",
+          "category": "frontend",
+          "description": "Validar responsividade, acessibilidade e consistência visual.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/index.css",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/Index.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/BlogIndex.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/BlogPostPage.tsx",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/src/pages/AdminEditorialPage.tsx"
+          ],
+          "steps": [
+            "Revisar contraste, foco, leitura, estados vazios, loading e coerência de spacing.",
+            "Validar principais breakpoints mobile, tablet e desktop.",
+            "Revisar componentes críticos com navegação por teclado."
+          ],
+          "acceptance_criteria": [
+            "Não há regressões visuais críticas nos principais breakpoints.",
+            "Os novos componentes mantêm contraste, foco visível e legibilidade.",
+            "A navegação essencial continua acessível."
+          ],
+          "edge_cases": [
+            "Se uma seção ficar densa demais em mobile, ela deve reflow sem quebrar hierarquia.",
+            "Se um botão tiver fundo translúcido, o contraste ainda precisa atender leitura prática.",
+            "Se o admin for aberto em viewport baixa, o drawer/editor precisa continuar utilizável."
+          ]
+        },
+        {
+          "id": "5.2",
+          "category": "build",
+          "description": "Validar build, testes e estabilidade do rollout.",
+          "affected_files": [
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/package.json",
+            "/Users/leandrobosaipo/.openclaw/codigo5-github/dist/*"
+          ],
+          "steps": [
+            "Rodar npm test.",
+            "Rodar npm run build.",
+            "Validar home, blog, post interno e admin em produção.",
+            "Publicar via Pages após checagem de regressão funcional."
+          ],
+          "acceptance_criteria": [
+            "Build compila sem erro.",
+            "Suite de testes atual continua verde.",
+            "Rotas públicas e admin carregam corretamente em produção.",
+            "Não há regressão crítica em publicação, blog runtime ou auth admin."
+          ],
+          "edge_cases": [
+            "Se o build falhar por classe inválida, o rollout deve bloquear até correção.",
+            "Se o deploy subir mas servir assets antigos, validar hashes novos antes de considerar concluído.",
+            "Se alguma rota do admin responder 401 indevidamente após redesign, bloquear release."
+          ]
+        }
+      ]
+    }
+  ],
+  "rollout_strategy": {
+    "mode": "incremental_by_sprint",
+    "rules": [
+      "Cada sprint deve fechar com build, testes e deploy validado.",
+      "Home e blog podem ser entregues primeiro, admin depois, desde que o sistema visual já exista.",
+      "Não misturar refatoração visual com mudanças profundas de backend na mesma sprint.",
+      "Sempre validar domínio principal após cada publicação."
+    ]
+  },
+  "qa_checklist": [
+    "Home comunica valor rapidamente.",
+    "Blog parece parte da mesma marca.",
+    "Cards de destaque usam proporções consistentes.",
+    "Páginas internas seguem o mesmo sistema visual.",
+    "Admin parece parte do mesmo produto.",
+    "Editor admin é mais amigável do que o fluxo anterior.",
+    "Publicação e edição de posts continuam funcionando.",
+    "Nenhuma rota pública essencial quebrou.",
+    "Performance não piorou de forma perceptível.",
+    "Sitemap e blog runtime permanecem íntegros."
+  ],
+  "implementation_notes": [
+    "Priorizar abstrações reutilizáveis sobre ajustes visuais isolados.",
+    "Evitar voltar a criar estilos únicos por seção sem conexão com o sistema.",
+    "Usar a referência visual como direção, não como clone.",
+    "Se houver conflito entre estética e clareza comercial, priorizar clareza comercial.",
+    "Toda feature visual deve ter fallback mobile e estado vazio considerado."
+  ]
+}

@@ -329,29 +329,63 @@ export const portfolioClients = [
   },
 ];
 
+const extraProofClients = [
+  {
+    name: "Roo Noticias",
+    logo: "/assets/codigo5/client-catalog/roonoticias-official.png",
+    surface: "light",
+    logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#eef4ff)]",
+  },
+  {
+    name: "Shop10",
+    logo: "/assets/codigo5/clients/shop10.webp",
+    surface: "light",
+    logoClass: "max-h-12",
+    frameClass: "bg-[linear-gradient(135deg,#ffffff,#eef4ff)]",
+  },
+];
+
+const proofClientCatalog = [...portfolioClients, ...clients, ...extraProofClients].filter(
+  (client, index, array) => index === array.findIndex((item) => item.name === client.name),
+);
+
+export const homeAnchorClients = [
+  "Perrengue Mato Grosso",
+  "Roo Noticias",
+  "Portal Pantanal MT",
+  "Portal Norte MT",
+  "Shop10",
+  "AlphaVille Buffet",
+].map((name) => proofClientCatalog.find((client) => client.name === name)).filter(Boolean);
+
+export const supportingProofClients = proofClientCatalog.filter(
+  (client) => !homeAnchorClients.some((anchorClient) => anchorClient.name === client.name),
+);
+
 export const services = [
   {
     name: "Sites institucionais",
-    description: "Presenca forte para explicar, convencer e facilitar o primeiro contato.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80",
+    description: "Mais clareza, confiança e presença comercial melhor resolvida.",
+    image: "/assets/codigo5/cases/clinicapetterle-home.png",
     items: ["Marca", "Clareza", "Contato"],
   },
   {
     name: "Lojas virtuais",
-    description: "Catalogo, campanha e pedido conectados para vender com menos atrito.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=80",
+    description: "Loja virtual com estrutura para vender sem parecer improvisada.",
+    image: "/assets/codigo5/cases/sonatamusical-home.png",
     items: ["Catalogo", "Checkout", "Campanha"],
   },
   {
     name: "SEO e conteudo",
-    description: "Conteudo que ajuda a aparecer melhor e parecer referencia no mercado.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
+    description: "Mais contexto, mais busca qualificada e mais autoridade.",
+    image: "/assets/codigo5/cases/roonoticias-home.png",
     items: ["Busca", "Blog", "Autoridade"],
   },
   {
     name: "Automacoes e IA",
-    description: "Atendimento, integracoes e rotina conectados para ganhar tempo.",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80",
+    description: "Atendimento, operação e rotina digital mais conectados.",
+    image: "/assets/codigo5/generated/automation-operation-cover.svg",
     items: ["WhatsApp", "Fluxos", "IA"],
   },
 ];
@@ -392,22 +426,22 @@ export const toolLogos = [
 
 export const useCases = [
   {
-    title: "Bicicletas e bikes eletricas",
-    summary: "Loja, catalogo e conteudo para um mercado em expansao.",
-    image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80",
-    points: ["Loja", "E-bike", "Pos-venda"],
+    title: "Midia e portais",
+    summary: "Home forte, leitura rápida e publicação contínua para audiência regional.",
+    image: "/assets/codigo5/cases/roonoticias-home.png",
+    points: ["Portal", "Editorial", "Performance"],
   },
   {
     title: "Clinicas e saude",
-    summary: "Agenda, presenca local e contato simples no WhatsApp.",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
+    summary: "Mais confiança, mais contexto de serviço e menos ruído no atendimento.",
+    image: "/assets/codigo5/cases/clinicapetterle-home.png",
     points: ["Agenda", "Google Maps", "SEO local"],
   },
   {
-    title: "Varejo e ecommerce",
-    summary: "Campanhas, categorias e operacao mais agil para vender melhor.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80",
-    points: ["Campanhas", "CRM", "Recuperacao"],
+    title: "Varejo e catalogo",
+    summary: "Catálogo, contato e jornada digital mais organizada para vender melhor.",
+    image: "/assets/codigo5/cases/sonatamusical-home.png",
+    points: ["Catalogo", "WhatsApp", "Campanhas"],
   },
 ];
 

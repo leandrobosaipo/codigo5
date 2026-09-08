@@ -1,73 +1,42 @@
-# Welcome to your Lovable project
+# Código5 — site institucional
 
-## Project info
+Site da [Código5](https://codigo5.com.br): serviços, trabalhos, trajetória, blog e contato. Inclui painel editorial e Mini App Telegram.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Desenvolvimento
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Stack: React 18, TypeScript, Vite, Tailwind e Cloudflare Pages Functions. Blog dinâmico em D1, sessões em KV e arquivos no DigitalOcean Spaces.
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm ci
 npm run dev
+npm run test
+npm run lint
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+## Publicação
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Produção: Cloudflare Pages, projeto `codigo5-web`, branch `main`. O projeto usa upload direto; um push sozinho não publica o site.
 
-**Use GitHub Codespaces**
+```sh
+npm run test && npm run build
+npx wrangler pages deploy dist --project-name codigo5-web --branch main
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Autenticação é feita localmente pelo Wrangler. Não adicionar tokens, `.env` reais nem arquivos de sessão ao Git. Antes de publicar, conferir os bindings e variáveis com a configuração ativa. Preservar os secrets existentes no provedor.
 
-## What technologies are used for this project?
+## Conteúdo e operação
 
-This project is built with:
+- `src/content/company.ts`: serviços, mercados e trabalhos em destaque.
+- `src/content/siteContent.ts`: contatos e catálogo histórico de clientes.
+- `src/styles-company.css`: identidade visual institucional.
+- `functions/`: API editorial, autenticação, redirects e sitemap.
+- `docs/redesign-2026-09.md`: decisões da repaginação e rollback.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+As imagens e marcas do portfólio pertencem aos respectivos titulares. O portfólio registra trabalhos ao longo do tempo; sites externos podem ter mudado após a entrega.
 
-## How can I deploy this project?
+## Guardrail SEO
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Preservar em conjunto `functions/_middleware.ts`, `functions/sitemap.xml.ts`, `scripts/generate-static-blog-html.mjs`, `scripts/generate-sitemap.mjs` e o teste `src/test/seo-source-canonical.test.ts`.
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Após publicação, conferir que os endereços do sitemap são finais, indexáveis e possuem canonical próprio no HTML-fonte; verificar `/api/telegram/health` e `/api/bot/posts`. Rollback pelo deployment anterior completo, sem alterar o banco.

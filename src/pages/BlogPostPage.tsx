@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router-dom";
-import BlogSidebar from "@/components/BlogSidebar";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
-import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/content/blog";
+import { getAdjacentPosts, getBlogPostBySlug } from "@/content/blog";
+import { useRuntimeBlog } from "@/hooks/use-runtime-blog";
 import { SITE_URL } from "@/lib/site";
 import NotFound from "./NotFound";
+import { safeArticleHtml } from "@/lib/safeArticleHtml";
 
 const extractFaqItems = (contentHtml: string) => {
   const faqStart = contentHtml.indexOf("FAQ:");
@@ -14,7 +15,11 @@ const extractFaqItems = (contentHtml: string) => {
   }
 
   const faqHtml = contentHtml.slice(faqStart);
-  const matches = [...faqHtml.matchAll(/<h3 class="wp-block-heading">([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g)];
+  const matches = [
+    ...faqHtml.matchAll(
+      /<h3 class="wp-block-heading">([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g,
+    ),
+  ];
 
   return matches
     .map(([, question, answer]) => ({
@@ -26,10 +31,15 @@ const extractFaqItems = (contentHtml: string) => {
 
 const BlogPostPage = () => {
   const { slug } = useParams();
-  const post = getBlogPostBySlug(slug);
+  const { posts: blogPosts, ready } = useRuntimeBlog();
+  const post = getBlogPostBySlug(slug, blogPosts);
+
+  if (ready && !post) {
+    return <NotFound />;
+  }
 
   if (!post) {
-    return <NotFound />;
+    return null;
   }
 
   const relatedPosts = blogPosts
@@ -37,15 +47,17 @@ const BlogPostPage = () => {
       (candidate) =>
         candidate.slug !== post.slug &&
         candidate.categories.some((category) =>
-          post.categories.some((postCategory) => postCategory.slug === category.slug),
+          post.categories.some(
+            (postCategory) => postCategory.slug === category.slug,
+          ),
         ),
     )
-    .slice(0, 3);
-  const { previousPost, nextPost } = getAdjacentPosts(post.slug);
+    .slice(0, 2);
+  const { previousPost, nextPost } = getAdjacentPosts(post.slug, blogPosts);
   const faqItems = extractFaqItems(post.contentHtml);
 
   return (
-    <>
+    <div className="c5-site">
       <Seo
         title={post.seoTitle}
         description={post.seoDescription}
@@ -114,162 +126,88 @@ const BlogPostPage = () => {
         }}
       />
       <Navbar />
-      <main id="conteudo" className="pt-24">
-        <article className="pb-20">
-          <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
-            <div className="container max-w-5xl">
-              <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
-                <Link to="/blog" className="transition hover:text-primary">
-                  Blog
-                </Link>{" "}
-                / <span>{post.title}</span>
-              </nav>
-              <div className="mt-6 flex flex-wrap gap-2">
+      <main id="conteudo">
+        <article>
+          <header className="c5-page-hero">
+            <div className="c5-container c5-prose">
+              <Link className="c5-text-link" to="/blog">
+                ← Blog
+              </Link>
+              <div
+                className="c5-category-links"
+                style={{ marginTop: 25, marginBottom: 25 }}
+              >
                 {post.categories.map((category) => (
                   <Link
                     key={category.slug}
                     to={`/blog/categoria/${category.slug}`}
-                    className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary"
                   >
                     {category.name}
                   </Link>
                 ))}
               </div>
-              <h1 className="mt-6 max-w-4xl text-balance font-display text-5xl font-bold leading-[0.95] text-foreground sm:text-6xl">
-                {post.title}
-              </h1>
-              <p className="mt-5 text-sm text-muted-foreground">
-                {new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
-                  new Date(post.date),
-                )}{" "}
-                • {post.readingMinutes} min de leitura
-              </p>
-            </div>
-          </section>
-
-          <div className="container grid gap-12 pt-12 lg:grid-cols-[minmax(0,1fr)_340px]">
-            <div className="min-w-0">
-              {post.image ? (
-                <div className="overflow-hidden rounded-[34px] border border-border shadow-[0_30px_90px_-58px_rgba(30,25,20,0.38)]">
-                  <img src={post.image} alt={post.title} className="h-full w-full object-cover" />
-                </div>
-              ) : null}
-
-              <div className="mt-10 rounded-[34px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,232,0.92))] p-8 shadow-[0_30px_90px_-58px_rgba(30,25,20,0.22)] sm:p-10">
-                <div
-                  className="article-content"
-                  dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-                />
-              </div>
-
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
-                {previousPost ? (
-                  <Link
-                    to={`/blog/${previousPost.slug}`}
-                    className="rounded-[28px] border border-border bg-card p-6 transition hover:border-primary/30 hover:shadow-sm"
-                  >
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                      Post anterior
-                    </p>
-                    <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                      {previousPost.title}
-                    </p>
-                  </Link>
-                ) : (
-                  <div className="rounded-[28px] border border-dashed border-border bg-card p-6 text-sm text-muted-foreground">
-                    Este e um dos posts mais recentes da lista.
-                  </div>
-                )}
-
-                {nextPost ? (
-                  <Link
-                    to={`/blog/${nextPost.slug}`}
-                    className="rounded-[28px] border border-border bg-card p-6 text-left transition hover:border-primary/30 hover:shadow-sm"
-                  >
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                      Proximo post
-                    </p>
-                    <p className="mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                      {nextPost.title}
-                    </p>
-                  </Link>
-                ) : (
-                  <div className="rounded-[28px] border border-dashed border-border bg-card p-6 text-sm text-muted-foreground">
-                    Este e o ultimo post da navegacao atual.
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-8 rounded-[32px] border border-primary/20 bg-[linear-gradient(135deg,rgba(204,149,55,0.16),rgba(255,250,240,0.96))] p-8 shadow-[0_24px_70px_-50px_rgba(30,25,20,0.18)]">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
-                  Proximo passo
-                </p>
-                <h2 className="mt-3 font-display text-3xl font-semibold text-foreground">
-                  Quer transformar esse assunto em um projeto mais forte?
-                </h2>
-                <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
-                  A Código5 pode organizar site, conteudo, SEO e automacoes para sua empresa aparecer melhor, explicar melhor e vender melhor.
-                </p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link
-                    to="/contato"
-                    className="inline-flex rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background transition hover:opacity-90"
-                  >
-                    Falar com a Código5
-                  </Link>
-                  <Link
-                    to="/servicos"
-                    className="inline-flex rounded-full border border-border bg-white px-5 py-3 text-sm font-semibold text-foreground transition hover:border-primary/30 hover:text-primary"
-                  >
-                    Ver servicos
-                  </Link>
-                </div>
+              <h1>{post.title}</h1>
+              <p>{post.excerpt}</p>
+              <div className="c5-article-date">
+                <time dateTime={post.date}>
+                  {new Intl.DateTimeFormat("pt-BR", {
+                    dateStyle: "long",
+                  }).format(new Date(post.date))}
+                </time>
+                <span>{post.readingMinutes} min de leitura</span>
               </div>
             </div>
-
-            <div className="space-y-6">
-              <div className="rounded-[30px] border border-border bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,232,0.92))] p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.22)]">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Tags</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {post.tags.length > 0 ? (
-                    post.tags.map((tag) => (
-                      <Link
-                        key={tag.slug}
-                        to={`/blog/tag/${tag.slug}`}
-                        className="rounded-full bg-white px-3 py-2 text-xs font-medium text-foreground transition hover:bg-primary hover:text-primary-foreground"
-                      >
-                        #{tag.name}
-                      </Link>
-                    ))
-                  ) : (
-                    <span className="text-sm text-muted-foreground">Sem tags cadastradas nesse post.</span>
-                  )}
-                </div>
-              </div>
-
-              <div className="rounded-[30px] border border-border bg-card p-6 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.22)]">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">Posts relacionados</p>
-                <div className="mt-4 space-y-4">
+          </header>
+          <div className="c5-container c5-prose c5-article-body">
+            {post.image && (
+              <img
+                className="c5-article-cover"
+                src={post.image}
+                alt={post.title}
+              />
+            )}
+            <div
+              className="article-content"
+              dangerouslySetInnerHTML={{ __html: safeArticleHtml(post.contentHtml) }}
+            />
+            <nav className="c5-category-links" aria-label="Assuntos do artigo">
+              {post.tags.map((tag) => (
+                <Link key={tag.slug} to={`/blog/tag/${tag.slug}`}>
+                  #{tag.name}
+                </Link>
+              ))}
+            </nav>
+            <nav className="c5-adjacent" aria-label="Outros artigos">
+              {previousPost && (
+                <Link to={`/blog/${previousPost.slug}`}>
+                  <span className="c5-label">Artigo anterior</span>
+                  {previousPost.title}
+                </Link>
+              )}
+              {nextPost && (
+                <Link to={`/blog/${nextPost.slug}`}>
+                  <span className="c5-label">Próximo artigo</span>
+                  {nextPost.title}
+                </Link>
+              )}
+            </nav>
+            {relatedPosts.length > 0 && (
+              <section>
+                <h2>Sobre o mesmo assunto</h2>
+                <div className="c5-adjacent">
                   {relatedPosts.map((related) => (
-                    <Link
-                      key={related.slug}
-                      to={`/blog/${related.slug}`}
-                      className="block rounded-[22px] border border-border/70 bg-background-alt px-4 py-4 transition hover:border-primary/30"
-                    >
-                      <p className="font-display text-xl font-semibold text-foreground">{related.title}</p>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{related.excerpt}</p>
+                    <Link key={related.slug} to={`/blog/${related.slug}`}>
+                      {related.title}
                     </Link>
                   ))}
                 </div>
-              </div>
-
-              <BlogSidebar currentPostSlug={post.slug} />
-            </div>
+              </section>
+            )}
           </div>
         </article>
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

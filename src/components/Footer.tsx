@@ -1,55 +1,36 @@
+import { Link } from "react-router-dom";
 import { contact } from "@/content/siteContent";
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="bg-[#050505] py-14 text-ink-foreground">
-      <div className="container">
-        <div className="mb-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <img src="/assets/codigo5/logos/logo-codigo5.jpg" alt="Codigo5 Web" className="h-11 w-auto" />
-            <p className="mt-4 text-sm leading-relaxed text-ink-foreground/70">
-              Sites, ecommerce, SEO, conteudo, integracoes e automacoes para empresas
-              que querem vender melhor online.
-            </p>
-          </div>
-          <div>
-            <h4 className="mb-4 font-display font-semibold">Solucoes</h4>
-            <ul className="space-y-2 text-sm text-ink-foreground/70">
-              <li>Sites e landing pages</li>
-              <li>Lojas virtuais</li>
-              <li>SEO e conteudo</li>
-              <li>Automacoes e IA</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="mb-4 font-display font-semibold">Links</h4>
-            <ul className="space-y-2 text-sm text-ink-foreground/70">
-              <li><a href="/#solucoes" className="transition-colors hover:text-ink-foreground">Servicos</a></li>
-              <li><a href="/#clientes" className="transition-colors hover:text-ink-foreground">Clientes</a></li>
-              <li><a href="/blog" className="transition-colors hover:text-ink-foreground">Blog</a></li>
-              <li><a href="/#contato" className="transition-colors hover:text-ink-foreground">Contato</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="mb-4 font-display font-semibold">Contato</h4>
-            <ul className="space-y-2 text-sm text-ink-foreground/70">
-              <li>{contact.phone}</li>
-              <li>{contact.email}</li>
-              <li>Cuiaba - MT</li>
-              <li>
-                <a href="https://codigo5.com.br" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink-foreground">
-                  codigo5.com.br
-                </a>
-              </li>
-            </ul>
-          </div>
+    <footer className="c5-footer">
+      <div className="c5-container">
+        <div className="c5-footer-top">
+          <Link to="/" className="c5-logo">
+            <img
+              src="/assets/codigo5/logos/logo-invertida.png"
+              alt="Código5"
+              width="132"
+              height="44"
+            />
+          </Link>
+          <p>
+            Tecnologia, comunicação
+            <br />e trabalho bem-feito.
+          </p>
+          <nav aria-label="Navegação do rodapé">
+            <Link to="/servicos">Serviços</Link>
+            <Link to="/portfolio">Trabalhos</Link>
+            <Link to="/sobre">A Código5</Link>
+            <Link to="/blog">Blog</Link>
+            <Link to="/contato">Contato</Link>
+          </nav>
         </div>
-        <div className="border-t border-ink-foreground/10 pt-8 text-center text-sm text-ink-foreground/50">
-          © {new Date().getFullYear()} Codigo5 Web. Todos os direitos reservados.
+        <div className="c5-footer-bottom">
+          <span>© {new Date().getFullYear()} Código5 Web · Cuiabá, MT</span>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          <Link to="/politica-de-privacidade">Política de privacidade</Link>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

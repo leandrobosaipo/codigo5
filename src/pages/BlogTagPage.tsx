@@ -1,85 +1,89 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import BlogArchiveCard from "@/components/BlogArchiveCard";
+import BlogCollectionHero from "@/components/BlogCollectionHero";
 import BlogSidebar from "@/components/BlogSidebar";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Seo from "@/components/Seo";
 import { getPostsByTag, getTagBySlug } from "@/content/blog";
+import { useRuntimeBlog } from "@/hooks/use-runtime-blog";
 import NotFound from "./NotFound";
 
 const BlogTagPage = () => {
   const { slug } = useParams();
-  const tag = getTagBySlug(slug);
+  const { posts: allPosts, categories, tags, recentPosts, ready } = useRuntimeBlog();
+  const tag = getTagBySlug(slug, tags);
+  const tagName = tag?.name ?? "Tag";
+  const tagSlug = tag?.slug ?? slug ?? "";
 
-  if (!tag) {
+  if (ready && !tag) {
     return <NotFound />;
   }
 
-  const posts = getPostsByTag(slug);
+  const posts = getPostsByTag(slug, allPosts);
 
   return (
-    <>
+    <div className="c5-site c5-blog-collection">
       <Seo
-        title={`#${tag.name} | Blog Código5 Web`}
-        description={`Conteudos da Código5 marcados com a tag ${tag.name}.`}
-        path={`/blog/tag/${tag.slug}`}
+        title={`#${tagName} | Blog Código5 Web`}
+        description={`Conteudos da Código5 marcados com a tag ${tagName}.`}
+        path={`/blog/tag/${tagSlug}`}
         robots="noindex,follow,max-image-preview:large"
         type="website"
       />
       <Navbar />
-      <main id="conteudo" className="pt-24">
-        <section className="border-b border-border bg-[linear-gradient(180deg,#f4eee4_0%,#fbf9f5_60%,#fffdf9_100%)] py-20">
-          <div className="container">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Tag</p>
-            <nav aria-label="Breadcrumb" className="mt-6 text-sm text-muted-foreground">
-              <Link to="/blog" className="transition hover:text-primary">
-                Blog
-              </Link>{" "}
-              / <span>#{tag.name}</span>
-            </nav>
-            <h1 className="mt-4 text-balance font-display text-5xl font-bold text-foreground">#{tag.name}</h1>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              {posts.length} publicacoes relacionadas com esse tema para continuar a leitura por interesse.
+      <main id="conteudo" >
+        <BlogCollectionHero
+          kicker="Tag"
+          title={`#${tagName}`}
+          lead={`${posts.length} publicações relacionadas com esse tema para continuar a leitura por interesse, sem perder ritmo editorial.`}
+          crumb={`#${tagName}`}
+          stats={[
+            { value: String(posts.length), label: "artigos marcados" },
+            { value: "Tag", label: "ligação por tema" },
+            { value: "Navegação", label: "continuidade por interesse" },
+          ]}
+          visual={posts[0]?.image ? (
+            <div className="overflow-hidden rounded-[20px] border border-white/10">
+              <img src={posts[0].image} alt="" aria-hidden="true" className="h-[180px] w-full object-cover sm:h-[220px]" />
+            </div>
+          ) : undefined}
+          aside={(
+            <p>
+              As tags cruzam assuntos entre categorias sem transformar a navegação em arquivo pesado.
             </p>
-          </div>
-        </section>
-        <section className="py-16">
-          <div className="container grid gap-10 lg:grid-cols-[minmax(0,1fr)_330px]">
+          )}
+        />
+
+        <section className="bg-[linear-gradient(180deg,#eef4ff_0%,#f8fbff_100%)] py-16">
+          <div className="container grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
             <div className="grid gap-6">
               {posts.map((post) => (
-                <article
+                <BlogArchiveCard
                   key={post.slug}
-                  className="rounded-[32px] border border-border bg-card p-8 shadow-[0_24px_70px_-54px_rgba(30,25,20,0.35)]"
-                >
-                  <div className="grid gap-6 md:grid-cols-[240px_1fr]">
-                    <Link to={`/blog/${post.slug}`} className="overflow-hidden rounded-[24px] bg-muted">
-                      <img
-                        src={post.image ?? "/assets/codigo5/blog/metodologia.webp"}
-                        alt={post.title}
-                        className="h-full w-full object-cover"
-                      />
-                    </Link>
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                        {new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(
-                          new Date(post.date),
-                        )}
-                      </p>
-                      <h2 className="mt-3 text-balance font-display text-3xl font-semibold text-foreground">
-                        <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-                      </h2>
-                      <p className="mt-4 line-clamp-3 text-base leading-7 text-muted-foreground">{post.excerpt}</p>
-                    </div>
-                  </div>
-                </article>
+                  slug={post.slug}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  image={post.image}
+                  date={post.date}
+                  readingMinutes={post.readingMinutes}
+                  categories={post.categories}
+                  compact
+                />
               ))}
             </div>
 
-            <BlogSidebar currentTagSlug={tag.slug} />
+            <BlogSidebar
+              currentTagSlug={tagSlug}
+              categories={categories}
+              tags={tags}
+              recentPosts={recentPosts}
+            />
           </div>
         </section>
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

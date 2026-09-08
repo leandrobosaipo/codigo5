@@ -1,97 +1,83 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { contact } from "@/content/siteContent";
-
-const navLinks = [
-  { label: "Inicio", href: "/#hero" },
-  { label: "Servicos", href: "/#solucoes" },
-  { label: "Clientes", href: "/#clientes" },
-  { label: "Segmentos", href: "/#casos" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contato", href: "/#contato" },
+const links = [
+  ["Serviços", "/servicos"],
+  ["Trabalhos", "/portfolio"],
+  ["A Código5", "/sobre"],
+  ["Blog", "/blog"],
 ];
-
-const Navbar = () => {
+export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, []);
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
-      <a
-        href="#conteudo"
-        className="skip-link"
-        onClick={() => setOpen(false)}
-      >
+    <header className="c5-header">
+      <a href="#conteudo" className="skip-link">
         Pular para o conteúdo principal
       </a>
-      <div className="container flex min-h-[4.5rem] items-center justify-between gap-6 py-3">
-        <Link to="/" className="flex items-center gap-3">
+      <nav className="c5-container c5-nav" aria-label="Navegação principal">
+        <Link to="/" className="c5-logo" aria-label="Código5 — início">
           <img
             src="/assets/codigo5/logos/logo-invertida.png"
-            alt="Codigo5 Web"
-            className="h-8 w-auto"
+            alt="Código5"
+            width="132"
+            height="44"
           />
         </Link>
-
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className={`text-sm font-medium transition-colors duration-200 hover:text-foreground ${
-                pathname.startsWith("/blog") && l.href === "/blog" ? "text-foreground" : "text-muted-foreground"
-              }`}
+        <div className="c5-desktop-nav">
+          {links.map(([label, href]) => (
+            <Link
+              key={href}
+              to={href}
+              aria-current={pathname.startsWith(href) ? "page" : undefined}
             >
-              {l.label}
-            </a>
+              {label}
+            </Link>
           ))}
-          <Button asChild size="sm" className="min-w-[190px]">
-            <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
-              Falar no WhatsApp
-            </a>
-          </Button>
+          <a
+            className="c5-button"
+            href={contact.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Vamos conversar <ArrowUpRight size={16} />
+          </a>
         </div>
-
         <button
-          type="button"
-          className="md:hidden text-foreground"
-          aria-label={open ? "Fechar menu principal" : "Abrir menu principal"}
+          className="c5-menu-button"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
-          aria-controls="menu-principal-mobile"
+          aria-controls="c5-mobile-nav"
           onClick={() => setOpen(!open)}
         >
-          {open ? <X size={24} /> : <Menu size={24} />}
+          {open ? <X /> : <Menu />}
         </button>
-      </div>
-
+      </nav>
       {open && (
-        <div
-          id="menu-principal-mobile"
-          className="md:hidden bg-background border-b border-border pb-4"
+        <nav
+          id="c5-mobile-nav"
+          className="c5-mobile-nav"
+          aria-label="Navegação móvel"
         >
-          <div className="container flex flex-col gap-3">
-            {navLinks.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="py-1 text-sm font-medium text-muted-foreground hover:text-foreground"
-              >
-                {l.label}
-              </a>
-            ))}
-            <Button asChild size="sm" className="w-fit">
-              <a href={contact.whatsappHref} target="_blank" rel="noreferrer">
-                Falar no WhatsApp
-              </a>
-            </Button>
-          </div>
-        </div>
+          {links.map(([label, href]) => (
+            <Link key={href} to={href} onClick={() => setOpen(false)}>
+              {label}
+            </Link>
+          ))}
+          <Link to="/contato">Contato</Link>
+        </nav>
       )}
-    </nav>
+    </header>
   );
-};
-
-export default Navbar;
+}

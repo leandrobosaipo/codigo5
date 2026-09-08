@@ -1,45 +1,60 @@
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
-import { SITE_URL } from "@/lib/site";
-
-const ContactPage = () => {
+import { contact } from "@/content/siteContent";
+import { ArrowUpRight } from "lucide-react";
+export default function ContactPage() {
   return (
-    <>
+    <div className="c5-site">
       <Seo
-        title="Contato Código5 Web | WhatsApp, email e atendimento em Cuiaba"
-        description="Entre em contato com a Código5 Web para conversar sobre site, ecommerce, SEO, integracoes e automacoes para sua empresa."
+        title="Contato | Converse com a Código5"
+        description="Fale com a Código5 em Cuiabá sobre sites, sistemas, conteúdo e automações. Atendimento pelo WhatsApp e e-mail."
         path="/contato"
-        keywords="contato codigo5, whatsapp codigo5, agencia digital cuiaba"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "ContactPage",
-          name: "Contato Código5 Web",
-          url: `${SITE_URL}/contato`,
-          description:
-            "Pagina de contato da Código5 Web com telefone, WhatsApp, email e endereco em Cuiaba.",
-        }}
       />
       <Navbar />
-      <main id="conteudo" className="pt-24">
-        <section className="border-b border-border bg-background-alt py-20">
-          <div className="container max-w-4xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Contato</p>
-            <h1 className="mt-4 text-balance font-display text-5xl font-bold leading-tight text-foreground">
-              Vamos conversar sobre o proximo passo do seu projeto
+      <main id="conteudo">
+        <section className="c5-page-hero">
+          <div className="c5-container">
+            <span className="c5-label">Contato</span>
+            <h1>
+              Vamos entender
+              <br />o seu próximo passo.
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-              Se voce precisa de um site melhor, uma loja virtual mais forte ou automacoes para
-              vender com menos retrabalho, fale direto com a equipe da Código5.
+            <p>
+              Um projeto novo, uma melhoria ou uma operação que precisa de
+              cuidado. Conte o que está acontecendo na sua empresa.
             </p>
           </div>
         </section>
-        <ContactSection />
+        <section className="c5-section">
+          <div className="c5-container c5-contact-page">
+            <div>
+              <h2>Conversa direta.</h2>
+              <p>Fale pelo WhatsApp para iniciar o atendimento.</p>
+              <a
+                className="c5-button"
+                href={contact.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {contact.phone} <ArrowUpRight size={18} />
+              </a>
+            </div>
+            <div>
+              <h2>Prefere escrever?</h2>
+              <p>
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              </p>
+              <p>{contact.address}</p>
+              <p>
+                Para começar, envie o nome da empresa, o endereço do site, se
+                houver, e o que você quer resolver.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
-    </>
+    </div>
   );
-};
-
-export default ContactPage;
+}

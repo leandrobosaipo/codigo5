@@ -13,20 +13,20 @@ Primeira entrega da integração: uma fonte monitorada para a Código5 gera uma 
 | Parte | Situação confirmada |
 |---|---|
 | Páginas institucionais | Conteúdo em `src/content/company.ts`, `siteContent.ts` e componentes. Gerado no build; alterações exigem publicação do site. O painel não edita serviços, história e portfólio. |
-| Blog | Híbrido. Acervo empacotado em `src/content/blog-posts.json` e posts dinâmicos em D1. O navegador combina os dois por slug; alterações dinâmicas podem substituir a versão do acervo. |
+| Blog | Híbrido. Acervo empacotado em `src/content/blog-posts.json` e posts dinâmicos em SQLite no Mac Mini. O navegador combina os dois por slug; alterações dinâmicas podem substituir a versão do acervo. |
 | HTML e SEO | `functions/_middleware.ts` consulta posts dinâmicos para responder com conteúdo, título, imagem e schema no HTML. Sitemap inclui conteúdo dinâmico. Não é apenas conteúdo inserido por JavaScript. |
 | Painel | `/admin/editorial`: acesso protegido por Telegram/link de acesso; criação, importação do acervo, edição visual, capa, geração de texto, publicação e arquivamento. |
 | API | `/api/admin/posts*` para usuário autenticado; `/api/bot/*` para fluxo do bot; `/api/bot/posts` para leitura pública. Nenhuma destas deve virar uma escrita pública sem autenticação. |
 | Imagens | Upload e armazenamento no Spaces, já usados pelo editor. |
 | Radar | Projeto local `RadarCred`, SQLite e catálogo/adapters de fontes; container `radarcred` ativo no Mac Mini. Revisão exata da imagem não identificável por tag atual. |
-| Sync | Produção verificada no Mac Mini/Portainer: `cod5-sync-app`, imagem `sha-5bcde48`, com backup e watchdog. Node executa `server.mjs`; SQLite local emula interface D1 e fila durável. A pasta `worker` não significa que a produção está em Cloudflare. |
+| Sync | Produção verificada no Mac Mini/Portainer: `cod5-sync-app`, imagem `sha-5bcde48` na auditoria inicial (referência histórica; conferir release atual antes de implementar), com backup e watchdog. Node executa `server.mjs`; SQLite local emula interface D1 e fila durável. A pasta `worker` não significa que a produção está em Cloudflare. |
 | Integração existente | Radar cria candidatos em modo `simulate`; Sync recebe em `/v1/admin/radarcred/candidates` e processa pela fila. Publicação atual usa adapter WordPress. Não foi encontrado adapter para o blog Código5. |
 
-### Bloqueio operacional encontrado
+### Pré-requisito resolvido pela migração
 
-Uma consulta agregada somente leitura ao D1 da Código5 retornou erro **7500: limite diário de linhas lidas do plano gratuito excedido**. Portanto, não foi possível confirmar a quantidade atual de posts dinâmicos nem validar gravação/publicação autenticada em produção nesta auditoria. O fallback estático explica por que o site continua exibindo artigos; não comprova que o banco está funcionando.
+O limite D1 observado na auditoria inicial foi superado pela migração do Código5 para SQLite no Mac Mini, release c93deaa. Banco, sessões, criação/edição de rascunho e upload foram validados pela API pública; publicação e SEO dinâmico foram testados em banco temporário. Não houve publicação fictícia em produção. Operação e recuperação: [runbook](migracao-macmini-operacao.md).
 
-Não houve alteração de plano pago, banco ou configuração dos portais. O limite deve ser liberado pelo provedor ou o titular deve escolher capacidade adequada antes de ativar publicação contínua.
+A primeira publicação real da integração continua sendo um critério de aceite, com conteúdo aprovado para o blog. A integração Radar → Sync → Código5 ainda não está implementada.
 
 ### Melhorias imediatas do painel
 
@@ -55,9 +55,9 @@ Uma fonte pode interessar a mais de um cliente. Coletar o material uma vez e dec
 
 ## 4. Fase 0 — capacidade e publicação manual confiável
 
-1. Liberar a operação do D1 e medir consumo real antes de escolher plano ou migração. O erro indica limite, não a causa do consumo.
+1. Revalidar o SQLite e o release atual do Código5. A migração já foi concluída; não reabrir D1 nem criar banco compartilhado com Sync.
 2. Medir consultas de listagem, artigo, sitemap e painel: frequência, linhas lidas, índice utilizado e volume retornado. O blog público deve buscar apenas posts publicados e a lista não precisa transportar o corpo integral de todos os artigos.
-3. Definir cache curto de leitura pública, com invalidação após salvar/publicar/arquivar. Não aplicar cache a sessão, rascunhos ou conteúdo administrativo. Prever atualização entre regiões e tempo máximo de propagação; validar o conteúdo público após esse intervalo, sem interpretar um HTTP 200 como entrega.
+3. Manter a leitura pública atual sem cache de conteúdo dinâmico no piloto. Introduzir cache curto apenas se medições mostrarem necessidade, com invalidação após salvar/publicar/arquivar. Não aplicar cache a sessão, rascunhos ou conteúdo administrativo. Prever atualização entre regiões e tempo máximo de propagação; validar o conteúdo público após esse intervalo, sem interpretar um HTTP 200 como entrega.
 4. Conferir estado de erro/fallback: artigo de acervo pode continuar disponível; artigo novo não deve virar um falso 404 permanente quando o banco estiver indisponível. Falhas temporárias não devem receber cache longo.
 5. Validar pelo painel um artigo autorizado: criar, salvar, recarregar, adicionar capa, publicar e confirmar página, HTML, listagem e sitemap. Para testes, usar ambiente isolado; não publicar pauta fictícia em produção.
 
@@ -123,7 +123,7 @@ Resposta deve conter identificador persistido, estado, revisão, URL canônica q
 - Registrar mapeamento para draft/post e revisão. Um retry não cria outro artigo; uma versão antiga não sobrescreve a mais nova.
 - Preparar mídia antes de publicar. Se o upload falhar, manter o rascunho e o erro; não publicar artigo parcialmente pronto.
 - Persistir mudanças relacionadas em transação/batch adequado. Preservar redirects em troca de endereço e impedir colisão com outro artigo.
-- Gravar pela camada de conteúdo do site. O Sync não acessa D1 diretamente; isso preserva regras, sanitização, SEO e auditoria.
+- Gravar pela camada de conteúdo do site. O Sync não acessa SQLite diretamente; isso preserva regras, sanitização, SEO e auditoria.
 
 **Saída:** enviar o mesmo job duas vezes gera um único rascunho, com a mesma capa e identificador. Revisão/publicação confirmadas pelo site e pelo Sync.
 
@@ -156,7 +156,7 @@ Sugestões de categoria/SEO podem ser automáticas, mas editáveis. Prévia deve
 
 | Ordem | Entrega | Dependência |
 |---|---|---|
-| 0 | Liberar capacidade e provar publicação manual | Banco disponível e acesso do usuário ao painel |
+| 0 | Revalidar base já migrada e fluxo editorial | SQLite operacional; primeira publicação real ainda será conferida |
 | 1 | Cadastro e teste de fontes/vínculos | Radar atual, sem mudar G5 |
 | 2 | Perfil editorial por destino e candidatos | Categorias/destinos reais do Sync |
 | 3 | API Código5 + adapter Sync + idempotência | Contrato versionado e testes isolados |
@@ -176,3 +176,38 @@ Radar: `src/radarcred/sources.py`, `crawler.py`, `runner.py`, `storage.py`, `web
 Sync: `docs/contracts/v1-api.md`, `db/schema.sql`, `worker/src/index.ts`; produção inspecionada em `server.mjs`, funções `Cod5SqliteD1`, `Cod5DurableQueue`, `createOrUpdateWordPressPost`, `processQueuedJob` e `findExistingWordPressPostByOrigin`. A equivalência do checkout local com a imagem ativa não foi assumida.
 
 Este documento é um plano. Não foram cadastradas fontes, ativados jobs, implementado o novo adapter ou publicadas pautas em nome do usuário.
+
+## 12. Recorte executável após a migração
+
+Atualização de planejamento: 09/09/2026. Este pedido autoriza o planejamento; não ativa coleta, geração paga nem publicação automática.
+
+### Perfil inicial Código5
+
+Objetivo: transformar referências em conteúdo útil para empresários sobre atendimento, vendas, presença digital e organização do trabalho. Não produzir um espelho de notícias de tecnologia.
+
+Grupos iniciais: atendimento e agenda (clínicas, barbearias e oficinas); comércio e vendas digitais; sites e descoberta nas buscas; conteúdo e operação de portais. Cada pauta deve indicar público e utilidade concreta. Exemplos de perguntas editoriais: “O que muda para quem atende pelo WhatsApp?” e “Como essa mudança afeta a loja?”. Não inventar resultados de clientes ou funcionalidades.
+
+Começar com até cinco fontes de um único grupo. Escolher e testar URLs reais antes do cadastro: feed/extração, data, autoria, origem e permissão de aproveitamento. Este plano não presume uma lista de domínios aprovada. Expandir após avaliar relevância, duplicidade e custo do piloto.
+
+### Sequência de entregas
+
+| Etapa | Alteração | Prova de aceite |
+|---|---|---|
+| 1 | Fixar contrato de artigo e identificador externo no site; credencial restrita à integração | Sem credencial não grava; repetição e timeout não duplicam; revisão antiga não sobrescreve edição humana |
+| 2 | Criar adapter Código5 no Sync usando a geração, mídia e fila existentes | Um job gera um rascunho persistido no site; falha de imagem não publica; WordPress continua passando nos testes |
+| 3 | Configurar destino e perfil editorial Código5; cadastrar e testar uma fonte no Radar | Candidato chega ao destino correto com referência, data e identificador rastreáveis |
+| 4 | Revisar texto e capa no painel já existente | Operador abre, edita e salva sem perder alterações; fonte e destino visíveis |
+| 5 | Publicar o primeiro artigo real aprovado | Página, capa, HTML SEO, listagem e sitemap corretos; Sync confirma URL e estado persistidos |
+| 6 | Habilitar coleta recorrente e ampliar até cinco fontes | Rodada seguinte completa sem duplicação; pausa e retomada funcionam; custo e erros registrados |
+
+A ordem prioriza um caminho completo com uma fonte antes de ampliar telas ou catálogos. Melhorias gerais de cadastro e uma caixa nova de pautas entram só quando o fluxo atual não atender o piloto.
+
+### Controles do piloto
+
+Proposta inicial: coleta duas vezes ao dia, até três candidatos por rodada e no máximo um rascunho gerado por dia. São limites propostos, não configurações já aplicadas. Separar limite de coleta do limite de geração; não consumir IA por cada item encontrado. Reutilizar o provedor configurado no Sync, registrar consumo disponível e manter revisão humana antes da publicação. Publicação totalmente automática exige uma etapa posterior explícita de ativação e critérios editoriais consolidados.
+
+Em falha após envio, consultar o artigo pelo mesmo identificador; não reenviar cegamente. Se o editor humano alterar o rascunho, impedir que retry do Sync sobrescreva essa alteração. Uma pauta pode servir a dois clientes, mas cada publicação tem estado, texto e credencial próprios.
+
+### Isolamento e retorno
+
+Antes de implementar, conferir AGENTS locais, git status, revisão ativa e trabalho concorrente dos três projetos. Criar isolamento por repositório. Alterações de contrato precedem adapter; integração e publicação ocorrem em série. Pausar apenas o destino Código5 em caso de falha, mantendo novos dados e artigos já publicados. Não alterar o G5 ou a rotina dos portais existentes.

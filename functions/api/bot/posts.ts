@@ -57,14 +57,14 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   try {
     if (slug) {
       const row = await getPublishedPostBySlug(env, slug);
-      return Response.json({ ok: true, post: row ? mapRowToPost(row) : null });
+      return Response.json({ ok: true, post: row ? mapRowToPost(row) : null }, { headers: { "cache-control": "no-store" } });
     }
 
     const rows = await listPublishedPosts(env);
     return Response.json({
       ok: true,
       posts: rows.map((row) => mapRowToPost(row as Record<string, unknown>)),
-    });
+    }, { headers: { "cache-control": "no-store" } });
   } catch {
     console.warn(
       "Public blog database unavailable; serving bundled published archive.",

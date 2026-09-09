@@ -48,3 +48,13 @@ it('reports failed real table reads as unhealthy instead of relying on SELECT 1'
   expect(response.status).toBe(503);
   expect(await response.json()).toMatchObject({ok:false,database:false});
 });
+
+it('does not cache successful dynamic listings or article lookups', async () => {
+  const query = { all: vi.fn().mockResolvedValue({ results: [] }) };
+  const env = { BOT_DB: { prepare: () => ({ ...query, bind: () => query }) } };
+  for (const path of ['/api/bot/posts', '/api/bot/posts?slug=sample']) {
+    const response = await posts({request:new Request('https://codigo5.com.br'+path),env} as never);
+    expect(response.status).toBe(200);
+    expect(response.headers.get('cache-control')).toBe('no-store');
+  }
+});

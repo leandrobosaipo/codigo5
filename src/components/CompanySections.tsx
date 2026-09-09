@@ -1,8 +1,8 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Newspaper, HeartPulse, ShoppingBag, Factory, Landmark, Compass } from "lucide-react";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { capabilities, markets, selectedWork } from "@/content/company";
-import { contact } from "@/content/siteContent";
+import { contact, portfolioClients } from "@/content/siteContent";
 
 export function ServiceList({ expanded = false }: { expanded?: boolean }) {
   const { hash } = useLocation();
@@ -76,16 +76,34 @@ export function WorkList({ limit, sector = "Todos" }: { limit?: number; sector?:
     </div>
   );
 }
+const marketIcons = { news: Newspaper, health: HeartPulse, shop: ShoppingBag, industry: Factory, community: Landmark, travel: Compass };
+
 export function MarketList() {
   return (
-    <div className="c5-markets">
-      {markets.map((market) => (
-        <article key={market.title}>
-          <h3>{market.title}</h3>
-          <p>{market.examples}</p>
-        </article>
-      ))}
-    </div>
+    <>
+      <div className="c5-market-cards">
+        {markets.map((market) => {
+          const Icon = marketIcons[market.icon];
+          const brands = market.clients.map(name => portfolioClients.find(client => client.name === name)).filter(client => client !== undefined);
+          return (
+            <article key={market.title}>
+              <div className="c5-market-heading">
+                <span className="c5-market-icon"><Icon size={30} strokeWidth={1.6} aria-hidden="true" /></span>
+                <h3>{market.title}</h3>
+              </div>
+              <div className="c5-market-brands">
+                {brands.map(client => (
+                  <span key={client.name} className={client.surface === "dark" ? "is-dark" : ""}>
+                    <img src={client.logo} alt={client.name} loading="lazy" width="140" height="58" />
+                  </span>
+                ))}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <Link className="c5-text-link c5-market-more" to="/portfolio#clientes">Conheça todos os clientes <ArrowRight size={17} /></Link>
+    </>
   );
 }
 export function Method() {

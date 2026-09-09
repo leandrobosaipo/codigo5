@@ -181,9 +181,7 @@ export default function Index() {
                 </h2>
               </div>
               <p>
-                Da rotina de uma redação à apresentação de uma clínica. Cada
-                mercado tem sua linguagem, suas prioridades e seu jeito de
-                atender.
+                Alguns clientes de cada mercado. Do portal de notícias à loja do bairro.
               </p>
             </div>
             <MarketList />

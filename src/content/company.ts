@@ -1,7 +1,7 @@
 export const capabilities = [
   {
     "id": "presenca",
-    "image": "/assets/codigo5/cases/rbike-2026-09-opt.webp",
+    "image": "/assets/codigo5/cases/rbike-site-20260909.webp",
     "caption": "Rbike Shop MT · produtos da loja disponíveis para consulta e pedido",
     "title": "Apresentar sua empresa e vender pela internet",
     "summary": "Para quem precisa de um site, catálogo ou loja que explique bem o que oferece.",
@@ -80,32 +80,13 @@ export const capabilities = [
   }
 ];
 export const markets = [
-  {
-    title: "Mídia e jornalismo",
-    examples:
-      "Portal 163, O Matogrossense, Roo Notícias e Perrengue Mato Grosso.",
-  },
-  {
-    title: "Saúde e bem-estar",
-    examples: "Clínica Petterle e Titaniun Implantes.",
-  },
-  {
-    title: "Varejo, serviços e agro",
-    examples: "Rbike Shop MT, Sonata Musical, PraticLar, Stilo Assessoria e Nobres Rações.",
-  },
-  {
-    title: "Indústria e construção",
-    examples: "Shop10, Axis Construções, Calcário Aliança e Usical.",
-  },
-  {
-    title: "Instituições e comunidades",
-    examples: "CREF17/MT, Instituto Mario Cardi, Fundação Abrigo Bom Jesus e Igreja Família da Cruz.",
-  },
-  {
-    title: "Turismo, eventos e esporte",
-    examples: "FlechaTur, AlphaVille Buffet e Vini Ortega.",
-  },
-];
+  { title: "Mídia e jornalismo", icon: "news", clients: ["O Matogrossense", "Portal 163"] },
+  { title: "Saúde e bem-estar", icon: "health", clients: ["Clínica Petterle", "Titaniun Implantes"] },
+  { title: "Varejo, serviços e agro", icon: "shop", clients: ["Rbike Shop MT", "Nobres Rações"] },
+  { title: "Indústria e construção", icon: "industry", clients: ["Shop10", "Calcário Aliança"] },
+  { title: "Instituições e comunidades", icon: "community", clients: ["CREF17/MT", "Instituto Mario Cardi"] },
+  { title: "Turismo, eventos e esporte", icon: "travel", clients: ["FlechaTur", "AlphaVille Buffet"] },
+] as const;
 export const selectedWork = [
   {
     "name": "Clínica Petterle",
@@ -134,7 +115,7 @@ export const selectedWork = [
   {
     "name": "Rbike Shop MT",
     "market": "Varejo e mobilidade",
-    "image": "/assets/codigo5/cases/rbike-2026-09-opt.webp",
+    "image": "/assets/codigo5/cases/rbike-site-20260909.webp",
     "description": "Produtos, preços e disponibilidade da loja atualizados no catálogo.",
     "url": "https://rbikeshopmt.com.br",
     "sector": "Comércio e indústria"
@@ -231,7 +212,7 @@ export const selectedWork = [
     "name": "Regional MT News",
     "market": "Jornalismo regional",
     "sector": "Notícias",
-    "image": "/assets/codigo5/client-catalog/regionalmtnews-opt.webp",
+    "image": "/assets/codigo5/cases/regional-site-20260909.webp",
     "description": "Notícias da região organizadas por assunto, com espaço para anunciantes.",
     "url": "https://regionalmtnews.com.br"
   },
@@ -383,9 +364,9 @@ export const selectedWork = [
     "name": "Veloztrix",
     "market": "Mudanças e transportes",
     "sector": "Serviços",
-    "image": "/assets/codigo5/client-catalog/veloztrix-logo.png",
+    "image": "/assets/codigo5/cases/veloztrix-acervo-20260909.webp",
     "url": "",
-    "description": "Site, migração de hospedagem e formulário de contato. Projeto do acervo; domínio indisponível na última conferência."
+    "description": "Site, migração de hospedagem e formulário de contato. Captura do site preservado no acervo; domínio indisponível."
   },
   {
     "name": "Sonata Musical",

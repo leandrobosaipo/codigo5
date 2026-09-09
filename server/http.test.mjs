@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
@@ -32,6 +32,10 @@ test('Node routes preserve authentication, draft persistence, redirects and dyna
     const cookie = login.headers.get('set-cookie').split(';')[0];
     const authenticated = await request('/api/admin/posts', { headers: { cookie } }); assert.equal(authenticated.status, 200);
     const replay = await request('/api/admin/auth/consume', { method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify({ token:'local-test' }) }); assert.equal(replay.status, 401);
+    writeFileSync(join(dir,'read-only'),'migration');
+    assert.equal((await request('/api/admin/posts',{method:'POST',headers:{cookie}})).status,503);
+    assert.equal((await request('/')).status,200);
+    unlinkSync(join(dir,'read-only'));
     const post = (path, body) => request(path, { method:'POST', headers:{cookie,'content-type':'application/json'}, body:JSON.stringify(body) });
     const created = await post('/api/admin/posts', {source:'Verificação local da migração'}); assert.equal(created.status,200);
     const {item} = await created.json();

@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { resolve, extname, sep } from 'node:path';
+import { resolve, extname, sep, dirname } from 'node:path';
 import { Readable } from 'node:stream';
 import { SqliteD1, SqliteKV } from './storage.mjs';
 import routes from '../output/routes.ts';
@@ -10,6 +10,10 @@ import { onRequest as botMiddleware } from '../functions/api/bot/_middleware.ts'
 
 const dataFile = process.env.COD5_DATABASE_FILE || '/data/editorial.sqlite';
 if (!existsSync(dataFile)) throw new Error('Imported editorial database required; refusing to start with an empty database.');
+if (process.env.NODE_ENV === 'production') {
+  if (!/^\d+:[A-Za-z0-9_-]+$/.test(process.env.TELEGRAM_BOT_TOKEN || '') || !/^\d+(,\s*\d+)*$/.test(process.env.TELEGRAM_ALLOWED_USER_IDS || '')) throw new Error('Valid editorial Telegram configuration required.');
+  for (const name of ['TELEGRAM_SECRET_TOKEN', 'DO_SPACES_KEY', 'DO_SPACES_SECRET', 'DO_SPACES_BUCKET', 'DO_SPACES_REGION', 'DO_SPACES_ENDPOINT']) if (!process.env[name]) throw new Error(`Missing configuration: ${name}`);
+}
 const db = new SqliteD1(dataFile);
 for (const table of ['drafts', 'posts', 'redirects', 'publish_jobs', 'users']) db.prepare(`SELECT 1 FROM ${table} LIMIT 1`).all();
 const env = { ...process.env, BOT_DB: db, BOT_SESSIONS: new SqliteKV(db) };
@@ -42,6 +46,7 @@ async function staticResponse(request) {
 
 async function dispatch(request) {
   const url = new URL(request.url);
+  if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && existsSync(resolve(dirname(dataFile), 'read-only'))) return Response.json({ ok: false, error: 'Atualização em andamento. Tente novamente em instantes.' }, { status: 503, headers: { 'retry-after': '30', 'cache-control': 'no-store' } });
   const handlerModule = routes[url.pathname];
   const endpoint = async () => {
     if (!handlerModule) return url.pathname.startsWith('/api/') ? new Response('Not found', { status: 404 }) : staticResponse(request);

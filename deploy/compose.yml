@@ -9,6 +9,8 @@ services:
       - /opt/cod5/codigo5-web/data:/data
       - /opt/cod5/codigo5-web/backups:/backups
     environment:
+      COD5_SYNC_DRAFT_TOKEN: ${COD5_SYNC_DRAFT_TOKEN:-}
+      COD5_SYNC_PUBLISH_TOKEN: ${COD5_SYNC_PUBLISH_TOKEN:-}
       ADMIN_ALLOWED_EMAILS: ${ADMIN_ALLOWED_EMAILS:-}
       ADMIN_PANEL_URL: ${ADMIN_PANEL_URL:-}
       BOT_APP_NAME: ${BOT_APP_NAME:-}

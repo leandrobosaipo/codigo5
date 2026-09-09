@@ -21,6 +21,7 @@ test('Node routes preserve authentication, draft persistence, redirects and dyna
     await Promise.race([once(child.stdout, 'data'), once(child, 'exit').then(() => { throw new Error('Server exited'); }), new Promise((_, reject) => { const timer=setTimeout(()=>reject(new Error('Start timeout')),10000); timer.unref(); })]);
     const base = `http://127.0.0.1:${port}`;
     const request = (path, options) => fetch(base + path, { redirect: 'manual', ...options });
+    assert.equal((await request('/api/integrations/sync/articles')).status,401);
     assert.equal((await request('/api/admin/posts')).status, 401);
     assert.equal((await request('/api/bot/drafts')).status, 400);
     assert.equal((await request('/api/missing')).status, 404);

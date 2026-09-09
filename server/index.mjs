@@ -5,6 +5,10 @@ import { resolve, extname, sep, dirname } from 'node:path';
 import { Readable } from 'node:stream';
 import { SqliteD1, SqliteKV } from './storage.mjs';
 import { migrateEditorial } from './migrate.mjs';
+import { handleSyncMedia } from './sync-media.mjs';
+import { buildSpacesKey, uploadImageToSpaces } from '../functions/_shared/bot/spaces.ts';
+import { handleSyncArticle, migrateSync } from './sync-integration.mjs';
+import archive from '../src/content/blog-posts.json' with { type: 'json' };
 import routes from '../output/routes.ts';
 import { onRequest as publicMiddleware } from '../functions/_middleware.ts';
 import { onRequest as botMiddleware } from '../functions/api/bot/_middleware.ts';
@@ -17,6 +21,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 const db = new SqliteD1(dataFile);
 migrateEditorial(db.database);
+migrateSync(db.database);
+const staticSlugs = new Set(archive.map(post => post.slug));
 for (const table of ['drafts', 'posts', 'redirects', 'publish_jobs', 'users']) db.prepare(`SELECT 1 FROM ${table} LIMIT 1`).all();
 const env = { ...process.env, BOT_DB: db, BOT_SESSIONS: new SqliteKV(db) };
 const assets = resolve(process.env.COD5_ASSETS_DIR || 'dist');
@@ -49,6 +55,8 @@ async function staticResponse(request) {
 async function dispatch(request) {
   const url = new URL(request.url);
   if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && existsSync(resolve(dirname(dataFile), 'read-only'))) return Response.json({ ok: false, error: 'Atualização em andamento. Tente novamente em instantes.' }, { status: 503, headers: { 'retry-after': '30', 'cache-control': 'no-store' } });
+  if (url.pathname === '/api/integrations/sync/media') return handleSyncMedia(request,env,(key,bytes,type)=>uploadImageToSpaces(env,buildSpacesKey(env,key),bytes,type));
+  if (url.pathname === '/api/integrations/sync/articles') return handleSyncArticle(request,db.database,env,staticSlugs);
   const handlerModule = routes[url.pathname];
   const endpoint = async () => {
     if (!handlerModule) return url.pathname.startsWith('/api/') ? new Response('Not found', { status: 404 }) : staticResponse(request);

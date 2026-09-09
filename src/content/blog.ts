@@ -105,7 +105,7 @@ export const mergeBlogPosts = (dynamicPosts: BlogPost[]) => {
   });
 
   dynamicPosts.forEach((post) => {
-    map.set(post.slug, post);
+    map.set(post.slug, {...post, image: post.image || map.get(post.slug)?.image || null});
   });
 
   return sortBlogPosts([...map.values()]);

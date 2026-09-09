@@ -167,6 +167,8 @@ const BlogPostPage = () => {
                 className="c5-article-cover"
                 src={post.image}
                 alt={post.title}
+                fetchPriority="high"
+                decoding="async"
               />
             )}
             <div

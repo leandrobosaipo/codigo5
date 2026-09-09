@@ -37,6 +37,10 @@ As imagens e marcas do portfólio pertencem aos respectivos titulares. O portfó
 
 ## Guardrail SEO
 
-Preservar em conjunto `functions/_middleware.ts`, `functions/sitemap.xml.ts`, `scripts/generate-static-blog-html.mjs`, `scripts/generate-sitemap.mjs` e o teste `src/test/seo-source-canonical.test.ts`.
+Preservar em conjunto `functions/_middleware.ts`, `functions/sitemap.xml.ts`, `scripts/generate-static-site.mjs` e `scripts/check-static-seo.mjs`, `scripts/generate-sitemap.mjs` e o teste `src/test/seo-source-canonical.test.ts`.
 
 Após publicação, conferir que os endereços do sitemap são finais, indexáveis e possuem canonical próprio no HTML-fonte; verificar `/api/telegram/health` e `/api/bot/posts`. Rollback pelo deployment anterior completo, sem alterar o banco.
+
+## SEO e compartilhamento
+
+O build pré-renderiza as páginas públicas com os mesmos componentes React. Artigos publicados em D1 também recebem metadados e conteúdo inicial na resposta do servidor. As capas institucionais ficam em `public/assets/codigo5/social/`; o blog usa a imagem de destaque de cada artigo. Rode `node scripts/check-static-seo.mjs` após o build. Veja o checklist e as evidências em `docs/seo-checklist-2026-09-09.md`.

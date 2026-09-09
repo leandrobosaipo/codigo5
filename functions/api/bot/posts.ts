@@ -15,7 +15,7 @@ const parseJsonTerms = (value: unknown) => {
   }
 };
 
-const mapRowToPost = (row: Record<string, unknown>) => {
+export const mapRowToPost = (row: Record<string, unknown>) => {
   const slug = String(row.slug);
   const title = String(row.title);
   const publishedAt = String(

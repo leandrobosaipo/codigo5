@@ -8,16 +8,16 @@ const PrivacyPage = () => {
   return (
     <div className="c5-site">
       <Seo
-        title="Politica de Privacidade | Código5 Web"
-        description="Politica de privacidade da Código5 Web sobre coleta, uso e protecao de dados pessoais."
+        title="Política de Privacidade | Código5 Web"
+        description="Política de privacidade da Código5 Web sobre coleta, uso e proteção de dados pessoais."
         path="/politica-de-privacidade"
         keywords="politica de privacidade codigo5, privacidade site"
         schema={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "Politica de Privacidade",
+          name: "Política de Privacidade",
           url: `${SITE_URL}/politica-de-privacidade`,
-          description: "Politica de privacidade da Código5 Web.",
+          description: "Política de privacidade da Código5 Web.",
         }}
       />
       <Navbar />

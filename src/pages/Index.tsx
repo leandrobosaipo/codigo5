@@ -71,7 +71,7 @@ export default function Index() {
                   <small>clinicapetterle.com.br</small>
                 </div>
                 <img
-                  src="/assets/codigo5/cases/clinicapetterle-2026-09.jpg"
+                  src="/assets/codigo5/cases/clinicapetterle-2026-09-opt.webp"
                   alt="Site da Clínica Petterle, projeto do portfólio Código5"
                   width="720"
                   height="480"
@@ -86,7 +86,7 @@ export default function Index() {
                   <small>cref17.org.br</small>
                 </div>
                 <img
-                  src="/assets/codigo5/cases/cref17-2026-09.jpg"
+                  src="/assets/codigo5/cases/cref17-2026-09-opt.webp"
                   alt="Site do CREF17/MT, projeto do portfólio Código5"
                   width="720"
                   height="480"
@@ -137,7 +137,7 @@ export default function Index() {
             <Link className="c5-text-link c5-all-clients" to="/portfolio#clientes">Conheça os clientes e seus mercados <ArrowRight size={17} /></Link>
           </div>
         </section>
-        <section className="c5-section c5-tinted"><div className="c5-container c5-automation-hero"><div className="c5-section-heading"><span className="c5-label">A próxima etapa do seu negócio</span><h2>O cliente não precisa esperar você terminar o atendimento</h2><p>Enquanto você trabalha, a automação pode responder dúvidas, organizar pedidos e ajudar a encontrar um horário. Para barbearias, oficinas, clínicas e empresas que precisam dar atenção a cada contato.</p><Link className="c5-button" to="/automacao-com-ia">Ver como funciona</Link></div><figure><img src="/assets/codigo5/automacoes/atendimento-humanizado.png" alt="Atendimento próximo e natural em uma barbearia" loading="lazy" width="1536" height="1024" /><figcaption>Imagem ilustrativa criada com IA.</figcaption></figure></div></section>
+        <section className="c5-section c5-tinted"><div className="c5-container c5-automation-hero"><div className="c5-section-heading"><span className="c5-label">A próxima etapa do seu negócio</span><h2>O cliente não precisa esperar você terminar o atendimento</h2><p>Enquanto você trabalha, a automação pode responder dúvidas, organizar pedidos e ajudar a encontrar um horário. Para barbearias, oficinas, clínicas e empresas que precisam dar atenção a cada contato.</p><Link className="c5-button" to="/automacao-com-ia">Ver como funciona</Link></div><figure><img src="/assets/codigo5/automacoes/atendimento-humanizado-opt.webp" alt="Atendimento próximo e natural em uma barbearia" loading="lazy" width="1536" height="1024" /><figcaption>Imagem ilustrativa criada com IA.</figcaption></figure></div></section>
         <section className="c5-section" id="solucoes">
           <div className="c5-container c5-split">
             <div className="c5-section-heading">

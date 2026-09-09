@@ -1,7 +1,7 @@
 export const capabilities = [
   {
     "id": "presenca",
-    "image": "/assets/codigo5/cases/rbike-2026-09.jpg",
+    "image": "/assets/codigo5/cases/rbike-2026-09-opt.webp",
     "caption": "Rbike Shop MT · produtos da loja disponíveis para consulta e pedido",
     "title": "Apresentar sua empresa e vender pela internet",
     "summary": "Para quem precisa de um site, catálogo ou loja que explique bem o que oferece.",
@@ -17,7 +17,7 @@ export const capabilities = [
   },
   {
     "id": "audiencia",
-    "image": "/assets/codigo5/cases/flechatur-2026-09.jpg",
+    "image": "/assets/codigo5/cases/flechatur-2026-09-opt.webp",
     "caption": "FlechaTur · serviços e frota apresentados para quem procura transporte",
     "title": "Aparecer nas buscas dos seus clientes",
     "summary": "Para empresas que querem ser encontradas por quem já procura seus serviços.",
@@ -32,7 +32,7 @@ export const capabilities = [
   },
   {
     "id": "editorial",
-    "image": "/assets/codigo5/cases/portal163-2026-09.jpg",
+    "image": "/assets/codigo5/cases/portal163-2026-09-opt.webp",
     "caption": "Portal 163 · notícias, conteúdo local e espaços para anunciantes",
     "title": "Publicar notícias e cuidar dos anunciantes",
     "summary": "Para jornais e portais que precisam manter a publicação e a publicidade em dia.",
@@ -48,7 +48,7 @@ export const capabilities = [
   },
   {
     "id": "sistemas",
-    "image": "/assets/codigo5/cases/shop10-2026-09.jpg",
+    "image": "/assets/codigo5/cases/shop10-2026-09-opt.webp",
     "caption": "Shop10 · site com conteúdo atualizado pela própria operação",
     "title": "Organizar o trabalho da sua equipe",
     "summary": "Para quem perde tempo repetindo tarefas em planilhas, sistemas e atendimento.",
@@ -64,7 +64,7 @@ export const capabilities = [
   },
   {
     "id": "operacao",
-    "image": "/assets/codigo5/cases/cref17-2026-09.jpg",
+    "image": "/assets/codigo5/cases/cref17-2026-09-opt.webp",
     "caption": "CREF17/MT · informações e serviços disponíveis para os profissionais",
     "title": "Ter suporte depois do lançamento",
     "summary": "Para quem precisa manter o site atualizado e saber a quem recorrer.",
@@ -110,7 +110,7 @@ export const selectedWork = [
   {
     "name": "Clínica Petterle",
     "market": "Saúde",
-    "image": "/assets/codigo5/cases/clinicapetterle-2026-09.jpg",
+    "image": "/assets/codigo5/cases/clinicapetterle-2026-09-opt.webp",
     "description": "Presença institucional para apresentar a clínica e seus serviços.",
     "url": "https://clinicapetterle.com.br",
     "sector": "Saúde"
@@ -118,7 +118,7 @@ export const selectedWork = [
   {
     "name": "Roo Notícias",
     "market": "Jornalismo regional",
-    "image": "/assets/codigo5/cases/roonoticias-2026-09.jpg",
+    "image": "/assets/codigo5/cases/roonoticias-2026-09-opt.webp",
     "description": "Portal editorial para uma rotina de notícias e informação local.",
     "url": "https://roonoticias.com",
     "sector": "Notícias"
@@ -126,7 +126,7 @@ export const selectedWork = [
   {
     "name": "CREF17/MT",
     "market": "Conselho profissional",
-    "image": "/assets/codigo5/cases/cref17-2026-09.jpg",
+    "image": "/assets/codigo5/cases/cref17-2026-09-opt.webp",
     "description": "Informação institucional e serviços para profissionais de Educação Física.",
     "url": "https://cref17.org.br",
     "sector": "Instituições"
@@ -134,7 +134,7 @@ export const selectedWork = [
   {
     "name": "Rbike Shop MT",
     "market": "Varejo e mobilidade",
-    "image": "/assets/codigo5/cases/rbike-2026-09.jpg",
+    "image": "/assets/codigo5/cases/rbike-2026-09-opt.webp",
     "description": "Produtos, preços e disponibilidade da loja atualizados no catálogo.",
     "url": "https://rbikeshopmt.com.br",
     "sector": "Comércio e indústria"
@@ -142,7 +142,7 @@ export const selectedWork = [
   {
     "name": "Shop10",
     "market": "Materiais para construção",
-    "image": "/assets/codigo5/cases/shop10-2026-09.jpg",
+    "image": "/assets/codigo5/cases/shop10-2026-09-opt.webp",
     "description": "Site institucional com catálogo, páginas por segmento e painel de conteúdo.",
     "url": "https://shop10mt.com.br",
     "sector": "Comércio e indústria"
@@ -150,7 +150,7 @@ export const selectedWork = [
   {
     "name": "FlechaTur",
     "market": "Turismo e fretamento",
-    "image": "/assets/codigo5/cases/flechatur-2026-09.jpg",
+    "image": "/assets/codigo5/cases/flechatur-2026-09-opt.webp",
     "description": "Apresentação da frota e dos serviços, com contato direto para orçamento.",
     "url": "https://flechaturmt.com.br",
     "sector": "Turismo e eventos"
@@ -158,7 +158,7 @@ export const selectedWork = [
   {
     "name": "Titaniun Implantes",
     "market": "Tecnologia para saúde",
-    "image": "/assets/codigo5/cases/titaniun-2026-09.jpg",
+    "image": "/assets/codigo5/cases/titaniun-2026-09-opt.webp",
     "description": "Site institucional para apresentar produtos, especialidades e canais de contato.",
     "url": "https://titaniunimplantes.com.br",
     "sector": "Saúde"
@@ -166,7 +166,7 @@ export const selectedWork = [
   {
     "name": "PraticLar",
     "market": "Indústria e varejo",
-    "image": "/assets/codigo5/cases/praticlar-2026-09.jpg",
+    "image": "/assets/codigo5/cases/praticlar-2026-09-opt.webp",
     "description": "Catálogo institucional de produtos de limpeza e seus usos.",
     "url": "https://praticlar.com.br",
     "sector": "Comércio e indústria"
@@ -174,7 +174,7 @@ export const selectedWork = [
   {
     "name": "Nobres Rações",
     "market": "Agronegócio",
-    "image": "/assets/codigo5/cases/nobresracoes-2026-09.jpg",
+    "image": "/assets/codigo5/cases/nobresracoes-2026-09-opt.webp",
     "description": "Produtos, nutrição animal e informação institucional organizados para o cliente.",
     "url": "https://nobresracoes.com.br",
     "sector": "Comércio e indústria"
@@ -182,7 +182,7 @@ export const selectedWork = [
   {
     "name": "Usical",
     "market": "Indústria e construção",
-    "image": "/assets/codigo5/cases/usical-2026-09.jpg",
+    "image": "/assets/codigo5/cases/usical-2026-09-opt.webp",
     "description": "Catálogo de soluções para construção, reforma e revenda.",
     "url": "https://usicalnbs.com.br",
     "sector": "Comércio e indústria"
@@ -190,7 +190,7 @@ export const selectedWork = [
   {
     "name": "Portal 163",
     "market": "Jornalismo regional",
-    "image": "/assets/codigo5/cases/portal163-2026-09.jpg",
+    "image": "/assets/codigo5/cases/portal163-2026-09-opt.webp",
     "description": "Portal de notícias com operação editorial e presença comercial.",
     "url": "https://portal163.com.br",
     "sector": "Notícias"
@@ -199,7 +199,7 @@ export const selectedWork = [
     "name": "Axis Construções",
     "market": "Construção",
     "sector": "Comércio e indústria",
-    "image": "/assets/codigo5/cases/axisconstrucoes.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/axisconstrucoes.com.br-2026-09-opt.webp",
     "description": "Obras, áreas de atuação e contato para novos projetos.",
     "url": "https://axisconstrucoes.com.br"
   },
@@ -207,7 +207,7 @@ export const selectedWork = [
     "name": "Calcário Aliança",
     "market": "Indústria e agro",
     "sector": "Comércio e indústria",
-    "image": "/assets/codigo5/cases/calcarioalianca.com-2026-09.jpg",
+    "image": "/assets/codigo5/cases/calcarioalianca.com-2026-09-opt.webp",
     "description": "Produtos e informações para quem procura soluções para o solo.",
     "url": "https://calcarioalianca.com"
   },
@@ -215,7 +215,7 @@ export const selectedWork = [
     "name": "Franca & Moraes",
     "market": "Advocacia",
     "sector": "Serviços",
-    "image": "/assets/codigo5/cases/francaemoraes.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/francaemoraes.com.br-2026-09-opt.webp",
     "description": "Apresentação do escritório, áreas de atuação e contato com a equipe.",
     "url": "https://francaemoraes.com.br"
   },
@@ -223,7 +223,7 @@ export const selectedWork = [
     "name": "Instituto Mario Cardi",
     "market": "Instituição social",
     "sector": "Instituições",
-    "image": "/assets/codigo5/cases/institutomariocardi.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/institutomariocardi.com.br-2026-09-opt.webp",
     "description": "Projetos, ações e informações sobre o trabalho da instituição.",
     "url": "https://institutomariocardi.com.br"
   },
@@ -231,7 +231,7 @@ export const selectedWork = [
     "name": "Regional MT News",
     "market": "Jornalismo regional",
     "sector": "Notícias",
-    "image": "/assets/codigo5/client-catalog/regionalmtnews.webp",
+    "image": "/assets/codigo5/client-catalog/regionalmtnews-opt.webp",
     "description": "Notícias da região organizadas por assunto, com espaço para anunciantes.",
     "url": "https://regionalmtnews.com.br"
   },
@@ -239,7 +239,7 @@ export const selectedWork = [
     "name": "Impacto Geral",
     "market": "Jornalismo digital",
     "sector": "Notícias",
-    "image": "/assets/codigo5/cases/impactogeral.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/impactogeral.com.br-2026-09-opt.webp",
     "description": "Conteúdo jornalístico e canais para leitores e anunciantes.",
     "url": "https://impactogeral.com.br"
   },
@@ -247,7 +247,7 @@ export const selectedWork = [
     "name": "O Matogrossense",
     "market": "Jornalismo regional",
     "sector": "Notícias",
-    "image": "/assets/codigo5/cases/omatogrossense.com-2026-09.jpg",
+    "image": "/assets/codigo5/cases/omatogrossense.com-2026-09-opt.webp",
     "description": "Notícias, vídeos e publicação diária para o público de Mato Grosso.",
     "url": "https://omatogrossense.com"
   },
@@ -255,7 +255,7 @@ export const selectedWork = [
     "name": "AlphaVille Buffet",
     "market": "Eventos e buffet",
     "sector": "Turismo e eventos",
-    "image": "/assets/codigo5/cases/alphavillebuffet-home.png",
+    "image": "/assets/codigo5/cases/alphavillebuffet-home-opt.webp",
     "description": "Espaços, gastronomia e informações para planejar eventos.",
     "url": "https://alphavillebuffet.com.br"
   },
@@ -263,7 +263,7 @@ export const selectedWork = [
     "name": "Fundação Abrigo Bom Jesus",
     "market": "Assistência social",
     "sector": "Instituições",
-    "image": "/assets/codigo5/cases/abrigobomjesus.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/abrigobomjesus.com.br-2026-09-opt.webp",
     "description": "História, atividades e formas de apoiar a instituição.",
     "url": "https://abrigobomjesus.com.br"
   },
@@ -271,7 +271,7 @@ export const selectedWork = [
     "name": "Igreja Família da Cruz",
     "market": "Igreja e comunidade",
     "sector": "Instituições",
-    "image": "/assets/codigo5/cases/igrejafamiliadacruz.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/igrejafamiliadacruz.com.br-2026-09-opt.webp",
     "description": "Programação, informações da igreja e contato com a comunidade.",
     "url": "https://igrejafamiliadacruz.com.br"
   },
@@ -279,7 +279,7 @@ export const selectedWork = [
     "name": "A Folha Livre",
     "market": "Jornalismo digital",
     "sector": "Notícias",
-    "image": "/assets/codigo5/cases/afolhalivre.com-2026-09.jpg",
+    "image": "/assets/codigo5/cases/afolhalivre.com-2026-09-opt.webp",
     "description": "Notícias e conteúdo regional com apoio à publicação e à manutenção.",
     "url": "https://afolhalivre.com"
   },
@@ -287,7 +287,7 @@ export const selectedWork = [
     "name": "Portal Pantanal MT",
     "market": "Jornalismo regional",
     "sector": "Notícias",
-    "image": "/assets/codigo5/cases/portalpantanalmt.com-2026-09.jpg",
+    "image": "/assets/codigo5/cases/portalpantanalmt.com-2026-09-opt.webp",
     "description": "Informação regional, editorias e espaços de publicidade.",
     "url": "https://portalpantanalmt.com"
   },
@@ -295,7 +295,7 @@ export const selectedWork = [
     "name": "Portal Norte MT",
     "market": "Jornalismo regional",
     "sector": "Notícias",
-    "image": "/assets/codigo5/cases/portalnortemt.com-2026-09.jpg",
+    "image": "/assets/codigo5/cases/portalnortemt.com-2026-09-opt.webp",
     "description": "Notícias do norte de Mato Grosso e conteúdo para a comunidade.",
     "url": "https://portalnortemt.com"
   },
@@ -303,7 +303,7 @@ export const selectedWork = [
     "name": "Perrengue Mato Grosso",
     "market": "Mídia e entretenimento",
     "sector": "Notícias",
-    "image": "/assets/codigo5/cases/perrenguematogrosso.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/perrenguematogrosso.com.br-2026-09-opt.webp",
     "description": "Conteúdo local e entretenimento com publicação conectada ao portal.",
     "url": "https://perrenguematogrosso.com.br"
   },
@@ -311,7 +311,7 @@ export const selectedWork = [
     "name": "Domazi Seguros",
     "market": "Seguros",
     "sector": "Serviços",
-    "image": "/assets/codigo5/cases/domaziseguros.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/domaziseguros.com.br-2026-09-opt.webp",
     "description": "Modalidades de seguro apresentadas para facilitar a consulta e a cotação.",
     "url": "https://domaziseguros.com.br"
   },
@@ -319,7 +319,7 @@ export const selectedWork = [
     "name": "Glaucia Nadaf",
     "market": "Arquitetura",
     "sector": "Serviços",
-    "image": "/assets/codigo5/cases/glaucianadaf.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/glaucianadaf.com.br-2026-09-opt.webp",
     "description": "Projetos de arquitetura e interiores apresentados com fotografias e contato.",
     "url": "https://glaucianadaf.com.br"
   },
@@ -327,7 +327,7 @@ export const selectedWork = [
     "name": "Energia Solidária MT",
     "market": "Energia",
     "sector": "Serviços",
-    "image": "/assets/codigo5/cases/energiasolidariamt.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/energiasolidariamt.com.br-2026-09-opt.webp",
     "description": "Informações sobre a proposta de economia de energia e como participar.",
     "url": "https://energiasolidariamt.com.br"
   },
@@ -335,7 +335,7 @@ export const selectedWork = [
     "name": "Clique Sim Notícias",
     "market": "Jornalismo digital",
     "sector": "Notícias",
-    "image": "/assets/codigo5/cases/cliquesimnoticias.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/cliquesimnoticias.com.br-2026-09-opt.webp",
     "description": "Notícias, editorias e canais de contato para leitores e anunciantes.",
     "url": "https://cliquesimnoticias.com.br"
   },
@@ -343,7 +343,7 @@ export const selectedWork = [
     "name": "Spatium",
     "market": "Comunicação",
     "sector": "Serviços",
-    "image": "/assets/codigo5/cases/spatium.top-2026-09.jpg",
+    "image": "/assets/codigo5/cases/spatium.top-2026-09-opt.webp",
     "description": "Serviços de comunicação apresentados para empresas e novos clientes.",
     "url": "https://spatium.top"
   },
@@ -351,7 +351,7 @@ export const selectedWork = [
     "name": "Maurício Magalhães",
     "market": "Advocacia",
     "sector": "Serviços",
-    "image": "/assets/codigo5/cases/mauriciomagalhaes.adv.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/mauriciomagalhaes.adv.br-2026-09-opt.webp",
     "description": "Áreas de atuação e informações para quem busca orientação jurídica.",
     "url": "https://mauriciomagalhaes.adv.br"
   },
@@ -359,7 +359,7 @@ export const selectedWork = [
     "name": "Plastibras",
     "market": "Indústria",
     "sector": "Comércio e indústria",
-    "image": "/assets/codigo5/cases/plastibras.ind.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/plastibras.ind.br-2026-09-opt.webp",
     "description": "Migração e suporte ao site com catálogo de produtos e contato comercial.",
     "url": "https://plastibras.ind.br"
   },
@@ -367,7 +367,7 @@ export const selectedWork = [
     "name": "Vini Ortega",
     "market": "Esporte e patrocínio",
     "sector": "Turismo e eventos",
-    "image": "/assets/codigo5/cases/viniortega.codigo5.com.br-2026-09.jpg",
+    "image": "/assets/codigo5/cases/viniortega.codigo5.com.br-2026-09-opt.webp",
     "description": "Trajetória do atleta, resultados e apresentação do projeto para patrocinadores.",
     "url": "https://viniortega.codigo5.com.br"
   },
@@ -375,7 +375,7 @@ export const selectedWork = [
     "name": "AG Consultoria",
     "market": "Consultoria empresarial",
     "sector": "Serviços",
-    "image": "/assets/codigo5/cases/ag-consultoria.png",
+    "image": "/assets/codigo5/cases/ag-consultoria-opt.webp",
     "url": "https://agconsultoria.codigo5.com.br",
     "description": "Site institucional para apresentar as consultorias, a experiência da equipe e facilitar o primeiro contato."
   },
@@ -391,7 +391,7 @@ export const selectedWork = [
     "name": "Sonata Musical",
     "market": "Instrumentos musicais",
     "sector": "Comércio e indústria",
-    "image": "/assets/codigo5/cases/sonatamusical-home.png",
+    "image": "/assets/codigo5/cases/sonatamusical-home-opt.webp",
     "url": "",
     "description": "Loja virtual de instrumentos musicais. Registro do projeto no acervo da Código5."
   },

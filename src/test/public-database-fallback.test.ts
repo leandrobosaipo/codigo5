@@ -30,14 +30,15 @@ describe("public content during database outage", () => {
     );
     expect(response.status).toBe(503);
   });
-  it("keeps institutional sitemap routes without claiming unverified article URLs", async () => {
+  it("keeps generated public archive routes without claiming unknown dynamic URLs", async () => {
     const response = await sitemap(context("/sitemap.xml") as never);
     const xml = await response.text();
     expect(response.status).toBe(200);
     expect(xml).toContain("<loc>https://codigo5.com.br/servicos</loc>");
     expect(xml).toContain("<loc>https://codigo5.com.br/automacao-com-ia</loc>");
-    expect(xml).not.toContain("/blog/");
-    expect(xml.match(/<loc>/g)).toHaveLength(8);
+    expect(xml).toContain(`/blog/${staticPosts[0].slug}`);
+    expect(xml).not.toContain("not-in-bundle");
+    expect(xml.match(/<loc>/g)).toHaveLength(38);
   });
 });
 

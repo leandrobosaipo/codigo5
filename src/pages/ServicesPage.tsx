@@ -1,3 +1,4 @@
+import { capabilities } from "@/content/company";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,6 +11,7 @@ export default function ServicesPage() {
         title="Serviços | Sites, sistemas, SEO e automações — Código5"
         description="Desenvolvimento de sites, lojas virtuais, portais, SEO, sistemas, automações e infraestrutura. Conheça as frentes de trabalho da Código5."
         path="/servicos"
+        schema={capabilities.map(service => ({"@context":"https://schema.org","@type":"Service",name:service.title,description:service.detail,provider:{"@id":"https://codigo5.com.br/#organization"},areaServed:"Brasil"}))}
       />
       <Navbar />
       <main id="conteudo">

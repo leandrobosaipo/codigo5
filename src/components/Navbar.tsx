@@ -30,7 +30,7 @@ export default function Navbar() {
       <nav className="c5-container c5-nav" aria-label="Navegação principal">
         <Link to="/" className="c5-logo" aria-label="Código5 — início">
           <img
-            src="/assets/codigo5/logos/logo-invertida.png"
+            src="/assets/codigo5/logos/logo-invertida-opt.webp"
             alt="Código5"
             width="132"
             height="44"

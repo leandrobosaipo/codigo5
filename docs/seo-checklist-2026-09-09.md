@@ -1,0 +1,68 @@
+# SEO, Analytics e compartilhamento — Código5
+
+Revisão iniciada em 08/09/2026 (Cuiabá), release em 09/09/2026 UTC.
+
+## Entregue no código
+
+- [x] 70 páginas com conteúdo real no HTML inicial: 8 institucionais, 20 artigos, 10 categorias e 32 tags.
+- [x] Título, descrição e canonical próprios antes e depois do JavaScript. Arquivos HTML sem extensão na URL final, conforme as regras do Cloudflare Pages.
+- [x] Open Graph e Twitter Card com imagem absoluta, título, descrição e texto alternativo.
+- [x] Oito capas institucionais JPEG de 1200 × 630, com cerca de 88–123 KB cada. Fotografias ilustrativas geradas com IA; não são retratos da equipe nem provas de resultados de clientes.
+- [x] Todos os 20 artigos com imagem de destaque e a mesma imagem na prévia social. Dezenove imagens existentes preservadas e otimizadas; o artigo “Quem somos”, antes sem imagem, utiliza a capa da história da empresa.
+- [x] Schema JSON-LD: Organization, WebSite, WebPage, AboutPage, ContactPage, CollectionPage, BreadcrumbList, Service e BlogPosting, conforme o conteúdo de cada página. FAQs existentes mantidas, sem promessa de resultado enriquecido.
+- [x] Conteúdo publicado/atualizado pelo painel D1 recebe título, descrição, imagem, BlogPosting e texto inicial na resposta do servidor, sem esperar o próximo build. Essa resposta não é armazenada em cache. O navegador aplica DOMPurify para exibir a formatação editorial.
+- [x] Sitemap com as 38 URLs indexáveis do acervo. As 32 páginas de tags usam `noindex,follow` e não entram no sitemap. O acervo gerado permanece no sitemap durante indisponibilidade do D1; nenhuma URL dinâmica é inventada nesse fallback.
+- [x] Rotas privadas fora do índice. URLs desconhecidas não são tratadas como páginas válidas; quando a consulta ao banco falha, recebem status temporário 503 em vez de 404 definitivo.
+- [x] Marcas e capturas pesadas em WebP. A imagem de atendimento caiu de 2.138.757 para 72.270 bytes, com conteúdo e composição preservados.
+- [x] Fontes descobertas diretamente pelo HTML e conexões antecipadas; removida a cadeia de `@import` no CSS.
+- [x] Contraste das legendas de portfólio ajustado.
+- [x] Configuração única do Google tag. `page_view` ocorre depois do título real da página, sem repetir o mesmo caminho em re-renderizações.
+- [x] Evento `contact_click` distingue WhatsApp, e-mail e telefone. Mede clique, não mensagem enviada ou venda. Não envia telefone, conteúdo da conversa, query string ou fragmentos.
+- [x] Ambiente local, preview e painel privado excluídos desses eventos.
+
+## Search Console — acesso e acompanhamento
+
+- [x] Token público de verificação existente preservado no HTML.
+- [x] Sitemap público: https://codigo5.com.br/sitemap.xml
+- [ ] Reautenticar `leandro@codigo5.com.br` no navegador interno. O Google apresentou “Confirme que é você”; isso impede afirmar hoje a propriedade verificada, o envio do sitemap ou a situação de indexação.
+- [ ] Selecionar a propriedade do institucional. Se usar a propriedade de domínio, filtrar o host `codigo5.com.br` para não misturar tráfego dos subdomínios de clientes.
+- [ ] Enviar/conferir o sitemap no GSC após autenticação.
+- [ ] Inspecionar `/`, `/servicos`, `/automacao-com-ia`, `/portfolio` e um artigo; conferir URL final, canonical escolhido pelo Google, rastreamento, captura e HTML renderizado.
+- [ ] Solicitar indexação das páginas prioritárias após teste de URL publicada, sem pedidos repetidos em massa.
+- [ ] Revisar páginas excluídas, soft 404, duplicadas, problemas de segurança e ações manuais.
+- [ ] Acompanhar consultas, impressões, cliques e CTR por página e mercado; comparar períodos equivalentes depois que houver dados suficientes.
+
+## Analytics — evidência e checklist
+
+- [x] Google tag existente `GT-KDD832` preservado. Inspeção de rede identificou o destino GA4 `G-4M9KM8258K` e resposta 204 do endpoint de coleta para evento automático.
+- [x] Eventos explícitos direcionados ao Measurement ID observado, sem criar outra propriedade ou duplicar a instalação.
+- [ ] Confirmar recebimento no Tempo Real/DebugView e associação atual à propriedade após reautenticar o Google. Uma resposta HTTP do coletor não prova processamento no relatório.
+- [ ] Conferir fuso, retenção, filtros internos e associação do Search Console dentro da propriedade correta. Não alterados sem acesso verificado.
+- [ ] Só marcar conversão após definir o que representa um lead qualificado; clique em WhatsApp não equivale a atendimento concluído.
+
+## PageSpeed e autoridade
+
+Medição inicial oficial, página inicial, 08/09/2026 às 23:23 AMT:
+
+| Medida | Celular | Computador |
+|---|---:|---:|
+| Desempenho | 77 | 97 |
+| Acessibilidade | 96 | 95 |
+| Práticas recomendadas | 100 | 100 |
+| SEO Lighthouse | 100 | 100 |
+| LCP | 4,8 s | 1,1 s |
+| CLS | 0 | 0 |
+
+[Relatório inicial](https://pagespeed.web.dev/analysis/https-codigo5-com-br/49migou4o4?form_factor=mobile).
+A ferramenta não tinha dados de campo suficientes para avaliar a experiência real dos visitantes. O teste de laboratório varia entre execuções; a pontuação SEO não mede posição no Google.
+
+PageRank não é uma configuração ou nota pública que o site possa definir. O trabalho de autoridade deve vir de conteúdo útil, autoria verdadeira, projetos comprováveis, links internos pertinentes e menções editoriais legítimas. Não foram comprados links nem inventadas avaliações, clientes, resultados ou métricas.
+
+## Verificação e manutenção
+
+`npm test`, `npm run lint`, TypeScript, `npm run build` e `node scripts/check-static-seo.mjs`.
+O último comando verifica conteúdo, canonical único, schema, imagem social e arquivos locais de todas as páginas geradas. A validação pública e a medição posterior ficam no relatório operacional da entrega.
+
+As prévias de redes sociais podem manter cache de links já compartilhados. A nova imagem depende de nova leitura pelo respectivo serviço; não foi feita nenhuma postagem em contas sociais.
+
+Fonte de roteamento/cache: [documentação Cloudflare Pages](https://developers.cloudflare.com/pages/configuration/serving-pages/).

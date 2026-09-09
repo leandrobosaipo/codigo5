@@ -54,7 +54,7 @@ describe("public middleware redirect guard", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("cache-control")).toBe("no-store");
     expect(await response.text()).toContain(
-      'href="https://codigo5.com.br/blog/inteligencia-artificial-no-desenvolvimento-de-sites-2025/"',
+      'href="https://codigo5.com.br/blog/inteligencia-artificial-no-desenvolvimento-de-sites-2025"',
     );
   });
 

@@ -8,7 +8,7 @@ import { contact } from "@/content/siteContent";
 
 export default function AutomationPage() {
   return <div className="c5-site">
-    <Seo title={content.seoTitle} description={content.description} path="/automacao-com-ia" image={`https://codigo5.com.br${content.image}`} schema={{"@context":"https://schema.org","@type":"Service",name:content.title,description:content.description,provider:{"@type":"Organization",name:"Código5",url:"https://codigo5.com.br"},areaServed:"Brasil"}} />
+    <Seo title={content.seoTitle} description={content.description} path="/automacao-com-ia" schema={{"@context":"https://schema.org","@type":"Service",name:content.title,description:content.description,provider:{"@type":"Organization",name:"Código5",url:"https://codigo5.com.br"},areaServed:"Brasil"}} />
     <Navbar />
     <main id="conteudo">
       <section className="c5-page-hero"><div className="c5-container c5-automation-hero">

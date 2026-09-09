@@ -47,12 +47,12 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {
     dynamicRows = await listPublishedPosts(env);
   } catch {
-    // Do not advertise article URLs when their redirects cannot be verified.
+    // Bundled posts have generated HTML in this release. Never infer dynamic URLs during an outage.
     console.warn(
-      "Sitemap database unavailable; serving institutional routes only.",
+      "Sitemap database unavailable; serving the bundled public archive.",
     );
     return new Response(
-      `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${staticRoutes.map(({ path }) => `<url><loc>${SITE_URL}${path}</loc></url>`).join("")}</urlset>`,
+      `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${[...staticRoutes.map(({ path }) => path), ...staticPosts.map(post => `/blog/${post.slug}`), ...Array.from(staticCategories).map(slug => `/blog/categoria/${slug}`)].map(path => `<url><loc>${escapeXml(SITE_URL + path)}</loc></url>`).join("")}</urlset>`,
       {
         headers: {
           "content-type": "application/xml; charset=utf-8",

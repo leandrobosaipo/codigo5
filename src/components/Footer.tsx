@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="c5-footer-top">
           <Link to="/" className="c5-logo">
             <img
-              src="/assets/codigo5/logos/logo-invertida.png"
+              src="/assets/codigo5/logos/logo-invertida-opt.webp"
               alt="Código5"
               width="132"
               height="44"

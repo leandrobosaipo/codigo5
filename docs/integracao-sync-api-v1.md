@@ -4,7 +4,7 @@ Implementação no runtime Node do Mac Mini. Sem acesso direto ao banco por outr
 
 `POST /api/integrations/sync/articles` e `GET /api/integrations/sync/articles?externalId=...` usam Bearer. Variáveis protegidas: `COD5_SYNC_DRAFT_TOKEN` permite importar/consultar e `COD5_SYNC_PUBLISH_TOKEN` permite também publicar. Ausência de token desativa acesso. Nunca usar token do painel ou Telegram.
 
-Payload POST: `externalId` (estável), `revision` (inteiro positivo), `title`, `slug`, `excerpt`, `contentHtml`, `sourceUrl`, `imageUrl`, `categories` (lista de `{slug,name}`) e `action` (`draft` por padrão ou `publish`). Apenas destino Código5. Resposta contém `ok`, `externalId`, `id`, `revision`, `status` e `url` (somente publicado). GET 404 significa identificador ainda não importado.
+Payload POST: `externalId` (estável), `revision` (inteiro positivo), `title`, `slug`, `excerpt`, `contentHtml`, `sourceUrl`, `imageUrl`, `categories` (lista de `{slug,name}`) e `action` (`draft` por padrão ou `publish`). Apenas destino Código5. Resposta contém `ok`, `externalId`, `id`, `revision`, `status`, `imageUrl` e `url` (somente publicado). GET 404 significa identificador ainda não importado.
 
 HTML aceito: p, h2, h3, ul, ol, li, strong, em, blockquote, br e a com href HTTPS. Sem atributos extras, scripts, embeds ou imagens no corpo; a capa deve existir no Spaces Código5. Publicação verifica a disponibilidade e tipo da imagem antes de gravar. Links de referência preservados no source_value e notes do rascunho.
 

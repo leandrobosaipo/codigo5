@@ -40,7 +40,7 @@ export async function handleSyncArticle(request,db,env,staticSlugs=new Set()) {
   const draft=map&&db.prepare('SELECT * FROM drafts WHERE id=?').get(map.draft_id);
   return {map,draft};
  };
- const result = (map,draft) => ({ok:true,externalId:map.external_id,id:draft.id,revision:map.revision,status:draft.status,url:draft.status==='published'?`https://codigo5.com.br/blog/${draft.slug}`:null});
+ const result = (map,draft) => ({ok:true,externalId:map.external_id,id:draft.id,revision:map.revision,status:draft.status,imageUrl:draft.image_url,url:draft.status==='published'?`https://codigo5.com.br/blog/${draft.slug}`:null});
  if(request.method==='GET') {const {map,draft}=read(new URL(request.url).searchParams.get('externalId')||'');return draft?response(result(map,draft)):response({ok:false,error:'Não encontrado.'},404);}
  if(request.method!=='POST')return response({ok:false,error:'Método não permitido.'},405);
  let body;

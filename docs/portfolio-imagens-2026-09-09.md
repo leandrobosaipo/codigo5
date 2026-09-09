@@ -11,6 +11,8 @@
 | Regional MT News | Captura da home com marca e notícias | Home pública; a navegação sem cache antigo carregou os assets necessários |
 | Veloztrix | Captura da home original preservada | Código e assets do backup de 24/07/2026, renderizados localmente. Não é um novo site publicado nem prova de disponibilidade do domínio |
 
+| Stilo Assessoria | Captura da seção de serviços com cabeçalho original | Backup de 02/06/2026, restaurado em ambiente isolado e capturado no navegador interno. Assets originais recuperados; captura do acervo, sem reativação do domínio |
+
 Marcas exportadas diretamente dos assets observados no navegador interno. Capturas feitas no navegador interno, sem substituir notícias, fotografias ou criar layouts fictícios. As conversões para WebP apenas redimensionam/comprimem os arquivos. Os arquivos anteriores continuam no repositório para rastreabilidade; as referências ativas usam nomes novos para evitar cache de versões antigas.
 
 ## Seção de mercados

@@ -380,8 +380,8 @@ export const selectedWork = [
     "name": "Stilo Assessoria",
     "market": "Serviços financeiros",
     "sector": "Serviços",
-    "image": "/assets/codigo5/clients-extended/stiloassessoria.webp",
+    "image": "/assets/codigo5/cases/stilo-acervo-20260909.webp",
     "url": "",
-    "description": "Presença digital e suporte. Projeto do acervo da Código5."
+    "description": "Presença digital e suporte. Captura da seção de serviços do site original preservado no acervo da Código5."
   }
 ];

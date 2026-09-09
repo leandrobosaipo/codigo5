@@ -11,7 +11,9 @@
     "preview": "vite preview",
     "telegram:setup": "node scripts/setup-telegram-bot.mjs",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:server": "node scripts/build-server.mjs",
+    "test:server": "node --test server/*.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

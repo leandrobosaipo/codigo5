@@ -44,3 +44,15 @@ Após publicação, conferir que os endereços do sitemap são finais, indexáve
 ## SEO e compartilhamento
 
 O build pré-renderiza as páginas públicas com os mesmos componentes React. Artigos publicados em D1 também recebem metadados e conteúdo inicial na resposta do servidor. As capas institucionais ficam em `public/assets/codigo5/social/`; o blog usa a imagem de destaque de cada artigo. Rode `node scripts/check-static-seo.mjs` após o build. Veja o checklist e as evidências em `docs/seo-checklist-2026-09-09.md`.
+
+## Migração Mac Mini em validação
+
+O runtime Node em `server/` reutiliza os handlers editoriais e substitui D1/KV por SQLite persistente. `novo.codigo5.com.br` é o candidato no Portainer; o domínio principal ainda só deve ser alterado após os gates do plano.
+
+```sh
+npm run build
+npm run build:server
+npm run test:server
+```
+
+O banco precisa estar importado antes da inicialização; o servidor recusa criar um editorial vazio. Build Docker usa `Dockerfile`, bundle `output/server.mjs` e `dist`. Compose em `deploy/compose.yml`, imagem versionada por `COD5_IMAGE`, dados em `/opt/cod5/codigo5-web/data`, backups em `/opt/cod5/codigo5-web/backups`. Não salvar esses dados ou secrets no Git.

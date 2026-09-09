@@ -1,0 +1,14 @@
+import { DatabaseSync, backup } from 'node:sqlite';
+import { mkdir, readdir, unlink } from 'node:fs/promises';
+const file = process.env.COD5_DATABASE_FILE || '/data/editorial.sqlite';
+const directory = process.env.COD5_BACKUP_DIR || '/backups';
+await mkdir(directory, { recursive: true });
+const db = new DatabaseSync(file, { readOnly: true });
+const destination = `${directory}/editorial-${new Date().toISOString().replaceAll(':', '-')}.sqlite`;
+await backup(db, destination); db.close();
+const restored = new DatabaseSync(destination, { readOnly: true });
+if (restored.prepare('PRAGMA integrity_check').get().integrity_check !== 'ok') throw new Error('Backup integrity failed');
+restored.close();
+const files = (await readdir(directory)).filter(name => /^editorial-.*\.sqlite$/.test(name)).sort().reverse();
+for (const name of files.slice(14)) await unlink(`${directory}/${name}`);
+console.log('Editorial backup verified');

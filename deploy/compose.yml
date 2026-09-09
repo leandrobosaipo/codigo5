@@ -1,0 +1,50 @@
+services:
+  web:
+    image: ${COD5_IMAGE:?Release image required}
+    container_name: codigo5-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8336:8080"
+    volumes:
+      - /opt/cod5/codigo5-web/data:/data
+      - /opt/cod5/codigo5-web/backups:/backups
+    environment:
+      ADMIN_ALLOWED_EMAILS: ${ADMIN_ALLOWED_EMAILS:-}
+      ADMIN_PANEL_URL: ${ADMIN_PANEL_URL:-}
+      BOT_APP_NAME: ${BOT_APP_NAME:-}
+      BOT_DEFAULT_TIMEZONE: ${BOT_DEFAULT_TIMEZONE:-}
+      DO_SPACES_BUCKET: ${DO_SPACES_BUCKET:-}
+      DO_SPACES_ENDPOINT: ${DO_SPACES_ENDPOINT:-}
+      DO_SPACES_KEY: ${DO_SPACES_KEY:-}
+      DO_SPACES_PUBLIC_BASE_URL: ${DO_SPACES_PUBLIC_BASE_URL:-}
+      DO_SPACES_REGION: ${DO_SPACES_REGION:-}
+      DO_SPACES_SECRET: ${DO_SPACES_SECRET:-}
+      DO_SPACES_UPLOAD_PREFIX: ${DO_SPACES_UPLOAD_PREFIX:-}
+      TELEGRAM_ALLOWED_USER_IDS: ${TELEGRAM_ALLOWED_USER_IDS:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_MINI_APP_URL: ${TELEGRAM_MINI_APP_URL:-}
+      TELEGRAM_SECRET_TOKEN: ${TELEGRAM_SECRET_TOKEN:-}
+    mem_limit: 384m
+    cpus: 1.0
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m
+  backup:
+    image: ${COD5_IMAGE:?Release image required}
+    container_name: codigo5-web-backup
+    restart: unless-stopped
+    entrypoint: ["sh", "-c", "while true; do node /app/backup.mjs || exit 1; sleep 21600; done"]
+    volumes:
+      - /opt/cod5/codigo5-web/data:/data
+      - /opt/cod5/codigo5-web/backups:/backups
+    healthcheck:
+      disable: true
+    mem_limit: 128m
+    cpus: 0.25
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m

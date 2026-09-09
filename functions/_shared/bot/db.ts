@@ -356,7 +356,9 @@ export const publishDraftToPosts = async (
 
 export const listPublishedPosts = async (env: Env) => {
   const result = await env.BOT_DB.prepare(
-    `SELECT * FROM posts WHERE status = 'published' ORDER BY published_at DESC, updated_at DESC`,
+    `SELECT * FROM posts WHERE status = 'published'
+     AND NOT EXISTS (SELECT 1 FROM redirects WHERE source_path = '/blog/' || posts.slug)
+     ORDER BY published_at DESC, updated_at DESC`,
   ).all<Record<string, unknown>>();
 
   return result.results ?? [];

@@ -18,7 +18,7 @@ it('returns a temporary unindexed status for unknown posts when D1 is unavailabl
 const dynamicContext = (route:string) => ({
  request:new Request(`https://codigo5.com.br${route}`),
  env:{BOT_DB:{prepare:(sql:string)=>{
-   const all=async()=>({results:sql.includes('FROM redirects')?[]:[{...row,categories_json:'[{"slug":"tema-novo","name":"Tema novo"}]',tags_json:'[]'}]});
+   const all=async()=>({results:(sql.includes('FROM redirects') && !sql.includes('FROM posts'))?[]:[{...row,categories_json:'[{"slug":"tema-novo","name":"Tema novo"}]',tags_json:'[]'}]});
    return {all,bind:()=>({all})};
  }}},
  next:async()=>new Response('<head><title>Home</title><meta name="robots" content="index,follow" /><link rel="canonical" href="https://codigo5.com.br/" /></head><body><div id="root"><div>Home</div></div></body>',{headers:{'content-type':'text/html',etag:'old-static'}}),

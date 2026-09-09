@@ -44,7 +44,8 @@ test('Node routes preserve authentication, draft persistence, redirects and dyna
     const article = await request('/blog/artigo-local'); assert.equal(article.status,200); assert.match(await article.text(), /Conteúdo de validação apenas/);
     assert.equal((await post('/api/admin/posts-save', {draftId:item.id,slug:'artigo-local-renomeado'})).status,200);
     assert.equal((await request('/blog/artigo-local')).status,301);
-    const persisted = new SqliteD1(filename); assert.equal(persisted.prepare('SELECT slug FROM posts WHERE id=?').bind(item.id).first('slug'),'artigo-local-renomeado'); persisted.close();
+    const persisted = new SqliteD1(filename); assert.equal(persisted.prepare('SELECT slug FROM posts WHERE id=?').bind(item.id).first('slug'),'artigo-local-renomeado'); persisted.prepare("INSERT INTO redirects(source_path,target_path,created_at) VALUES (?,?,datetime('now'))").bind('/blog/artigo-local-renomeado','/blog').run(); persisted.close();
+    const listing=await (await request('/api/bot/posts')).json(); assert.equal(listing.posts.length,0);
     assert.equal((await request('/api/telegram/health')).status, 200);
     assert.equal((await request('/sitemap.xml')).status, 200);
     assert.equal((await request('/admin/editorial')).headers.get('x-robots-tag'), 'noindex, follow');

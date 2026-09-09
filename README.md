@@ -4,7 +4,7 @@ Site da [Código5](https://codigo5.com.br): serviços, trabalhos, trajetória, b
 
 ## Desenvolvimento
 
-Stack: React 18, TypeScript, Vite, Tailwind e Cloudflare Pages Functions. Blog dinâmico em D1, sessões em KV e arquivos no DigitalOcean Spaces.
+Stack: React 18, TypeScript, Vite e Tailwind. Servidor Node no Mac Mini, blog e sessões em SQLite persistente, arquivos no DigitalOcean Spaces. Os handlers em `functions/` são reutilizados pelo Node; não dependem de D1 em produção.
 
 ```sh
 npm ci
@@ -16,14 +16,17 @@ npm run build
 
 ## Publicação
 
-Produção: Cloudflare Pages, projeto `codigo5-web`, branch `main`. O projeto usa upload direto; um push sozinho não publica o site.
+Produção: Mac Mini, stack Portainer `codigo5-web` (endpoint 3, stack 231). Cloudflare fornece DNS/Tunnel. O projeto Pages antigo serve apenas redirecionamento; não publicar a aplicação nele.
 
 ```sh
-npm run test && npm run build
-npx wrangler pages deploy dist --project-name codigo5-web --branch main
+npm test -- --maxWorkers=2
+npm run build
+npm run build:server
+npm run test:server
+node scripts/check-static-seo.mjs
 ```
 
-Autenticação é feita localmente pelo Wrangler. Não adicionar tokens, `.env` reais nem arquivos de sessão ao Git. Antes de publicar, conferir os bindings e variáveis com a configuração ativa. Preservar os secrets existentes no provedor.
+A imagem deve ser identificada pelo commit, construída com `Dockerfile` e aplicada pelo Portainer com `deploy/compose.yml`. Para imagens construídas no servidor, usar `PullImage: false`; o helper genérico força pull e não serve para esse caso. Segredos ficam no Portainer e no arquivo local protegido documentado no runbook, nunca no Git. Veja `docs/migracao-macmini-operacao.md` para validação e rollback.
 
 ## Conteúdo e operação
 
@@ -39,15 +42,15 @@ As imagens e marcas do portfólio pertencem aos respectivos titulares. O portfó
 
 Preservar em conjunto `functions/_middleware.ts`, `functions/sitemap.xml.ts`, `scripts/generate-static-site.mjs` e `scripts/check-static-seo.mjs`, `scripts/generate-sitemap.mjs` e o teste `src/test/seo-source-canonical.test.ts`.
 
-Após publicação, conferir que os endereços do sitemap são finais, indexáveis e possuem canonical próprio no HTML-fonte; verificar `/api/telegram/health` e `/api/bot/posts`. Rollback pelo deployment anterior completo, sem alterar o banco.
+Após publicação, conferir que os endereços do sitemap são finais, indexáveis e possuem canonical próprio no HTML-fonte; verificar `/api/telegram/health` e `/api/bot/posts`. Rollback pela imagem anterior no Portainer, preservando o volume SQLite. Retorno ao D1 exige reconciliação dos dados; não basta trocar DNS.
 
 ## SEO e compartilhamento
 
-O build pré-renderiza as páginas públicas com os mesmos componentes React. Artigos publicados em D1 também recebem metadados e conteúdo inicial na resposta do servidor. As capas institucionais ficam em `public/assets/codigo5/social/`; o blog usa a imagem de destaque de cada artigo. Rode `node scripts/check-static-seo.mjs` após o build. Veja o checklist e as evidências em `docs/seo-checklist-2026-09-09.md`.
+O build pré-renderiza as páginas públicas com os mesmos componentes React. Artigos publicados no SQLite também recebem metadados e conteúdo inicial na resposta do servidor. As capas institucionais ficam em `public/assets/codigo5/social/`; o blog usa a imagem de destaque de cada artigo. Rode `node scripts/check-static-seo.mjs` após o build. Veja o checklist e as evidências em `docs/seo-checklist-2026-09-09.md`.
 
-## Migração Mac Mini em validação
+## Runtime Mac Mini
 
-O runtime Node em `server/` reutiliza os handlers editoriais e substitui D1/KV por SQLite persistente. `novo.codigo5.com.br` é o candidato no Portainer; o domínio principal ainda só deve ser alterado após os gates do plano.
+O runtime Node em `server/` reutiliza os handlers editoriais e substitui D1/KV por SQLite persistente. `codigo5.com.br` e `www.codigo5.com.br` já apontam para o Portainer. `novo.codigo5.com.br` permanece como endereço auxiliar com noindex.
 
 ```sh
 npm run build

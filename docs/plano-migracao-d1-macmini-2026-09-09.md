@@ -1,6 +1,6 @@
 # Migração D1 → Mac Mini
 
-Data: 09/09/2026. Estado: inventário confirmado; implementação e troca de produção pendentes.
+Data: 09/09/2026. Estado: primeira onda (Código5) implementada e em produção no Mac Mini; demais bancos seguem nas ondas abaixo. Operação e evidências em [runbook](migracao-macmini-operacao.md).
 
 ## Contrato
 
@@ -10,7 +10,7 @@ Preservar site, blog, painel, autenticação Telegram, uploads, URLs, redirecion
 
 | Banco D1 | Consumidor configurado | Situação a validar |
 |---|---|---|
-| codigo5-bot | Pages codigo5-web | Blog, rascunhos e redirects deste site; primeira onda |
+| codigo5-bot | Nenhum binding ativo no Pages codigo5-web | Migrado para SQLite no Mini; D1 preservado como backup inativo |
 | rbike-shop-prod | Pages rbike-bloom-shop | Loja; exige teste de pedidos, autenticação e pagamento antes de troca |
 | cod5-leads-diagnostico | Pages cod5-leads-diagnostico | Diagnóstico e integrações; exige rastrear webhooks e tarefas |
 | adops-ops | Worker adops-api-public | Binding legado presente; comparar com runtime ativo antes de desativar |

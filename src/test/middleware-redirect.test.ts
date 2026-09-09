@@ -81,3 +81,9 @@ describe("public middleware redirect guard", () => {
     expect(next).not.toHaveBeenCalled();
   });
 });
+
+it('does not make institutional rendering depend on the editorial database',async()=>{
+  const ctx=makeContext('/servicos',{throwError:true});
+  const response=await onRequest(ctx as never);
+  expect(response.status).toBe(200);expect(ctx.dbPrepared).not.toHaveBeenCalled();
+});

@@ -3,6 +3,8 @@ import { renderPublishedCollectionSeo, renderPublishedPostSeo } from "./_shared/
 import { listPublishedPosts, getPublishedPostBySlug, getRedirectBySourcePath } from "./_shared/bot/db";
 import type { Env } from "./_shared/bot/types";
 
+const institutional = ["/", "/sobre", "/servicos", "/automacao-com-ia", "/portfolio", "/contato", "/politica-de-privacidade", "/blog"];
+
 const COD5_SITE_URL = "https://codigo5.com.br";
 
 const cod5_escape_attribute = (value: string) =>
@@ -30,6 +32,7 @@ export const cod5_replace_canonical_url = (html: string, pathname: string) => {
 export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(context.request.url);
   const { pathname } = url;
+  const route = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
   let redirectLookupFailed = false;
 
   if (
@@ -40,7 +43,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     return context.next();
   }
 
-  try {
+  // Editorial redirects are created only for /blog/[slug]; static institutional pages do not depend on D1.
+  if (!institutional.includes(route)) try {
     const redirect = await getRedirectBySourcePath(context.env, pathname);
     if (redirect) {
       const targetPath = String(
@@ -66,9 +70,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   headers.delete("content-length");
   headers.delete("etag");
-  const route = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
   const bundledPost = staticPosts.find(post => route === `/blog/${post.slug}`);
-  const institutional = ["/", "/sobre", "/servicos", "/automacao-com-ia", "/portfolio", "/contato", "/politica-de-privacidade", "/blog"];
   const knownTaxonomy = staticPosts.some(post => post.categories.some(term => route === `/blog/categoria/${term.slug}`) || post.tags.some(term => route === `/blog/tag/${term.slug}`));
   let known = institutional.includes(route) || !!bundledPost || knownTaxonomy;
   let html = await response.text();

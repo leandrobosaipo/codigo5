@@ -1,0 +1,1 @@
+Fontes Manrope e Fraunces, distribuição Fontsource Variable 5.3.0, subconjunto latin. Arquivos WOFF2 originais dos pacotes npm @fontsource-variable/manrope e @fontsource-variable/fraunces. Licenças OFL preservadas. Nenhuma dependência adicionada ao aplicativo.

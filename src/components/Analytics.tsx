@@ -8,22 +8,9 @@ declare global {
   }
 }
 
-let previousPage = "";
 const isPublicProductionPage = () =>
   ["codigo5.com.br", "www.codigo5.com.br"].includes(window.location.hostname) &&
   !/^\/(admin|telegram-mini-app)(\/|$)/.test(window.location.pathname);
-
-// Called after Seo has set the actual page title, including lazy-loaded routes.
-export const trackPageView = (title: string, path: string) => {
-  if (!isPublicProductionPage() || !window.gtag || previousPage === path) return;
-  previousPage = path;
-  window.gtag("event", "page_view", {
-    page_title: title,
-    page_location: `${window.location.origin}${path}`,
-    page_path: path,
-    send_to: GOOGLE_MEASUREMENT_ID,
-  });
-};
 
 const Analytics = () => {
   useEffect(() => {

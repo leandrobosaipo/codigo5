@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect } from "react";
-import { trackPageView } from "./Analytics";
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export type SeoProps = {
@@ -63,7 +62,6 @@ const Seo = ({
 
 
     document.title = title;
-    if (!robots.includes("noindex")) trackPageView(title, normalizedPath);
     upsertMeta('meta[name="description"]', "content", description);
     upsertMeta('meta[name="keywords"]', "content", keywords ?? "codigo5 web, sites em cuiaba, seo, automacao, ia aplicada");
     upsertMeta('meta[name="robots"]', "content", robots);

@@ -14,9 +14,10 @@ Revisão iniciada em 08/09/2026 (Cuiabá), release em 09/09/2026 UTC.
 - [x] Sitemap com as 38 URLs indexáveis do acervo. As 32 páginas de tags usam `noindex,follow` e não entram no sitemap. O acervo gerado permanece no sitemap durante indisponibilidade do D1; nenhuma URL dinâmica é inventada nesse fallback.
 - [x] Rotas privadas fora do índice. URLs desconhecidas não são tratadas como páginas válidas; quando a consulta ao banco falha, recebem status temporário 503 em vez de 404 definitivo.
 - [x] Marcas e capturas pesadas em WebP. A imagem de atendimento caiu de 2.138.757 para 72.270 bytes, com conteúdo e composição preservados.
-- [x] Fontes descobertas diretamente pelo HTML e conexões antecipadas; removida a cadeia de `@import` no CSS.
+- [x] Fontes WOFF2 locais com licença preservada e preload de Manrope; removida a dependência de Google Fonts no carregamento.
+- [x] Páginas institucionais não consultam o banco editorial para redirects de artigos, evitando uma dependência desnecessária no primeiro carregamento.
 - [x] Contraste das legendas de portfólio ajustado.
-- [x] Configuração única do Google tag. `page_view` ocorre depois do título real da página, sem repetir o mesmo caminho em re-renderizações.
+- [x] Configuração única do Google tag. A medição automática de visualizações e mudanças de histórico já estava ativa no GA4; removida a segunda emissão manual para evitar contagem duplicada.
 - [x] Evento `contact_click` distingue WhatsApp, e-mail e telefone. Mede clique, não mensagem enviada ou venda. Não envia telefone, conteúdo da conversa, query string ou fragmentos.
 - [x] Ambiente local, preview e painel privado excluídos desses eventos.
 
@@ -35,7 +36,7 @@ Revisão iniciada em 08/09/2026 (Cuiabá), release em 09/09/2026 UTC.
 ## Analytics — evidência e checklist
 
 - [x] Google tag existente `GT-KDD832` preservado. Inspeção de rede identificou o destino GA4 `G-4M9KM8258K` e resposta 204 do endpoint de coleta para evento automático.
-- [x] Eventos explícitos direcionados ao Measurement ID observado, sem criar outra propriedade ou duplicar a instalação.
+- [x] Eventos de contato direcionados ao Measurement ID observado, sem criar outra propriedade ou duplicar a instalação.
 - [ ] Confirmar recebimento no Tempo Real/DebugView e associação atual à propriedade após reautenticar o Google. Uma resposta HTTP do coletor não prova processamento no relatório.
 - [ ] Conferir fuso, retenção, filtros internos e associação do Search Console dentro da propriedade correta. Não alterados sem acesso verificado.
 - [ ] Só marcar conversão após definir o que representa um lead qualificado; clique em WhatsApp não equivale a atendimento concluído.

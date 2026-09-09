@@ -1,3 +1,4 @@
+import { Video, Megaphone, Newspaper, ShoppingBag, AudioLines, ClipboardList, MonitorCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -27,7 +28,7 @@ export default function PortfolioPage() {
       <Navbar />
       <main id="conteudo">
         <section className="c5-page-hero">
-          <div className="c5-container">
+          <div className="c5-container c5-visual-hero"><div>
             <span className="c5-label">Portfólio</span>
             <h1>
               Conheça os projetos da Código5
@@ -35,7 +36,7 @@ export default function PortfolioPage() {
             <p>
               Automações para atender e produzir conteúdo, sites para apresentar serviços e catálogos para vender. Conheça as soluções atuais e os projetos que construíram nossa experiência.
             </p>
-          </div>
+          </div><figure className="c5-story-photo"><img src="/assets/codigo5/cases/rbike-site-20260909.webp" alt="Site da Rbike Shop MT, projeto do portfólio" width="1280" height="720" fetchPriority="high" /><figcaption>Rbike Shop MT · produtos e atendimento da loja.</figcaption></figure></div>
         </section>
         <section className="c5-section c5-tinted" id="automacoes">
           <div className="c5-container">
@@ -46,16 +47,16 @@ export default function PortfolioPage() {
               <article className="c5-work"><div className="c5-work-image"><img src="/assets/codigo5/automacoes/atendimento-humanizado-opt.webp" alt="Ilustração de atendimento em uma barbearia" loading="lazy" width="1536" height="1024" /></div><h3>JP Prótese Capilar · agenda e atendimento</h3><p>Projeto de acompanhamento de agenda e retornos, com análise de oportunidades e revisão humana. Base para ampliar o atendimento assistido por IA.</p><small>Imagem ilustrativa criada com IA; não retrata o cliente.</small></article>
             </div>
             <p style={{marginBlock:32}}><Link className="c5-button" to="/automacao-com-ia">Conheça as soluções de automação</Link></p>
-            <div className="c5-markets">
-              {[
-                ["Curadoria de vídeos e memes", "Pesquisa e seleção de referências das redes sociais, organização de materiais e revisão antes do aproveitamento editorial."],
-                ["Campanhas e comprovantes de anúncios", "O AdOps organiza campanhas dos portais, acompanha a veiculação e reúne evidências para os anunciantes."],
-                ["Pautas e distribuição de notícias", "Curadoria, RadarCred e Distribuidor ajudam a acompanhar fontes, preparar pautas e levar chamadas aos canais dos portais."],
-                ["Catálogo e atendimento da loja", "Na Rbike, a integração mantém produtos, preços e estoque do catálogo alinhados ao sistema de gestão e apoia o atendimento."],
-                ["Áudio e vídeo para publicação", "Ferramentas para transcrever áudios, preparar vídeos e reduzir etapas repetitivas da produção editorial."],
-                ["Rotina administrativa", "Sistemas para acompanhar informações financeiras e conectar cadastros e tarefas às ferramentas já usadas pela equipe."],
-                ["Acompanhamento dos sites", "Monitoramento, cópias de segurança e alertas para identificar problemas e apoiar a manutenção dos projetos."],
-              ].map(([title, text]) => <article key={title}><h3>{title}</h3><p>{text}</p></article>)}
+            <div className="c5-market-cards c5-business-cards">
+              {([
+                [Video, "Curadoria de vídeos e memes", "Pesquisa e seleção de referências das redes sociais, organização de materiais e revisão antes do aproveitamento editorial."],
+                [Megaphone, "Campanhas e comprovantes de anúncios", "O AdOps organiza campanhas dos portais, acompanha a veiculação e reúne evidências para os anunciantes."],
+                [Newspaper, "Pautas e distribuição de notícias", "Curadoria, RadarCred e Distribuidor ajudam a acompanhar fontes, preparar pautas e levar chamadas aos canais dos portais."],
+                [ShoppingBag, "Catálogo e atendimento da loja", "Na Rbike, a integração mantém produtos, preços e estoque do catálogo alinhados ao sistema de gestão e apoia o atendimento."],
+                [AudioLines, "Áudio e vídeo para publicação", "Ferramentas para transcrever áudios, preparar vídeos e reduzir etapas repetitivas da produção editorial."],
+                [ClipboardList, "Rotina administrativa", "Sistemas para acompanhar informações financeiras e conectar cadastros e tarefas às ferramentas já usadas pela equipe."],
+                [MonitorCheck, "Acompanhamento dos sites", "Monitoramento, cópias de segurança e alertas para identificar problemas e apoiar a manutenção dos projetos."],
+              ] as const).map(([Icon, title, text]) => <article key={title}><span className="c5-market-icon"><Icon size={30} strokeWidth={1.6} aria-hidden="true" /></span><h3>{title}</h3><p>{text}</p></article>)}
             </div>
           </div>
         </section>

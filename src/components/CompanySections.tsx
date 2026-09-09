@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Newspaper, HeartPulse, ShoppingBag, Factory, Landmark, Compass } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Newspaper, HeartPulse, ShoppingBag, Factory, Landmark, Compass, MessagesSquare, ClipboardCheck, MonitorCheck, MessageCircle } from "lucide-react";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { capabilities, markets, selectedWork } from "@/content/company";
@@ -14,11 +14,12 @@ export function ServiceList({ expanded = false }: { expanded?: boolean }) {
     return () => cancelAnimationFrame(frame);
   }, [expanded, hash]);
   return (
-    <div className="c5-services">
+    <div className={expanded ? "c5-services" : "c5-services c5-service-posters"}>
       {capabilities.map((item) => (
         <article key={item.id} id={item.id} className="c5-service">
+          {!expanded && <img className="c5-service-preview" src={item.image} alt={item.caption} width="720" height="480" loading="lazy" />}
           <div>
-            {expanded && <span className="c5-service-audience">{item.audience}</span>}
+            <span className="c5-service-audience">{item.audience}</span>
             <h3>{item.title}</h3>
             <p>{expanded ? item.detail : item.summary}</p>
             {expanded && <ul>{item.items.map((text) => <li key={text}>{text}</li>)}</ul>}
@@ -38,6 +39,7 @@ export function ServiceList({ expanded = false }: { expanded?: boolean }) {
           )}
         </article>
       ))}
+      {!expanded && <article className="c5-service"><img className="c5-service-preview" src="/assets/codigo5/automacoes/atendimento-humanizado-opt.webp" alt="Atendimento em barbearia, cena ilustrativa criada com IA" width="1536" height="1024" loading="lazy" /><div><span className="c5-service-audience">Barbearias, oficinas, clínicas e comércio</span><h3>Atender mesmo com a equipe ocupada</h3><p>Respostas, horários e retornos conectados à rotina do seu negócio.</p><small className="c5-service-audience">Cena ilustrativa criada com IA.</small></div><Link to="/automacao-com-ia" aria-label="Conhecer automações de atendimento"><ArrowUpRight size={25} /></Link></article>}
     </div>
   );
 }
@@ -112,26 +114,29 @@ export function Method() {
       <div className="c5-container">
         <div className="c5-section-heading">
           <span className="c5-label">Como trabalhamos</span>
-          <h2>
-            Como o seu projeto sai do papel
-          </h2>
+          <h2>Como o seu projeto sai do papel</h2>
+          <figure className="c5-story-photo"><img src="/assets/codigo5/visual/conversa-projeto.webp" alt="Conversa sobre as páginas e prioridades de um projeto" width="1536" height="1024" loading="lazy" /><figcaption>Cena ilustrativa criada com IA.</figcaption></figure>
         </div>
         <ol>
-          {[
+          {([
             [
+              MessagesSquare,
               "Primeiro, conhecemos a sua empresa",
               "Conversamos sobre o público, o que você vende e as dificuldades da rotina. Se já existe um site ou sistema, avaliamos o que pode ser aproveitado.",
             ],
             [
+              ClipboardCheck,
               "Você sabe o que será entregue",
               "Combinamos as páginas, os recursos, as responsabilidades e o prazo antes de começar. Você acompanha o projeto e participa das decisões que afetam o seu negócio.",
             ],
             [
+              MonitorCheck,
               "Acompanhamos a entrada no ar",
               "Conferimos o funcionamento no computador e no celular, publicamos e orientamos sua equipe. A manutenção e as melhorias seguem o acompanhamento contratado.",
             ],
-          ].map(([title, text]) => (
+          ] as const).map(([Icon, title, text]) => (
             <li key={title}>
+              <Icon className="c5-step-icon" size={28} aria-hidden="true" />
               <h3>{title}</h3>
               <p>{text}</p>
             </li>
@@ -146,7 +151,7 @@ export function ContactBand() {
     <section className="c5-contact" id="contato">
       <div className="c5-container">
         <div>
-          <span className="c5-label">Vamos conversar</span>
+          <span className="c5-contact-symbol"><MessageCircle size={36} strokeWidth={1.5} aria-hidden="true" /></span><span className="c5-label">Vamos conversar</span>
           <h2>
             Conte o que você precisa fazer.
           </h2>

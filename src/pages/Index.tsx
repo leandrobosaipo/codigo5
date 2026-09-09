@@ -139,7 +139,7 @@ export default function Index() {
         </section>
         <section className="c5-section c5-tinted"><div className="c5-container c5-automation-hero"><div className="c5-section-heading"><span className="c5-label">A próxima etapa do seu negócio</span><h2>O cliente não precisa esperar você terminar o atendimento</h2><p>Enquanto você trabalha, a automação pode responder dúvidas, organizar pedidos e ajudar a encontrar um horário. Para barbearias, oficinas, clínicas e empresas que precisam dar atenção a cada contato.</p><Link className="c5-button" to="/automacao-com-ia">Ver como funciona</Link></div><figure><img src="/assets/codigo5/automacoes/atendimento-humanizado-opt.webp" alt="Atendimento próximo e natural em uma barbearia" loading="lazy" width="1536" height="1024" /><figcaption>Imagem ilustrativa criada com IA.</figcaption></figure></div></section>
         <section className="c5-section" id="solucoes">
-          <div className="c5-container c5-split">
+          <div className="c5-container c5-home-services">
             <div className="c5-section-heading">
               <span className="c5-label">O que fazemos</span>
               <h2>
@@ -194,6 +194,7 @@ export default function Index() {
               <h2>
                 Quem cuida do site também conhece a sua rotina.
               </h2>
+              <figure className="c5-story-photo"><img src="/assets/codigo5/visual/loja-pedidos.webp" alt="Lojista acompanha um pedido ao lado dos produtos da loja" width="1536" height="1024" loading="lazy" /><figcaption>Cena ilustrativa criada com IA.</figcaption></figure>
             </div>
             <div>
               <p>

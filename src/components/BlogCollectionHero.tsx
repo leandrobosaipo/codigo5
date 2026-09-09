@@ -17,10 +17,12 @@ export default function BlogCollectionHero({
   lead,
   breadcrumbLabel = "Blog",
   breadcrumbHref = "/blog",
+  visual,
 }: BlogCollectionHeroProps) {
   return (
     <section className="c5-page-hero">
-      <div className="c5-container">
+      <div className={`c5-container${visual ? " c5-visual-hero" : ""}`}>
+        <div>
         <Link className="c5-text-link" to={breadcrumbHref}>
           ← {breadcrumbLabel}
         </Link>
@@ -29,6 +31,8 @@ export default function BlogCollectionHero({
         </span>
         <h1>{title}</h1>
         <p>{lead}</p>
+        </div>
+        {visual && <figure className="c5-story-photo">{visual}</figure>}
       </div>
     </section>
   );

@@ -16,7 +16,7 @@ export default function BlogIndex() {
       <Navbar />
       <main id="conteudo">
         <section className="c5-page-hero">
-          <div className="c5-container">
+          <div className="c5-container c5-visual-hero"><div>
             <span className="c5-label">Blog da Código5</span>
             <h1>
               Tecnologia e negócios.
@@ -27,7 +27,7 @@ export default function BlogIndex() {
               Mercado, comunicação e trabalho digital. Leituras para pensar as
               próximas decisões da sua empresa.
             </p>
-          </div>
+          </div>{posts[0]?.image && <figure className="c5-story-photo"><img src={posts[0].image} alt="" width="1200" height="800" fetchPriority="high" /><figcaption>{posts[0].title}</figcaption></figure>}</div>
         </section>
         <section className="c5-section">
           <div className="c5-container">

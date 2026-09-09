@@ -117,7 +117,7 @@ Segmentos com potencial claro de crescimento:
 
 - Base local em Cuiabá e operação orientada a negócios da região.
 - Mais de 15 anos de mercado.
-- Portfólio com mais de 40 marcas.
+- Portfólio com 37 marcas no catálogo público (conferido em 09/09/2026).
 - Atuação em mais de 10 segmentos.
 - Clientes e marcas que ajudam a validar credibilidade:
   - Axis Construções

@@ -36,7 +36,7 @@ const BlogTagPage = () => {
         <BlogCollectionHero
           kicker="Tag"
           title={`#${tagName}`}
-          lead={`${posts.length} publicações relacionadas com esse tema para continuar a leitura por interesse, sem perder ritmo editorial.`}
+          lead={`${posts.length} artigos sobre este assunto.`}
           crumb={`#${tagName}`}
           stats={[
             { value: String(posts.length), label: "artigos marcados" },

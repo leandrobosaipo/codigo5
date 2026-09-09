@@ -4,7 +4,7 @@ export const capabilities = [
     "image": "/assets/codigo5/cases/rbike-site-20260909.webp",
     "caption": "Rbike Shop MT · produtos da loja disponíveis para consulta e pedido",
     "title": "Apresentar sua empresa e vender pela internet",
-    "summary": "Para quem precisa de um site, catálogo ou loja que explique bem o que oferece.",
+    "summary": "Organizamos serviços e produtos, com caminhos claros para pedir orçamento ou comprar.",
     "audience": "Comércio, clínicas, escritórios e prestadores de serviço",
     "detail": "Quem recebe uma indicação ou encontra sua empresa no Google quer entender o que você faz, ver os produtos e saber como contratar. Criamos o site, organizamos as informações e facilitamos o pedido de orçamento, a compra ou o contato com a sua equipe.",
     "items": [
@@ -20,7 +20,7 @@ export const capabilities = [
     "image": "/assets/codigo5/cases/flechatur-2026-09-opt.webp",
     "caption": "FlechaTur · serviços e frota apresentados para quem procura transporte",
     "title": "Aparecer nas buscas dos seus clientes",
-    "summary": "Para empresas que querem ser encontradas por quem já procura seus serviços.",
+    "summary": "Páginas e conteúdo para responder às dúvidas de quem procura o que você oferece.",
     "audience": "Negócios locais e empresas com conhecimento para compartilhar",
     "detail": "Seu cliente pesquisa antes de entrar em contato. Cuidamos das páginas, dos textos e da presença nas buscas para que ele encontre informações úteis sobre a sua empresa. Acompanhamos os acessos para entender o que desperta interesse e o que precisa melhorar.",
     "items": [
@@ -35,7 +35,7 @@ export const capabilities = [
     "image": "/assets/codigo5/cases/portal163-2026-09-opt.webp",
     "caption": "Portal 163 · notícias, conteúdo local e espaços para anunciantes",
     "title": "Publicar notícias e cuidar dos anunciantes",
-    "summary": "Para jornais e portais que precisam manter a publicação e a publicidade em dia.",
+    "summary": "Da pauta ao anúncio: publicação, distribuição e acompanhamento das campanhas.",
     "audience": "Portais de notícias, redações e empresas de comunicação",
     "detail": "A notícia precisa chegar ao leitor, e o anunciante precisa acompanhar a campanha que contratou. Desenvolvemos portais e organizamos o caminho da pauta à publicação, incluindo imagens, vídeos, distribuição e comprovação dos anúncios.",
     "items": [
@@ -51,7 +51,7 @@ export const capabilities = [
     "image": "/assets/codigo5/cases/shop10-2026-09-opt.webp",
     "caption": "Shop10 · site com conteúdo atualizado pela própria operação",
     "title": "Organizar o trabalho da sua equipe",
-    "summary": "Para quem perde tempo repetindo tarefas em planilhas, sistemas e atendimento.",
+    "summary": "Conectamos cadastros, pedidos e tarefas nas ferramentas que a equipe já usa.",
     "audience": "Equipes comerciais, administrativas e de conteúdo",
     "detail": "Copiar o mesmo cadastro em vários lugares, conferir dados à mão ou repetir uma resposta toma tempo. Criamos sistemas e conectamos as ferramentas que a empresa já usa para organizar pedidos, contatos, informações e tarefas. A inteligência artificial entra onde pode ajudar, como na transcrição de áudios e no preparo de conteúdo para revisão.",
     "items": [
@@ -67,7 +67,7 @@ export const capabilities = [
     "image": "/assets/codigo5/cases/cref17-2026-09-opt.webp",
     "caption": "CREF17/MT · informações e serviços disponíveis para os profissionais",
     "title": "Ter suporte depois do lançamento",
-    "summary": "Para quem precisa manter o site atualizado e saber a quem recorrer.",
+    "summary": "Atualizações, cópias de segurança e acompanhamento para manter o site funcionando.",
     "audience": "Empresas e instituições que dependem do site no dia a dia",
     "detail": "Mudou um serviço, surgiu um erro ou chegou a hora de trocar de hospedagem? Cuidamos da manutenção, das atualizações e da estrutura que mantém o site funcionando. O acompanhamento é definido conforme a necessidade do projeto.",
     "items": [

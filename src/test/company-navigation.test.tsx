@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import PortfolioPage from "@/pages/PortfolioPage";
+import BlogCollectionHero from "@/components/BlogCollectionHero";
 import Navbar from "@/components/Navbar";
 import { ServiceList } from "@/components/CompanySections";
 import { capabilities, selectedWork } from "@/content/company";
@@ -61,4 +62,9 @@ describe("portfolio filtering", () => {
     fireEvent.click(screen.getByRole("button", { name: "Todos" }));
     expect(document.querySelectorAll("#projetos .c5-work")).toHaveLength(selectedWork.length);
   });
+});
+
+it("shows the supplied article image in the collection header", () => {
+  render(<MemoryRouter><BlogCollectionHero kicker="Categoria" title="Negócios" lead="Artigos para sua empresa" visual={<img src="/capa.webp" alt="Capa da coleção" />} /></MemoryRouter>);
+  expect(screen.getByRole("img", { name: "Capa da coleção" })).toBeInTheDocument();
 });

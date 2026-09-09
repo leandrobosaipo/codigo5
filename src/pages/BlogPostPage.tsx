@@ -206,6 +206,7 @@ const BlogPostPage = () => {
                 <div className="c5-adjacent">
                   {relatedPosts.map((related) => (
                     <Link key={related.slug} to={`/blog/${related.slug}`}>
+                      {related.image && <img className="c5-related-image" src={related.image} alt="" width="500" height="280" loading="lazy" />}
                       {related.title}
                     </Link>
                   ))}

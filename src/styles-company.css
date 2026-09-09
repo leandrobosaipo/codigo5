@@ -1182,3 +1182,70 @@
 .c5-automation-gallery h3 { font-size:23px; margin-top:20px; }.c5-automation-gallery small { display:block; color:#657586; font-size:11px; margin-top:10px; }
 
 .c5-client-directory .is-muted { background:#9aaaba; color:#172d42; }.c5-client-directory .is-muted span { color:#172d42; }
+
+/* Business-facing imagery: real work, everyday scenes and short explanations. */
+.c5-visual-hero { display:grid; grid-template-columns:1.15fr 1fr; gap:56px; align-items:center; }
+.c5-visual-hero > * { min-width:0; }
+.c5-visual-hero h1 { font-size:clamp(36px,4.1vw,60px); }
+.c5-story-photo { margin:28px 0 0; min-width:0; }
+.c5-story-photo img { display:block; width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; object-position:center; border-radius:8px; }
+.c5-story-photo img[src*="/cases/"], .c5-story-photo img[src*="radar-"] { object-fit:contain; object-position:top; background:#e5ebf2; }
+.c5-story-photo figcaption { margin-top:10px; font-size:11px; line-height:1.6; color:#526477; }
+.c5-visual-hero > .c5-story-photo { margin:0; }
+.c5-evolution .c5-story-photo figcaption { color:#d5e1ee; }
+.c5-evolution .c5-story-photo { margin-bottom:24px; }
+.c5-story-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:24px; }
+.c5-home-services > .c5-section-heading { max-width:760px; margin-bottom:36px; }
+.c5-home-services > .c5-section-heading p { max-width:620px; }
+.c5-service-posters { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; border:0; }
+.c5-service-posters .c5-service { display:grid; grid-template-columns:1fr 42px; align-content:start; align-items:start; gap:20px 12px; padding:0 0 22px; border:1px solid #dce3eb; border-radius:8px; overflow:hidden; }
+.c5-service-posters .c5-service-preview { grid-column:1/-1; display:block; width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; object-position:top; background:#e5ebf2; }
+.c5-service-posters .c5-service > div { padding-left:22px; }
+.c5-service-posters .c5-service > a { width:32px; height:32px; margin-right:10px; }
+.c5-service-posters .c5-service h3 { font-size:22px; line-height:1.35; }
+.c5-service-posters .c5-service-audience { font-size:11px; line-height:1.6; margin-bottom:10px; }
+.c5-callout-visual { display:grid; grid-template-columns:.8fr 1.2fr; gap:36px; align-items:center; }
+.c5-callout-visual > img { width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; border-radius:6px; }
+.c5-callout-visual small { display:block; color:#526477; font-size:11px; margin-top:14px; }
+.c5-method .c5-section-heading { min-width:0; }
+.c5-method li { padding-left:55px; }
+.c5-method li:before { top:0; }
+.c5-step-icon { color:#164cc7; margin-bottom:12px; }
+.c5-contact-symbol { display:block; margin-bottom:16px; }
+.c5-contact-page h2, .c5-contact-page p:has(> svg) { display:flex; align-items:center; gap:12px; }
+.c5-contact-page svg { flex-shrink:0; }
+.c5-automation-solutions { gap:32px; }
+.c5-automation-solutions article { border:1px solid #dce3eb; padding:0; border-radius:8px; overflow:hidden; align-self:start; }
+.c5-solution-image { margin:0; }
+.c5-solution-image img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; object-position:top; background:#e5ebf2; }
+.c5-solution-image figcaption { padding:9px 24px 0; color:#526477; font-size:10px; line-height:1.6; }
+.c5-solution-copy { padding:24px; }
+.c5-automation-solutions h3 { font-size:25px; }
+.c5-automation-solutions .c5-flow { list-style:none; counter-reset:flow; display:flex; gap:10px; margin:24px 0; padding:0; }
+.c5-flow li { counter-increment:flow; flex:1; min-width:0; font-size:12px; line-height:1.6; background:#f3f6fa; border-radius:4px; padding:12px; }
+.c5-flow li:before { content:counter(flow); display:block; color:#164cc7; font-weight:700; margin-bottom:6px; }
+.c5-solution-details { border-top:1px solid #dce3eb; padding-top:16px; }
+.c5-solution-details summary { cursor:pointer; font-weight:600; font-size:14px; }
+.c5-solution-details p, .c5-solution-details li { font-size:14px; }
+.c5-solution-details p { margin-top:16px; }
+.c5-business-cards h3 { margin:20px 0 12px; font-size:22px; line-height:1.35; }
+.c5-business-cards p { font-size:14px; line-height:1.8; color:#526477; }
+.c5-section-icon { color:#164cc7; margin-bottom:18px; }
+@media(max-width:1000px) {
+  .c5-visual-hero { gap:32px; }
+  .c5-service-posters { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .c5-automation-solutions .c5-flow { flex-direction:column; }
+  .c5-flow li:before { display:inline; margin-right:10px; }
+}
+@media(max-width:760px) {
+  .c5-visual-hero, .c5-callout-visual, .c5-story-gallery { grid-template-columns:1fr; }
+  .c5-visual-hero > .c5-story-photo { max-width:600px; }
+  .c5-story-gallery { gap:8px; }
+  .c5-automation-solutions { grid-template-columns:1fr; }
+}
+@media(max-width:540px) {
+  .c5-service-posters { grid-template-columns:1fr; }
+  .c5-callout-visual, .c5-solution-copy { padding:22px; }
+  .c5-service-posters .c5-service h3 { font-size:23px; }
+}
+.c5-related-image { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:6px; margin-bottom:16px; }

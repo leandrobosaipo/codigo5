@@ -33,3 +33,13 @@ test('KV preserves sessions, expiration and deletion', async () => {
   assert.equal(await kv.get('temporary'), null);
   db.close();
 });
+
+test('legacy import gains markdown columns without changing HTML or duplicating migrations', async () => {
+  const { migrateEditorial } = await import('./migrate.mjs');
+  const db = new SqliteD1(':memory:');
+  db.exec("CREATE TABLE drafts(id TEXT PRIMARY KEY, content_html TEXT); CREATE TABLE posts(id TEXT PRIMARY KEY, content_html TEXT); INSERT INTO posts VALUES ('legacy','<p>Original</p>')");
+  migrateEditorial(db.database); migrateEditorial(db.database);
+  assert.equal(db.prepare('SELECT content_html FROM posts').first('content_html'),'<p>Original</p>');
+  assert.equal(db.prepare('SELECT content_markdown FROM posts').first('content_markdown'),null);
+  db.close();
+});

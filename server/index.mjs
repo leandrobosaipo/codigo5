@@ -4,6 +4,7 @@ import { existsSync } from 'node:fs';
 import { resolve, extname, sep, dirname } from 'node:path';
 import { Readable } from 'node:stream';
 import { SqliteD1, SqliteKV } from './storage.mjs';
+import { migrateEditorial } from './migrate.mjs';
 import routes from '../output/routes.ts';
 import { onRequest as publicMiddleware } from '../functions/_middleware.ts';
 import { onRequest as botMiddleware } from '../functions/api/bot/_middleware.ts';
@@ -15,6 +16,7 @@ if (process.env.NODE_ENV === 'production') {
   for (const name of ['TELEGRAM_SECRET_TOKEN', 'DO_SPACES_KEY', 'DO_SPACES_SECRET', 'DO_SPACES_BUCKET', 'DO_SPACES_REGION', 'DO_SPACES_ENDPOINT']) if (!process.env[name]) throw new Error(`Missing configuration: ${name}`);
 }
 const db = new SqliteD1(dataFile);
+migrateEditorial(db.database);
 for (const table of ['drafts', 'posts', 'redirects', 'publish_jobs', 'users']) db.prepare(`SELECT 1 FROM ${table} LIMIT 1`).all();
 const env = { ...process.env, BOT_DB: db, BOT_SESSIONS: new SqliteKV(db) };
 const assets = resolve(process.env.COD5_ASSETS_DIR || 'dist');

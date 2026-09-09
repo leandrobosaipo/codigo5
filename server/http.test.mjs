@@ -11,7 +11,7 @@ test('Node routes preserve authentication, draft persistence, redirects and dyna
   const dir = mkdtempSync(join(tmpdir(), 'cod5-http-'));
   const filename = join(dir, 'editorial.sqlite');
   const db = new SqliteD1(filename);
-  for (const file of readdirSync('migrations').sort()) db.exec(readFileSync(join('migrations', file), 'utf8'));
+  for (const file of readdirSync('migrations').filter(file => !file.startsWith('0004')).sort()) db.exec(readFileSync(join('migrations', file), 'utf8'));
   const kv = new SqliteKV(db);
   await kv.put('admin-link:local-test', JSON.stringify({ email: 'test@example.invalid', telegramUserId: '123' }), { expirationTtl: 60 });
   db.close();

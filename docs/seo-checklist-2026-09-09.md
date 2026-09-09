@@ -36,6 +36,7 @@ Revisão iniciada em 08/09/2026 (Cuiabá), release em 09/09/2026 UTC.
 ## Analytics — evidência e checklist
 
 - [x] Google tag existente `GT-KDD832` preservado. Inspeção de rede identificou o destino GA4 `G-4M9KM8258K` e resposta 204 do endpoint de coleta para evento automático.
+- [x] Validação pública de navegação: uma única visualização da página inicial e uma de Serviços, ambas com título correto e resposta 204.
 - [x] Eventos de contato direcionados ao Measurement ID observado, sem criar outra propriedade ou duplicar a instalação.
 - [ ] Confirmar recebimento no Tempo Real/DebugView e associação atual à propriedade após reautenticar o Google. Uma resposta HTTP do coletor não prova processamento no relatório.
 - [ ] Conferir fuso, retenção, filtros internos e associação do Search Console dentro da propriedade correta. Não alterados sem acesso verificado.
@@ -57,12 +58,26 @@ Medição inicial oficial, página inicial, 08/09/2026 às 23:23 AMT:
 [Relatório inicial](https://pagespeed.web.dev/analysis/https-codigo5-com-br/49migou4o4?form_factor=mobile).
 A ferramenta não tinha dados de campo suficientes para avaliar a experiência real dos visitantes. O teste de laboratório varia entre execuções; a pontuação SEO não mede posição no Google.
 
+Medição posterior, 09/09/2026 às 00:12 AMT:
+
+| Medida | Celular | Computador |
+|---|---:|---:|
+| Desempenho | 77 | 98 |
+| Acessibilidade | 100 | 100 |
+| Práticas recomendadas | 100 | 100 |
+| SEO Lighthouse | 100 | 100 |
+| LCP | 4,3 s | 1,0 s |
+| CLS | 0 | 0 |
+
+[Relatório posterior](https://pagespeed.web.dev/analysis/https-codigo5-com-br/z74408w8tj?form_factor=mobile).
+O LCP móvel melhorou, mas continua acima da faixa boa; a nota móvel permaneceu em 77. As próximas oportunidades apontadas são dimensionamento de imagens e redução de JavaScript/CSS não utilizados. Não há promessa de nota 100 nem de posição no Google.
+
 PageRank não é uma configuração ou nota pública que o site possa definir. O trabalho de autoridade deve vir de conteúdo útil, autoria verdadeira, projetos comprováveis, links internos pertinentes e menções editoriais legítimas. Não foram comprados links nem inventadas avaliações, clientes, resultados ou métricas.
 
 ## Verificação e manutenção
 
 `npm test`, `npm run lint`, TypeScript, `npm run build` e `node scripts/check-static-seo.mjs`.
-O último comando verifica conteúdo, canonical único, schema, imagem social e arquivos locais de todas as páginas geradas. A validação pública e a medição posterior ficam no relatório operacional da entrega.
+O último comando verifica conteúdo, canonical único, schema, imagem social e arquivos locais de todas as páginas geradas. A validação pública sem JavaScript confirmou título, H1, canonical, imagem social e schema nas oito páginas institucionais e nos vinte artigos. As 28 imagens sociais carregaram no domínio público. A página inicial não apresentou rolagem horizontal em viewport de 390 px.
 
 As prévias de redes sociais podem manter cache de links já compartilhados. A nova imagem depende de nova leitura pelo respectivo serviço; não foi feita nenhuma postagem em contas sociais.
 

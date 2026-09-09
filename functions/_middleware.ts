@@ -58,7 +58,13 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     redirectLookupFailed = true;
   }
 
-  const response = await context.next();
+  // Older releases cached redirects to trailing slashes. Serve the same asset internally
+  // so those visitors cannot bounce between the old redirect and Pages' clean URLs.
+  const assetUrl = new URL(url);
+  assetUrl.pathname = route;
+  const response = pathname !== route && context.request.method === "GET"
+    ? await context.next(assetUrl.toString())
+    : await context.next();
   const contentType = response.headers.get("content-type") ?? "";
   const headers = new Headers(response.headers);
   if (redirectLookupFailed) headers.set("cache-control", "no-store");

@@ -87,3 +87,11 @@ it('does not make institutional rendering depend on the editorial database',asyn
   const response=await onRequest(ctx as never);
   expect(response.status).toBe(200);expect(ctx.dbPrepared).not.toHaveBeenCalled();
 });
+
+it('serves trailing-slash requests internally without a reverse redirect',async()=>{
+  const ctx=makeContext('/automacao-com-ia/?origem=teste');
+  const response=await onRequest(ctx as never);
+  expect(response.status).toBe(200);
+  expect(response.headers.get('location')).toBeNull();
+  expect(ctx.next).toHaveBeenCalledWith('https://codigo5.com.br/automacao-com-ia?origem=teste');
+});

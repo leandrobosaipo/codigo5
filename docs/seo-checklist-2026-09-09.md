@@ -25,13 +25,27 @@ Revisão iniciada em 08/09/2026 (Cuiabá), release em 09/09/2026 UTC.
 
 - [x] Token público de verificação existente preservado no HTML.
 - [x] Sitemap público: https://codigo5.com.br/sitemap.xml
-- [ ] Reautenticar `leandro@codigo5.com.br` no navegador interno. O Google apresentou “Confirme que é você”; isso impede afirmar hoje a propriedade verificada, o envio do sitemap ou a situação de indexação.
-- [ ] Selecionar a propriedade do institucional. Se usar a propriedade de domínio, filtrar o host `codigo5.com.br` para não misturar tráfego dos subdomínios de clientes.
-- [ ] Enviar/conferir o sitemap no GSC após autenticação.
-- [ ] Inspecionar `/`, `/servicos`, `/automacao-com-ia`, `/portfolio` e um artigo; conferir URL final, canonical escolhido pelo Google, rastreamento, captura e HTML renderizado.
-- [ ] Solicitar indexação das páginas prioritárias após teste de URL publicada, sem pedidos repetidos em massa.
-- [ ] Revisar páginas excluídas, soft 404, duplicadas, problemas de segurança e ações manuais.
+- [x] Reautenticação concluída em 09/09/2026; acesso à propriedade de domínio `sc-domain:codigo5.com.br` confirmado.
+- [x] Propriedade de domínio correta selecionada. Inspeções feitas em URLs exatas de `https://codigo5.com.br/`; totais da propriedade não usados como métricas exclusivas do institucional.
+- [x] Sitemap atual enviado em 09/09/2026: status **Processado**, última leitura em 09/09/2026 e **38 páginas encontradas**. Isso confirma leitura do sitemap, não indexação de todas as páginas.
+- [x] Inspeção das cinco URLs prioritárias: início, serviços, automação, portfólio e artigo “Quem somos”. Canonicals confirmados nas três URLs já indexadas; testes ao vivo de início, automação e artigo aprovados.
+- [ ] Conferência visual da captura e do HTML na interface GSC; o HTML público já foi validado separadamente na entrega.
+- [x] Página inicial, `/automacao-com-ia` e `/blog/quem-somos` aprovadas no teste ao vivo; solicitações de indexação aceitas na fila prioritária em 09/09/2026. Aceitação na fila não garante indexação nem prazo.
+- [x] Ações manuais e problemas de segurança: **nenhum problema detectado** em 09/09/2026.
+- [ ] Revisar exclusões por URL/host: o relatório disponível é de 03/09/2026, anterior a esta entrega, e inclui subdomínios. Seus 185 registros não indexados e 68 indexados não representam apenas o institucional nem comprovam falhas do novo release.
 - [ ] Acompanhar consultas, impressões, cliques e CTR por página e mercado; comparar períodos equivalentes depois que houver dados suficientes.
+
+### Inspeções autenticadas de 09/09/2026
+
+| URL | Índice do Google | Evidência |
+|---|---|---|
+| `/` | Indexada | Canonical declarado e selecionado: própria URL. Rastreamento registrado em 31/08/2026; teste ao vivo atual aprovado e atualização solicitada. |
+| `/servicos` | Indexada | Canonical declarado e selecionado: própria URL. Rastreamento registrado em 05/09/2026. |
+| `/portfolio` | Indexada | Canonical declarado e selecionado: própria URL. Rastreamento registrado em 04/09/2026. |
+| `/automacao-com-ia` | Detectada, ainda não indexada | Teste ao vivo aprovado, breadcrumb válido e indexação solicitada. |
+| `/blog/quem-somos` | Registro antigo de redirecionamento | Último rastreamento em 20/04/2026, canonical Google com barra final. Versão atual aprovada no teste ao vivo, breadcrumb válido e indexação solicitada. |
+
+O sitemap antigo `/sitemap_index.xml`, cadastrado em 2023, ainda aparece com erro histórico. O sitemap atual `/sitemap.xml` está processado; nenhum sitemap de subdomínio foi removido.
 
 ## Analytics — evidência e checklist
 

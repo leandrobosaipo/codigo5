@@ -2,6 +2,8 @@
 
 Plano de expansão e diagnóstico — 09/09/2026.
 
+**Piloto implementado em produção:** coleta específica da Código5, geração de texto/capa, revisão e primeira publicação real concluídas. Operação e evidências: [runbook Radar + Sync](operacao-radar-sync-blog.md). As situações da auditoria abaixo descrevem o ponto de partida.
+
 ## 1. Decisão e resultado esperado
 
 Manter o site atual e o painel editorial. Usar o Radar para descobrir e organizar referências; o Sync para preparar texto e imagem; o painel para revisar; e a API do site para publicar. Não migrar o site inteiro para WordPress nem dar ao Sync acesso direto ao banco da Código5.
@@ -26,7 +28,7 @@ Primeira entrega da integração: uma fonte monitorada para a Código5 gera uma 
 
 O limite D1 observado na auditoria inicial foi superado pela migração do Código5 para SQLite no Mac Mini, release c93deaa. Banco, sessões, criação/edição de rascunho e upload foram validados pela API pública; publicação e SEO dinâmico foram testados em banco temporário. Não houve publicação fictícia em produção. Operação e recuperação: [runbook](migracao-macmini-operacao.md).
 
-A primeira publicação real da integração continua sendo um critério de aceite, com conteúdo aprovado para o blog. A integração Radar → Sync → Código5 ainda não está implementada.
+A primeira publicação real foi concluída em 09/09/2026, após revisão de texto e imagem. Consulte o runbook para os releases e a evidência pública.
 
 ### Melhorias imediatas do painel
 

@@ -106,7 +106,10 @@ const AdminEditorialPage = () => {
 
   const loadItems = async () => {
     const response = await fetch("/api/admin/posts");
-    if (!response.ok) return;
+    if (!response.ok) {
+      setStatusText("Não foi possível carregar os posts do banco. Os artigos do acervo continuam listados; tente novamente mais tarde.");
+      return;
+    }
     const payload = (await response.json()) as { ok: boolean; items?: AdminItem[] };
     if (payload.ok) {
       setItems(payload.items ?? []);
@@ -335,27 +338,32 @@ const AdminEditorialPage = () => {
     }).catch((error) => setStatusText(error instanceof Error ? error.message : "Falha ao criar rascunho."));
   };
 
+  const persistEditor = async (value: EditorState) => {
+    const response = await fetch("/api/admin/posts-save", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(value),
+    });
+    const payload = (await response.json()) as { ok: boolean; error?: string; item?: AdminItem };
+    if (!response.ok || !payload.ok || !payload.item) {
+      throw new Error(payload.error ?? "Não foi possível salvar. Seu texto continua no editor; tente novamente.");
+    }
+    return payload.item;
+  };
+
   const saveEditor = async () => {
     if (!editor) return;
     await run("Salvando o post...", async () => {
-      const response = await fetch("/api/admin/posts-save", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(editor),
-      });
-      const payload = (await response.json()) as { ok: boolean; error?: string; item?: AdminItem };
-      if (!response.ok || !payload.ok || !payload.item) {
-        throw new Error(payload.error ?? "Não consegui salvar.");
-      }
-      setEditor(null);
+      await persistEditor(editor);
       await loadItems();
-      setStatusText("Ajustes salvos.");
+      setStatusText("Alterações salvas. Você pode continuar escrevendo.");
     }).catch((error) => setStatusText(error instanceof Error ? error.message : "Falha ao salvar."));
   };
 
   const generateItem = async () => {
     if (!editor) return;
-    await run("Gerando preview do post...", async () => {
+    await run("Salvando a ideia e preparando o texto...", async () => {
+      await persistEditor(editor);
       const response = await fetch("/api/admin/posts-generate", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -373,7 +381,8 @@ const AdminEditorialPage = () => {
 
   const publishItem = async () => {
     if (!editor) return;
-    await run("Publicando o post...", async () => {
+    await run("Salvando e publicando o post...", async () => {
+      await persistEditor(editor);
       const response = await fetch("/api/admin/posts-publish", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -409,7 +418,8 @@ const AdminEditorialPage = () => {
 
   const uploadImage = async (file: File) => {
     if (!editor) return;
-    await run("Enviando capa para o Spaces...", async () => {
+    await run("Salvando o texto e enviando a capa...", async () => {
+      await persistEditor(editor);
       const formData = new FormData();
       formData.append("draftId", editor.draftId);
       formData.append("file", file);
@@ -477,10 +487,10 @@ const AdminEditorialPage = () => {
         <div className="mx-auto max-w-7xl">
           <section className="admin-hero">
             <div>
-              <p className="admin-kicker">Editorial Control Room</p>
-              <h1 className="admin-title">Mesa editorial alinhada com a nova camada pública</h1>
+              <p className="admin-kicker">Blog da Código5</p>
+              <h1 className="admin-title">Escreva, revise e publique.</h1>
               <p className="admin-subtitle">
-                Um cockpit para pauta, revisão, SEO, capa, publicação e manutenção do blog sem quebrar a linguagem premium da Código5.
+                Atualize os artigos do site por aqui. Título, texto e imagem, sem precisar mexer no código.
               </p>
             </div>
             <div className="admin-hero-chip">
@@ -488,11 +498,12 @@ const AdminEditorialPage = () => {
             </div>
           </section>
 
+          {!editor && <div className="admin-panel admin-status-panel" role="status">{statusText}</div>}
           {!session ? (
             <section className="admin-auth-grid">
               <article className="admin-panel admin-auth-card">
-                <p className="admin-kicker">Telegram Link</p>
-                <h2 className="admin-section-title">Receber link no bot</h2>
+                <p className="admin-kicker">Acesso pelo Telegram</p>
+                <h2 className="admin-section-title">Receber meu link de acesso</h2>
                 <p className="admin-section-copy">
                   Informe o email autorizado e eu entrego o acesso diretamente no seu Telegram.
                 </p>
@@ -510,7 +521,7 @@ const AdminEditorialPage = () => {
               </article>
 
               <article className="admin-panel admin-auth-card admin-auth-dark">
-                <p className="admin-kicker text-white/70">Telegram Session</p>
+                <p className="admin-kicker text-white/70">Já está no Telegram?</p>
                 <h2 className="admin-section-title text-white">Entrar de dentro do Telegram</h2>
                 <p className="admin-section-copy text-white/72">
                   Se você abrir este painel pelo próprio Telegram, dá para autenticar com um toque.
@@ -598,7 +609,7 @@ const AdminEditorialPage = () => {
                     {[
                       "Criar pauta ou importar post publicado.",
                       "Refinar texto, SEO, capa e estrutura do conteúdo.",
-                      "Gerar preview, publicar e manter o acervo vivo.",
+                      "Preparar texto com IA, publicar e manter o acervo vivo.",
                     ].map((item, index) => (
                       <div key={item} className="admin-dark-step">
                         <span>0{index + 1}</span>
@@ -610,9 +621,6 @@ const AdminEditorialPage = () => {
               </aside>
 
               <section className="admin-main">
-                <div className="admin-panel admin-status-panel" aria-live="polite">
-                  {statusText}
-                </div>
 
                 <div className="admin-glance-grid">
                   <div className="admin-panel">
@@ -643,8 +651,8 @@ const AdminEditorialPage = () => {
                   <div className="flex flex-wrap items-end justify-between gap-4">
                       <div>
                         <p className="admin-kicker">Tabela editorial</p>
-                        <h2 className="admin-section-title">Publicadas e rascunhos</h2>
-                        <p className="admin-section-copy">Acervo inteiro em uma mesa única com thumb, categoria, status, busca e paginação.</p>
+                        <h2 className="admin-section-title">Publicados e rascunhos</h2>
+                        <p className="admin-section-copy">Encontre um artigo pelo título ou filtre os rascunhos e publicados.</p>
                       </div>
                     <div className="admin-toolbar">
                       <input
@@ -675,7 +683,7 @@ const AdminEditorialPage = () => {
                       </caption>
                       <thead>
                         <tr>
-                          <th>Thumb</th>
+                          <th>Capa</th>
                           <th>Título</th>
                           <th>Categoria</th>
                           <th>Data</th>
@@ -757,7 +765,7 @@ const AdminEditorialPage = () => {
                     {statusLabel(selectedItem?.status ?? "draft")}
                   </span>
                   <div className="admin-drawer-meta-card">
-                    <span>Slug</span>
+                    <span>Endereço do artigo</span>
                     <strong>{editor.slug || "Ainda sem slug"}</strong>
                   </div>
                   <div className="admin-drawer-meta-card">
@@ -781,20 +789,22 @@ const AdminEditorialPage = () => {
             </div>
 
             <div className="admin-drawer-body">
+              <div className="admin-panel admin-status-panel" role="status">{statusText}</div>
               <div className="admin-panel">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                       <div>
                         <p className="admin-kicker">Detalhes</p>
                         <h2 className="admin-section-title">Editor do post</h2>
-                        <p className="admin-section-copy">Escreva, revise, ajuste SEO, capa e publicação sem sair do mesmo fluxo.</p>
+                        <p className="admin-section-copy">Revise o título, o texto e a imagem. Publicar salva suas alterações antes de colocar o artigo no ar.</p>
+                        {selectedItem?.status === "published" && <p className="admin-section-copy">Este artigo já está no ar. Salvar alterações também atualiza a versão pública.</p>}
                       </div>
                       <div className="admin-action-cluster">
                         <button className="admin-ghost-button" type="button" onClick={generateItem} disabled={busy}>
                           <Sparkles className="h-4 w-4" />
-                          Gerar preview
+                          Preparar texto com IA
                         </button>
                         <button className="admin-primary-button" type="button" onClick={publishItem} disabled={busy}>
-                          Publicar
+                          Salvar e publicar
                         </button>
                         <button className="admin-danger-button" type="button" onClick={() => deleteItem(editor.draftId)} disabled={busy}>
                           Arquivar
@@ -803,51 +813,28 @@ const AdminEditorialPage = () => {
                 </div>
 
                 <div className="admin-form-grid mt-8">
-                      <label className="admin-field admin-field-full">
-                        <span>Ideia base</span>
-                        <textarea className="admin-textarea" value={editor.sourceValue} onChange={(event) => updateEditor("sourceValue", event.target.value)} rows={4} />
-                      </label>
+
                       <label className="admin-field">
                         <span>Título</span>
                         <input className="admin-input" value={editor.title} onChange={(event) => updateEditor("title", event.target.value)} />
                       </label>
-                      <label className="admin-field">
-                        <span>Slug</span>
-                        <input className="admin-input" value={editor.slug} onChange={(event) => updateEditor("slug", event.target.value)} />
-                      </label>
+
                       <label className="admin-field admin-field-full">
                         <span>Resumo</span>
                         <textarea className="admin-textarea" value={editor.excerpt} onChange={(event) => updateEditor("excerpt", event.target.value)} rows={3} />
                       </label>
+
+
+
+
+
+
                       <label className="admin-field">
-                        <span>SEO title</span>
-                        <input className="admin-input" value={editor.seoTitle} onChange={(event) => updateEditor("seoTitle", event.target.value)} />
-                      </label>
-                      <label className="admin-field">
-                        <span>SEO description</span>
-                        <textarea className="admin-textarea" value={editor.seoDescription} onChange={(event) => updateEditor("seoDescription", event.target.value)} rows={3} />
-                      </label>
-                      <label className="admin-field">
-                        <span>Segmento</span>
-                        <input className="admin-input" value={editor.segment} onChange={(event) => updateEditor("segment", event.target.value)} />
-                      </label>
-                      <label className="admin-field">
-                        <span>Foco principal</span>
-                        <input className="admin-input" value={editor.serviceFocus} onChange={(event) => updateEditor("serviceFocus", event.target.value)} />
-                      </label>
-                      <label className="admin-field">
-                        <span>Redirect da slug antiga</span>
-                        <input className="admin-input" value={editor.redirectTo} onChange={(event) => updateEditor("redirectTo", event.target.value)} placeholder="/blog/nova-slug ou /blog" />
-                      </label>
-                      <label className="admin-field">
-                        <span>URL da capa</span>
-                        <input className="admin-input" value={editor.imageUrl} onChange={(event) => updateEditor("imageUrl", event.target.value)} />
-                      </label>
-                      <label className="admin-field">
-                        <span>Upload da capa</span>
+                        <span>Escolher imagem</span>
                         <input
                           className="admin-input file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-foreground"
                           type="file"
+                          disabled={busy}
                           accept="image/*"
                           onChange={(event) => {
                             const selected = event.target.files?.[0];
@@ -859,7 +846,7 @@ const AdminEditorialPage = () => {
                         />
                       </label>
                       <label className="admin-field">
-                        <span>CRUD da imagem destaque</span>
+                        <span>Imagem de destaque</span>
                         <div className="admin-image-actions">
                           {editor.imageUrl ? (
                             <>
@@ -874,7 +861,7 @@ const AdminEditorialPage = () => {
                         </div>
                       </label>
                       <label className="admin-field admin-field-full">
-                        <span>Conteudo do post</span>
+                        <span>Texto do artigo</span>
                         <RichTextEditor
                           markdown={editor.contentMarkdown}
                           htmlFallback={editor.contentHtml}
@@ -883,6 +870,45 @@ const AdminEditorialPage = () => {
                         />
                       </label>
                 </div>
+
+                <details className="admin-panel mt-6">
+                  <summary className="cursor-pointer font-semibold">Ajustes opcionais: fonte, endereço e busca</summary>
+                  <p className="admin-section-copy mt-3">Para o dia a dia, basta revisar o título, o texto e a capa. Abra estas opções quando precisar ajustar a fonte ou a apresentação nas buscas.</p>
+                  <div className="admin-form-grid mt-6">
+                      <label className="admin-field admin-field-full">
+                        <span>Ideia base</span>
+                        <textarea className="admin-textarea" value={editor.sourceValue} onChange={(event) => updateEditor("sourceValue", event.target.value)} rows={4} />
+                      </label>
+                      <label className="admin-field">
+                        <span>Endereço do artigo</span>
+                        <input className="admin-input" value={editor.slug} onChange={(event) => updateEditor("slug", event.target.value)} />
+                      </label>
+                      <label className="admin-field">
+                        <span>Título nas buscas</span>
+                        <input className="admin-input" value={editor.seoTitle} onChange={(event) => updateEditor("seoTitle", event.target.value)} />
+                      </label>
+                      <label className="admin-field">
+                        <span>Descrição nas buscas</span>
+                        <textarea className="admin-textarea" value={editor.seoDescription} onChange={(event) => updateEditor("seoDescription", event.target.value)} rows={3} />
+                      </label>
+                      <label className="admin-field">
+                        <span>Segmento</span>
+                        <input className="admin-input" value={editor.segment} onChange={(event) => updateEditor("segment", event.target.value)} />
+                      </label>
+                      <label className="admin-field">
+                        <span>Foco principal</span>
+                        <input className="admin-input" value={editor.serviceFocus} onChange={(event) => updateEditor("serviceFocus", event.target.value)} />
+                      </label>
+                      <label className="admin-field">
+                        <span>Redirecionar o endereço anterior</span>
+                        <input className="admin-input" value={editor.redirectTo} onChange={(event) => updateEditor("redirectTo", event.target.value)} placeholder="/blog/nova-slug ou /blog" />
+                      </label>
+                      <label className="admin-field">
+                        <span>Link da imagem (opcional)</span>
+                        <input className="admin-input" value={editor.imageUrl} onChange={(event) => updateEditor("imageUrl", event.target.value)} />
+                      </label>
+                  </div>
+                </details>
 
                 <div className="mt-6 flex flex-wrap gap-3">
                       <button className="admin-primary-button" type="button" onClick={saveEditor} disabled={busy}>

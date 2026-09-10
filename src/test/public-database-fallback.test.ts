@@ -58,3 +58,17 @@ it('does not cache successful dynamic listings or article lookups', async () => 
     expect(response.headers.get('cache-control')).toBe('no-store');
   }
 });
+
+it('emits sitemap lastmod values as valid calendar dates', async () => {
+  const query = {
+    all: vi.fn().mockResolvedValue({
+      results: [{ slug: 'dynamic-post', updated_at: '2026-09-10 08:15:30' }],
+    }),
+  };
+  const env = { BOT_DB: { prepare: () => ({ ...query, bind: () => query }) } };
+  const response = await sitemap({ request: new Request('https://codigo5.com.br/sitemap.xml'), env } as never);
+  const xml = await response.text();
+  expect([...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]))
+    .toEqual(expect.arrayContaining(['2026-09-08']));
+  expect(xml).not.toMatch(/<lastmod>\d{4}-\d{2}-\d{2}T/);
+});

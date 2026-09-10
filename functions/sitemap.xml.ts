@@ -31,6 +31,11 @@ const escapeXml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
 
+const sitemapDate = (value?: string) => {
+  const date = value?.trim().slice(0, 10);
+  return date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : undefined;
+};
+
 const staticPosts = blogPostsData as StaticBlogPost[];
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
@@ -91,11 +96,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
     })),
     ...staticPosts.map((post) => ({
       loc: `${SITE_URL}/blog/${post.slug}`,
-      lastmod: post.modified ?? post.date,
+      lastmod: sitemapDate(post.modified ?? post.date),
     })),
     ...Array.from(dynamicSlugs).map((slug) => ({
       loc: `${SITE_URL}/blog/${slug}`,
-      lastmod: dynamicDates.get(slug),
+      lastmod: sitemapDate(dynamicDates.get(slug)),
     })),
   ];
 

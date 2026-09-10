@@ -29,7 +29,7 @@ Backups ocorreram antes dos deploys. As configurações e volumes existentes for
 
 ## Acompanhamento e recuperação
 
-O monitor existente acompanha saúde, integridade dos backups, artigo público e próxima coleta agendada. O primeiro ciclo futuro do cron ainda precisa ser observado; as execuções manuais já passaram. Não afirmar indexação Google somente porque o sitemap contém o artigo.
+O monitor existente acompanha saúde, integridade dos backups, artigo público e próxima coleta agendada. O primeiro ciclo automático (run 69) terminou com sucesso em 10/09: três itens, todos reconhecidos como duplicados, sem alertas ou publicações. A verificação detectou que o cron do host UTC ignorava `CRON_TZ`: executou às 4h de Cuiabá. Corrigido somente esse job para `0 12,20 * * *` UTC, equivalente a 8h e 16h de Cuiabá; crontab anterior preservado em backup. A próxima execução após o ajuste ainda será acompanhada. Não afirmar indexação Google somente porque o sitemap contém o artigo.
 
 Em falha, consulte o mesmo job antes de repetir: um timeout pode ocorrer depois de o site gravar. A integração consulta `externalId` para recuperar esse resultado sem duplicar publicação ou imagem. Não crie outro job para contornar erro sem confirmar o anterior.
 

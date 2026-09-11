@@ -203,7 +203,7 @@ const AdminEditorialPage = () => {
       await loadSession();
       searchParams.delete("token");
       setSearchParams(searchParams, { replace: true });
-      navigate("/admin/editorial", { replace: true });
+      navigate(`/admin/editorial${searchParams.toString() ? `?${searchParams}` : ""}`, { replace: true });
     };
 
     void consume();
@@ -227,6 +227,18 @@ const AdminEditorialPage = () => {
     });
     setStatusText(`Editor aberto para ${item.title ?? item.id}.`);
   };
+
+  useEffect(() => {
+    if (!session || !items.length) return;
+    const requestedDraft = searchParams.get("draft");
+    if (!requestedDraft) return;
+    const item = items.find((item) => item.id === requestedDraft);
+    if (!item) { setStatusText("A matéria deste link não foi encontrada. Confira a lista de rascunhos."); return; }
+    openEditor(item);
+    // Consume only the selection; closing the editor must not immediately reopen it.
+    searchParams.delete("draft");
+    setSearchParams(searchParams, { replace: true });
+  }, [session, items, searchParams, setSearchParams]);
 
   const importStaticItem = async (item: AdminItem) => {
     const response = await fetch("/api/admin/posts-import", {

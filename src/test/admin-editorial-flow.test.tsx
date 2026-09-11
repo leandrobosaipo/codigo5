@@ -39,3 +39,11 @@ it("does not publish or discard edits when saving fails", async () => {
   expect(calls.some(call => call.url.endsWith("posts-publish"))).toBe(false);
   expect(screen.getByLabelText("Título", {exact:true})).toHaveValue("Título revisado");
 });
+
+it("opens the WhatsApp review link without publishing", async () => {
+ const calls:string[]=[];
+ vi.stubGlobal("fetch",vi.fn(async (url:string)=>{calls.push(url);return Response.json(url.endsWith("/auth/session")?{ok:true,authenticated:true,session:{email:"editor@example.test",source:"magic-link"}}:{ok:true,items:[item]});}));
+ render(<MemoryRouter initialEntries={["/admin/editorial?draft=draft_test"]}><AdminEditorialPage /></MemoryRouter>);
+ expect(await screen.findByLabelText("Título",{exact:true})).toHaveValue("Título inicial");
+ expect(calls.some(url=>url.endsWith("posts-publish"))).toBe(false);
+});

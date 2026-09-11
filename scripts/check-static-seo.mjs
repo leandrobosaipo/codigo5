@@ -7,6 +7,9 @@ const files = fs.readdirSync('dist', {recursive:true}).filter(f=>f.endsWith('.ht
 for (const file of files) {
  const document = new JSDOM(fs.readFileSync(path.join('dist',file),'utf8')).window.document;
  const route = file === 'index.html' ? '/' : '/'+file.replace(/\.html$/,'');
+ const robots=document.querySelectorAll('meta[name="robots"]');
+ assert.equal(robots.length,1,route+' robots count');
+ assert.equal(/\bnoindex\b/i.test(robots[0].content),route.startsWith('/blog/tag/'),route+' indexability');
  assert.equal(document.querySelectorAll('h1').length,1,route+' h1');
  assert.equal(document.querySelectorAll('link[rel="canonical"]').length,1,route+' canonical count');
  assert.equal(document.querySelector('link[rel="canonical"]').href,'https://codigo5.com.br'+route,route+' canonical');

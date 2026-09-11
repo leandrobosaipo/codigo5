@@ -96,3 +96,7 @@ O último comando verifica conteúdo, canonical único, schema, imagem social e 
 As prévias de redes sociais podem manter cache de links já compartilhados. A nova imagem depende de nova leitura pelo respectivo serviço; não foi feita nenhuma postagem em contas sociais.
 
 Fonte de roteamento/cache: [documentação Cloudflare Pages](https://developers.cloudflare.com/pages/configuration/serving-pages/).
+
+## Atualização de 11/09/2026
+
+Consulte [a auditoria atual de indexação](indexacao-2026-09-11.md): 72 páginas verificadas, 40 indexáveis, 32 tags com noindex intencional, ambos os artigos novos aprovados nos testes ao vivo do Google e indexação solicitada. O backend atual usa SQLite no Mac Mini; as referências históricas a D1 acima descrevem a entrega anterior à migração.

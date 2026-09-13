@@ -60,7 +60,7 @@ async function dispatch(request) {
   if (url.pathname === '/api/integrations/sync/articles') return handleSyncArticle(request,db.database,env,staticSlugs);
   if (url.pathname === '/llms.txt' || url.pathname === '/llms-full.txt') {
     if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', { status: 405 });
-    const posts = db.prepare("SELECT slug,title,excerpt,seo_description FROM posts WHERE status='published' ORDER BY published_at DESC,updated_at DESC").all();
+    const posts = db.prepare("SELECT slug,title,excerpt,seo_description FROM posts WHERE status='published' ORDER BY published_at DESC,updated_at DESC").all().results;
     return new Response(request.method === 'HEAD' ? null : renderLlms(posts, url.pathname === '/llms-full.txt'), { headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=300' } });
   }
   const handlerModule = routes[url.pathname];

@@ -20,8 +20,8 @@ function validate(body,env) {
  const configured=env.DO_SPACES_PUBLIC_BASE_URL ? new URL(env.DO_SPACES_PUBLIC_BASE_URL).hostname : mediaHost;
  if(![mediaHost,configured].includes(new URL(body.imageUrl).hostname))fail(400,'Envie a capa ao armazenamento Código5 antes de importar.');
  // Deliberately small HTML contract. Reject unsupported markup instead of attempting regex sanitization.
- const tags=body.contentHtml.match(/<[^>]*>/g)||[];
- for(const tag of tags) {
+ const htmlTags=body.contentHtml.match(/<[^>]*>/g)||[];
+ for(const tag of htmlTags) {
   if(/^<\/?(?:p|h2|h3|ul|ol|li|strong|em|blockquote)>$/.test(tag)||/^<br\s*\/?>$/.test(tag))continue;
   const link=tag.match(/^<a href="([^"<>]+)">$/);
   if(tag==='</a>' || link && publicUrl(link[1]))continue;
@@ -29,7 +29,11 @@ function validate(body,env) {
  }
  if(body.contentHtml.replace(/<[^>]*>/g,'').includes('<'))fail(400,'HTML incompleto.');
  if(!Array.isArray(body.categories)||body.categories.length<1||body.categories.length>3||body.categories.some(c=>!c||typeof c.name!=='string'||c.name.length>80||!c.name.trim()||!/^[-a-z0-9]{1,80}$/.test(c.slug)))fail(400,'Categorias inválidas.');
- return {externalId:body.externalId,revision:body.revision,title:body.title,slug:body.slug,excerpt:body.excerpt,contentHtml:body.contentHtml,sourceUrl:body.sourceUrl,imageUrl:body.imageUrl,categories:body.categories};
+ const tags=Array.isArray(body.tags)?body.tags:[];
+ if(tags.length>8||tags.some(tag=>!tag||typeof tag.name!=='string'||tag.name.length>80||!tag.name.trim()||!/^[-a-z0-9]{1,80}$/.test(tag.slug)))fail(400,'Tags inválidas.');
+ const seoTitle=typeof body.seoTitle==='string'&&body.seoTitle.trim()?body.seoTitle.trim().slice(0,160):body.title;
+ const seoDescription=typeof body.seoDescription==='string'&&body.seoDescription.trim()?body.seoDescription.trim().slice(0,320):body.excerpt;
+ return {externalId:body.externalId,revision:body.revision,title:body.title,slug:body.slug,excerpt:body.excerpt,seoTitle,seoDescription,contentHtml:body.contentHtml,sourceUrl:body.sourceUrl,imageUrl:body.imageUrl,categories:body.categories,tags};
 }
 export async function handleSyncArticle(request,db,env,staticSlugs=new Set()) {
  const token=request.headers.get('authorization')?.replace(/^Bearer /,'');
@@ -65,7 +69,7 @@ export async function handleSyncArticle(request,db,env,staticSlugs=new Set()) {
   if(!map||data.revision>map.revision) {
    const id=draft?.id||randomUUID();
    if(!draft)db.prepare("INSERT INTO drafts(id,telegram_user_id,status,mode,source_type,source_value,created_at,updated_at) VALUES (?,'sync','draft','link','link',?,?,?)").run(id,data.sourceUrl,now,now);
-   db.prepare('UPDATE drafts SET source_value=?,title=?,slug=?,excerpt=?,seo_title=?,seo_description=?,content_html=?,content_markdown=NULL,image_url=?,categories_json=?,tags_json=?,notes=?,updated_at=? WHERE id=?').run(data.sourceUrl,data.title,data.slug,data.excerpt,data.title,data.excerpt,data.contentHtml,data.imageUrl,JSON.stringify(data.categories),'[]',JSON.stringify({integration:'sync',externalId:data.externalId,source:data.sourceUrl}),now,id);
+   db.prepare('UPDATE drafts SET source_value=?,title=?,slug=?,excerpt=?,seo_title=?,seo_description=?,content_html=?,content_markdown=NULL,image_url=?,categories_json=?,tags_json=?,notes=?,updated_at=? WHERE id=?').run(data.sourceUrl,data.title,data.slug,data.excerpt,data.seoTitle,data.seoDescription,data.contentHtml,data.imageUrl,JSON.stringify(data.categories),JSON.stringify(data.tags),JSON.stringify({integration:'sync',externalId:data.externalId,source:data.sourceUrl}),now,id);
    draft=db.prepare('SELECT * FROM drafts WHERE id=?').get(id);
    db.prepare('INSERT INTO sync_articles VALUES (?,?,?,?,?) ON CONFLICT(external_id) DO UPDATE SET revision=excluded.revision,payload_hash=excluded.payload_hash,draft_hash=excluded.draft_hash').run(data.externalId,id,data.revision,payloadHash,hash(draft));
    map=read(data.externalId).map;

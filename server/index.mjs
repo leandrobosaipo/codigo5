@@ -8,6 +8,7 @@ import { migrateEditorial } from './migrate.mjs';
 import { handleSyncMedia } from './sync-media.mjs';
 import { buildSpacesKey, uploadImageToSpaces } from '../functions/_shared/bot/spaces.ts';
 import { handleSyncArticle, migrateSync } from './sync-integration.mjs';
+import { renderLlms } from './llms.mjs';
 import archive from '../src/content/blog-posts.json' with { type: 'json' };
 import routes from '../output/routes.ts';
 import { onRequest as publicMiddleware } from '../functions/_middleware.ts';
@@ -57,6 +58,11 @@ async function dispatch(request) {
   if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) && existsSync(resolve(dirname(dataFile), 'read-only'))) return Response.json({ ok: false, error: 'Atualização em andamento. Tente novamente em instantes.' }, { status: 503, headers: { 'retry-after': '30', 'cache-control': 'no-store' } });
   if (url.pathname === '/api/integrations/sync/media') return handleSyncMedia(request,env,(key,bytes,type)=>uploadImageToSpaces(env,buildSpacesKey(env,key),bytes,type));
   if (url.pathname === '/api/integrations/sync/articles') return handleSyncArticle(request,db.database,env,staticSlugs);
+  if (url.pathname === '/llms.txt' || url.pathname === '/llms-full.txt') {
+    if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', { status: 405 });
+    const posts = db.prepare("SELECT slug,title,excerpt,seo_description FROM posts WHERE status='published' ORDER BY published_at DESC,updated_at DESC").all();
+    return new Response(request.method === 'HEAD' ? null : renderLlms(posts, url.pathname === '/llms-full.txt'), { headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=300' } });
+  }
   const handlerModule = routes[url.pathname];
   const endpoint = async () => {
     if (!handlerModule) return url.pathname.startsWith('/api/') ? new Response('Not found', { status: 404 }) : staticResponse(request);

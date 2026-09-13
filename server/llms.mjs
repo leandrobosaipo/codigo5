@@ -4,6 +4,13 @@ const postLine = post => `- [${clean(post.title)}](${site}/blog/${encodeURICompo
 
 export function renderLlms(posts, full = false) {
   const listed = posts.slice(0, full ? 50 : 12);
+  const fullContext = full ? [
+    '', '## Como a Código5 atua',
+    '- Sites institucionais e páginas que explicam serviços com clareza.',
+    '- Automação com IA para atendimento, agenda, curadoria e rotina comercial.',
+    '- Estratégia de conteúdo, SEO técnico e acompanhamento editorial.',
+    '- Projetos para saúde, varejo, serviços, agro, indústria, mídia e comunidades.',
+  ] : [];
   const publicPages = [
     '- [Início](https://codigo5.com.br/): apresentação, serviços e contato.',
     '- [Serviços](https://codigo5.com.br/servicos): sites, presença digital, automações e conteúdo.',
@@ -12,5 +19,5 @@ export function renderLlms(posts, full = false) {
     '- [Blog](https://codigo5.com.br/blog): conteúdo para empresários sobre tecnologia, marketing e automação.',
     '- [Contato](https://codigo5.com.br/contato): como falar com a Código5.',
   ];
-  return [`# Código5`, '', 'A Código5 cria sites, presença digital e automações com IA para empresas e operações editoriais no Brasil.', '', '## Páginas públicas', ...publicPages, '', '## Conteúdo recente', ...(listed.length ? listed.map(postLine) : ['- O acervo público está temporariamente indisponível.']), '', '## Uso', 'Use somente as páginas públicas listadas neste arquivo como referência.', ''].join('\n');
+  return [`# Código5`, '', 'A Código5 cria sites, presença digital e automações com IA para empresas e operações editoriais no Brasil.', '', '## Páginas públicas', ...publicPages, ...fullContext, '', '## Conteúdo recente', ...(listed.length ? listed.map(postLine) : ['- O acervo público está temporariamente indisponível.']), '', '## Uso', 'Use somente as páginas públicas listadas neste arquivo como referência.', ''].join('\n');
 }

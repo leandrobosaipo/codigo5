@@ -75,6 +75,7 @@ const Seo = ({
     upsertMeta('meta[property="og:url"]', "content", url);
     upsertMeta('meta[property="og:type"]', "content", type);
     upsertMeta('meta[property="og:image"]', "content", image);
+    upsertMeta('meta[property="og:image:secure_url"]', "content", image);
     upsertMeta('meta[property="og:site_name"]', "content", SITE_NAME);
 
     upsertMeta('meta[name="twitter:card"]', "content", "summary_large_image");

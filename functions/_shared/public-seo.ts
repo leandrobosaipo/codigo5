@@ -14,7 +14,7 @@ const parseImageMeta = (value: unknown, fallbackAlt:string): ImageMeta | undefin
 const renderPublicSeo = (html:string, {title,description,url,image,imageMeta,type,schema,body,article}:PublicSeo) => {
   const meta = [
     ['name','description',description], ['property','og:type',type], ['property','og:title',title],
-    ['property','og:description',description], ['property','og:url',url], ['property','og:image',image],
+    ['property','og:description',description], ['property','og:url',url], ['property','og:image',image], ['property','og:image:secure_url',image],
     ['property','og:image:alt',title], ['name','twitter:title',title], ['name','twitter:description',description],
     ['name','twitter:card','summary_large_image'], ['name','twitter:image',image], ['name','twitter:image:alt',title], ['name','robots','index,follow,max-image-preview:large'],
   ];

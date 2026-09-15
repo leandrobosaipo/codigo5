@@ -12,7 +12,14 @@ it('uses each route cover, one schema and a normalized canonical', () => {
  view.rerender(<Seo title="Artigo" description="Descrição" path="/blog/exemplo" type="article" image="https://images.example/artigo.webp" />);
  expect(document.querySelectorAll('#codigo5-schema')).toHaveLength(1);
  expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://images.example/artigo.webp');
- expect(document.querySelector('meta[property="og:image:width"]')).toBeNull();
+ expect(document.querySelector('meta[property="og:image:width"]')?.getAttribute('content')).toBe('1200');
+});
+it('keeps server image metadata after article hydration', () => {
+ document.head.insertAdjacentHTML('beforeend','<meta property="og:image:width" content="1536" /><meta property="og:image:height" content="1024" /><meta property="og:image:type" content="image/jpeg" />');
+ render(<Seo title="Artigo" description="Descrição" path="/blog/exemplo" type="article" image="https://cdn-codigo5.sfo2.digitaloceanspaces.com/sync/capa.jpg" imageMeta={{width:1536,height:1024,mime:'image/jpeg',alt:'Capa'}} />);
+ expect(document.querySelector('meta[property="og:image:width"]')?.getAttribute('content')).toBe('1536');
+ expect(document.querySelector('meta[property="og:image:height"]')?.getAttribute('content')).toBe('1024');
+ expect(document.querySelector('meta[property="og:image:type"]')?.getAttribute('content')).toBe('image/jpeg');
 });
 it('installs and removes the contact click listener',()=>{
  const add=vi.spyOn(document,'addEventListener');const remove=vi.spyOn(document,'removeEventListener');

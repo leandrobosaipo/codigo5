@@ -67,6 +67,7 @@ const BlogPostPage = () => {
         path={`/blog/${post.slug}`}
         type="article"
         image={post.image ?? undefined}
+        imageMeta={post.imageMeta}
         schema={{
           "@context": "https://schema.org",
           "@graph": [
@@ -75,23 +76,32 @@ const BlogPostPage = () => {
               headline: post.title,
               datePublished: post.date,
               dateModified: post.modified,
-              image: post.image ? [post.image] : undefined,
+              "@id": `${SITE_URL}/blog/${post.slug}#article`,
+              image: post.image ? {
+                "@type": "ImageObject",
+                url: post.image,
+                ...(post.imageMeta ? { width: post.imageMeta.width, height: post.imageMeta.height, encodingFormat: post.imageMeta.mime } : {}),
+              } : undefined,
               articleSection: post.categories.map((category) => category.name),
               keywords: post.tags.map((tag) => tag.name).join(", "),
               author: {
                 "@type": "Organization",
-                name: "Código5 Web",
+                "@id": `${SITE_URL}/#organization`,
+                name: "Código5",
+                url: SITE_URL,
               },
               publisher: {
                 "@type": "Organization",
-                name: "Código5 Web",
+                "@id": `${SITE_URL}/#organization`,
+                name: "Código5",
+                url: SITE_URL,
                 logo: {
                   "@type": "ImageObject",
                   url: `${SITE_URL}/assets/codigo5/logos/logo-dark.webp`,
                 },
               },
               description: post.seoDescription,
-              mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+              mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/blog/${post.slug}` },
             },
             {
               "@type": "BreadcrumbList",
@@ -166,7 +176,9 @@ const BlogPostPage = () => {
               <img
                 className="c5-article-cover"
                 src={post.image}
-                alt={post.title}
+                alt={post.imageMeta?.alt || post.title}
+                width={post.imageMeta?.width}
+                height={post.imageMeta?.height}
                 fetchPriority="high"
                 decoding="async"
               />

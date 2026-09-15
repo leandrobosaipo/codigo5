@@ -13,5 +13,5 @@ export async function handleSyncMedia(request,env,upload) {
  if(!valid)return reply({ok:false,error:'Formato da imagem incompatível.'},400);
  const key=`sync/${createHash('sha256').update(bytes).digest('hex')}.${type==='image/jpeg'?'jpg':type.split('/')[1]}`;
  const imageUrl=await upload(key,bytes,type);
- return reply({ok:true,imageUrl});
+ return reply({ok:true,imageUrl,mime:type});
 }

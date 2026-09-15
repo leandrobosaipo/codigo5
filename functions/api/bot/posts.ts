@@ -14,6 +14,14 @@ const parseJsonTerms = (value: unknown) => {
     return [];
   }
 };
+const parseImageMeta = (value: unknown) => {
+  try {
+    const parsed = JSON.parse(String(value ?? "null"));
+    return parsed && Number.isInteger(parsed.width) && Number.isInteger(parsed.height) && typeof parsed.mime === "string"
+      ? { width: parsed.width, height: parsed.height, mime: parsed.mime, alt: typeof parsed.alt === "string" ? parsed.alt : undefined }
+      : null;
+  } catch { return null; }
+};
 
 export const mapRowToPost = (row: Record<string, unknown>) => {
   const slug = String(row.slug);
@@ -42,6 +50,7 @@ export const mapRowToPost = (row: Record<string, unknown>) => {
     date: publishedAt,
     modified: updatedAt,
     image: row.image_url ? String(row.image_url) : null,
+    imageMeta: parseImageMeta(row.image_meta_json),
     link: `https://codigo5.com.br/blog/${slug}`,
     seoTitle: String(row.seo_title ?? title),
     seoDescription: String(row.seo_description ?? row.excerpt ?? ""),

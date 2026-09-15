@@ -5,6 +5,7 @@ type BlogTerm = {
   name: string;
   slug: string;
 };
+export type BlogImageMeta = { width: number; height: number; mime: string; alt?: string };
 
 export type BlogPost = {
   id: number;
@@ -15,6 +16,7 @@ export type BlogPost = {
   date: string;
   modified: string;
   image: string | null;
+  imageMeta?: BlogImageMeta | null;
   link: string;
   seoTitle: string;
   seoDescription: string;

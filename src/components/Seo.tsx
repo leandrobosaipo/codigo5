@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
+import type { BlogImageMeta } from "@/content/blog";
 
 export type SeoProps = {
   title: string;
@@ -10,6 +11,7 @@ export type SeoProps = {
   keywords?: string;
   robots?: string;
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  imageMeta?: BlogImageMeta | null;
 };
 
 export const SeoContext = createContext<SeoProps[] | null>(null);
@@ -43,6 +45,7 @@ const Seo = ({
   keywords,
   robots = "index,follow,max-image-preview:large",
   schema,
+  imageMeta,
 }: SeoProps) => {
   const normalizedPath = path === "/" ? "/" : path.replace(/\/+$/, "");
   const covers: Record<string, string> = {"/":"inicio", "/sobre":"sobre", "/servicos":"servicos", "/portfolio":"portfolio", "/contato":"contato", "/blog":"blog", "/automacao-com-ia":"automacao", "/politica-de-privacidade":"privacidade"};
@@ -82,10 +85,13 @@ const Seo = ({
     upsertMeta('meta[property="og:locale"]', "content", "pt_BR");
     upsertMeta('meta[property="og:image:alt"]', "content", title);
     upsertMeta('meta[name="twitter:image:alt"]', "content", title);
-    // Dimensions apply only to our generated social covers, never guessed for article photos.
-    for (const [key, value] of [["og:image:width", "1200"], ["og:image:height", "630"], ["og:image:type", "image/jpeg"]]) {
-      if (image.includes("/social/")) upsertMeta(`meta[property="${key}"]`, "content", value);
-      else document.head.querySelector(`meta[property="${key}"]`)?.remove();
+    const defaultImageMeta = image.includes("/social/") ? { width: 1200, height: 630, mime: "image/jpeg" } : null;
+    const effectiveImageMeta = imageMeta ?? defaultImageMeta;
+    // Server metadata belongs to crawlers. Never remove it during hydration.
+    if (effectiveImageMeta) {
+      upsertMeta('meta[property="og:image:width"]', "content", String(effectiveImageMeta.width));
+      upsertMeta('meta[property="og:image:height"]', "content", String(effectiveImageMeta.height));
+      upsertMeta('meta[property="og:image:type"]', "content", effectiveImageMeta.mime);
     }
     document.getElementById("codigo5-static-post-schema")?.remove();
     const schemaId = "codigo5-schema";

@@ -9,16 +9,28 @@ export function migrateSync(db) {
 function publicUrl(value) {
  try { const u=new URL(value);return u.protocol==='https:' && !u.username && !u.password && !u.hash && u.hostname.includes('.') && !/^(localhost|127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(u.hostname); } catch { return false; }
 }
+function imageMetadata(body) {
+ const image = body?.image && typeof body.image === 'object' && !Array.isArray(body.image) ? body.image : null;
+ const url = String(image?.url ?? body?.imageUrl ?? '').trim();
+ const width = Number(image?.width);
+ const height = Number(image?.height);
+ const mime = String(image?.mime ?? '').trim().toLowerCase();
+ const alt = String(image?.alt ?? body?.title ?? '').trim();
+ if (!publicUrl(url)) fail(400,'URL HTTPS da capa obrigatória.');
+ if (image && (!Number.isInteger(width) || width < 320 || width > 10000 || !Number.isInteger(height) || height < 200 || height > 10000 || !['image/png','image/jpeg','image/webp'].includes(mime) || !alt || alt.length > 240)) fail(400,'Metadados da capa inválidos.');
+ return image ? {url,width,height,mime,alt} : {url,width:null,height:null,mime:null,alt};
+}
 function validate(body,env) {
  if(!body || typeof body!=='object' || Array.isArray(body))fail(400,'Objeto obrigatório.');
  const required={externalId:160,title:120,slug:150,excerpt:300,contentHtml:80000,sourceUrl:2000,imageUrl:2000};
  for(const [key,max] of Object.entries(required))if(typeof body[key]!=='string'||!body[key].trim()||body[key].length>max)fail(400,`Campo inválido: ${key}`);
  if(!/^[a-zA-Z0-9:._-]+$/.test(body.externalId)||!Number.isSafeInteger(body.revision)||body.revision<1||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(body.slug))fail(400,'Identificador, revisão ou endereço inválido.');
  if(body.action && !['draft','publish'].includes(body.action))fail(400,'Ação inválida.');
- if(!publicUrl(body.sourceUrl)||!publicUrl(body.imageUrl))fail(400,'URLs HTTPS válidas obrigatórias.');
+ if(!publicUrl(body.sourceUrl))fail(400,'URL HTTPS da fonte obrigatória.');
+ const image = imageMetadata(body);
  const mediaHost=`${env.DO_SPACES_BUCKET}.${env.DO_SPACES_REGION}.digitaloceanspaces.com`;
  const configured=env.DO_SPACES_PUBLIC_BASE_URL ? new URL(env.DO_SPACES_PUBLIC_BASE_URL).hostname : mediaHost;
- if(![mediaHost,configured].includes(new URL(body.imageUrl).hostname))fail(400,'Envie a capa ao armazenamento Código5 antes de importar.');
+ if(![mediaHost,configured].includes(new URL(image.url).hostname))fail(400,'Envie a capa ao armazenamento Código5 antes de importar.');
  // Deliberately small HTML contract. Reject unsupported markup instead of attempting regex sanitization.
  const htmlTags=body.contentHtml.match(/<[^>]*>/g)||[];
  for(const tag of htmlTags) {
@@ -33,7 +45,7 @@ function validate(body,env) {
  if(tags.length>8||tags.some(tag=>!tag||typeof tag.name!=='string'||tag.name.length>80||!tag.name.trim()||!/^[-a-z0-9]{1,80}$/.test(tag.slug)))fail(400,'Tags inválidas.');
  const seoTitle=typeof body.seoTitle==='string'&&body.seoTitle.trim()?body.seoTitle.trim().slice(0,160):body.title;
  const seoDescription=typeof body.seoDescription==='string'&&body.seoDescription.trim()?body.seoDescription.trim().slice(0,320):body.excerpt;
- return {externalId:body.externalId,revision:body.revision,title:body.title,slug:body.slug,excerpt:body.excerpt,seoTitle,seoDescription,contentHtml:body.contentHtml,sourceUrl:body.sourceUrl,imageUrl:body.imageUrl,categories:body.categories,tags};
+ return {externalId:body.externalId,revision:body.revision,title:body.title,slug:body.slug,excerpt:body.excerpt,seoTitle,seoDescription,contentHtml:body.contentHtml,sourceUrl:body.sourceUrl,imageUrl:image.url,imageMeta:image,categories:body.categories,tags};
 }
 export async function handleSyncArticle(request,db,env,staticSlugs=new Set()) {
  const token=request.headers.get('authorization')?.replace(/^Bearer /,'');
@@ -44,7 +56,7 @@ export async function handleSyncArticle(request,db,env,staticSlugs=new Set()) {
   const draft=map&&db.prepare('SELECT * FROM drafts WHERE id=?').get(map.draft_id);
   return {map,draft};
  };
- const result = (map,draft) => ({ok:true,externalId:map.external_id,id:draft.id,revision:map.revision,status:draft.status,imageUrl:draft.image_url,url:draft.status==='published'?`https://codigo5.com.br/blog/${draft.slug}`:null});
+ const result = (map,draft) => ({ok:true,externalId:map.external_id,id:draft.id,revision:map.revision,status:draft.status,imageUrl:draft.image_url,image: (()=>{try{return JSON.parse(draft.image_meta_json||'null')}catch{return null}})(),url:draft.status==='published'?`https://codigo5.com.br/blog/${draft.slug}`:null});
  if(request.method==='GET') {const {map,draft}=read(new URL(request.url).searchParams.get('externalId')||'');return draft?response(result(map,draft)):response({ok:false,error:'Não encontrado.'},404);}
  if(request.method!=='POST')return response({ok:false,error:'Método não permitido.'},405);
  let body;
@@ -69,14 +81,14 @@ export async function handleSyncArticle(request,db,env,staticSlugs=new Set()) {
   if(!map||data.revision>map.revision) {
    const id=draft?.id||randomUUID();
    if(!draft)db.prepare("INSERT INTO drafts(id,telegram_user_id,status,mode,source_type,source_value,created_at,updated_at) VALUES (?,'sync','draft','link','link',?,?,?)").run(id,data.sourceUrl,now,now);
-   db.prepare('UPDATE drafts SET source_value=?,title=?,slug=?,excerpt=?,seo_title=?,seo_description=?,content_html=?,content_markdown=NULL,image_url=?,categories_json=?,tags_json=?,notes=?,updated_at=? WHERE id=?').run(data.sourceUrl,data.title,data.slug,data.excerpt,data.seoTitle,data.seoDescription,data.contentHtml,data.imageUrl,JSON.stringify(data.categories),JSON.stringify(data.tags),JSON.stringify({integration:'sync',externalId:data.externalId,source:data.sourceUrl}),now,id);
+   db.prepare('UPDATE drafts SET source_value=?,title=?,slug=?,excerpt=?,seo_title=?,seo_description=?,content_html=?,content_markdown=NULL,image_url=?,image_meta_json=?,categories_json=?,tags_json=?,notes=?,updated_at=? WHERE id=?').run(data.sourceUrl,data.title,data.slug,data.excerpt,data.seoTitle,data.seoDescription,data.contentHtml,data.imageUrl,JSON.stringify(data.imageMeta),JSON.stringify(data.categories),JSON.stringify(data.tags),JSON.stringify({integration:'sync',externalId:data.externalId,source:data.sourceUrl}),now,id);
    draft=db.prepare('SELECT * FROM drafts WHERE id=?').get(id);
    db.prepare('INSERT INTO sync_articles VALUES (?,?,?,?,?) ON CONFLICT(external_id) DO UPDATE SET revision=excluded.revision,payload_hash=excluded.payload_hash,draft_hash=excluded.draft_hash').run(data.externalId,id,data.revision,payloadHash,hash(draft));
    map=read(data.externalId).map;
   }
   if(body.action==='publish'&&draft.status!=='published') {
    if(draft.status!=='draft')fail(409,'Rascunho não disponível para publicação.');
-   db.prepare(`INSERT INTO posts(id,slug,title,excerpt,seo_title,seo_description,image_url,content_html,categories_json,tags_json,status,canonical_url,published_at,updated_at,created_by,updated_by) SELECT id,slug,title,excerpt,seo_title,seo_description,image_url,content_html,categories_json,tags_json,'published',?, ?,?,'sync','sync' FROM drafts WHERE id=?`).run(`https://codigo5.com.br/blog/${draft.slug}`,now,now,draft.id);
+   db.prepare(`INSERT INTO posts(id,slug,title,excerpt,seo_title,seo_description,image_url,image_meta_json,content_html,categories_json,tags_json,status,canonical_url,published_at,updated_at,created_by,updated_by) SELECT id,slug,title,excerpt,seo_title,seo_description,image_url,image_meta_json,content_html,categories_json,tags_json,'published',?, ?,?,'sync','sync' FROM drafts WHERE id=?`).run(`https://codigo5.com.br/blog/${draft.slug}`,now,now,draft.id);
    db.prepare("UPDATE drafts SET status='published',updated_at=? WHERE id=?").run(now,draft.id);
    draft=db.prepare('SELECT * FROM drafts WHERE id=?').get(draft.id);
    db.prepare('UPDATE sync_articles SET draft_hash=? WHERE external_id=?').run(hash(draft),data.externalId);

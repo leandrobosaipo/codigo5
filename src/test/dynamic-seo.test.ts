@@ -1,11 +1,11 @@
 import { expect, it, vi } from 'vitest';
 import { renderPublishedPostSeo } from '../../functions/_shared/public-seo';
 import { onRequest } from '../../functions/_middleware';
-const row = {slug:'post-novo',title:'Novo artigo',seo_title:'Novo título SEO',seo_description:'Uma descrição',excerpt:'Resumo',content_html:'<p>Conteúdo publicado agora.</p><script>alert(1)</script><img src=x onerror=alert(1)>',image_url:'https://example.com/capa.webp',published_at:'2026-09-09T00:00:00Z',updated_at:'2026-09-09T01:00:00Z'};
+const row = {slug:'post-novo',title:'Novo artigo',seo_title:'Novo título SEO',seo_description:'Uma descrição',excerpt:'Resumo',content_html:'<p>Conteúdo publicado agora.</p><script>alert(1)</script><img src=x onerror=alert(1)>',image_url:'https://example.com/capa.webp',image_meta_json:'{"width":1536,"height":1024,"mime":"image/webp","alt":"Nova capa"}',published_at:'2026-09-09T00:00:00Z',updated_at:'2026-09-09T01:00:00Z'};
 it('renders fresh editorial title, image and safe content without client JavaScript',()=>{
  const html=renderPublishedPostSeo('<html><head><title>Home</title><meta property="og:image" content="home.jpg" /></head><body><div id="root"><div>Home</div></div></body></html>',row);
  expect(html).toContain('<h1>Novo artigo</h1>');expect(html).toContain('Conteúdo publicado agora.');expect(html).toContain('https://example.com/capa.webp');
- expect(html).not.toContain('onerror');expect(html).not.toContain('alert(1)');expect(html).toContain('BlogPosting');expect(html).toContain('ImageObject');expect(html).toContain('og:image:width');expect(html).toContain('article:published_time');expect(html).toContain('twitter:card');expect(html.match(/id="codigo5-schema"/g)).toHaveLength(1);
+ expect(html).not.toContain('onerror');expect(html).not.toContain('alert(1)');expect(html).toContain('BlogPosting');expect(html).toContain('ImageObject');expect(html).toContain('og:image:width');expect(html).toContain('og:image:type');expect(html).toContain('width="1536" height="1024"');expect(html).toContain('article:published_time');expect(html).toContain('twitter:card');expect(html.match(/id="codigo5-schema"/g)).toHaveLength(1);
 });
 it('never interprets an injected title or closing script as markup',()=>{
  const html=renderPublishedPostSeo('<head><title>Home</title></head><body><div id="root"></div></body>',{...row,title:'</script><img src=x onerror=alert(1)>'});

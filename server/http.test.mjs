@@ -5,6 +5,8 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
+import { createHmac } from 'node:crypto';
+import { checkPage } from '../scripts/check-public-seo.mjs';
 import { SqliteD1, SqliteKV } from './storage.mjs';
 
 test('Node routes preserve authentication, draft persistence, redirects and dynamic SEO', async () => {
@@ -15,8 +17,11 @@ test('Node routes preserve authentication, draft persistence, redirects and dyna
   const kv = new SqliteKV(db);
   await kv.put('admin-link:local-test', JSON.stringify({ email: 'test@example.invalid', telegramUserId: '123' }), { expirationTtl: 60 });
   db.close();
+  const imageUrl = 'https://cdn-codigo5.sfo2.digitaloceanspaces.com/test-only.webp';
+  const preload = join(dir, 'external-image-fixture.mjs');
+  writeFileSync(preload, `const original=globalThis.fetch;globalThis.fetch=(url,options)=>url===${JSON.stringify(imageUrl)}?Promise.resolve(new Response(null,{headers:{'content-type':'image/webp'}})):original(url,options);`);
   const port = 18336;
-  const child = spawn(process.execPath, ['output/server.mjs'], { env: { ...process.env, COD5_DATABASE_FILE: filename, COD5_ASSETS_DIR: resolve('dist'), PORT: String(port), HOST: '127.0.0.1', TELEGRAM_BOT_TOKEN: 'test-only', TELEGRAM_ALLOWED_USER_IDS: '123' }, stdio: ['ignore', 'pipe', 'pipe'] });
+  const child = spawn(process.execPath, ['--import', preload, 'output/server.mjs'], { env: { ...process.env, COD5_DATABASE_FILE: filename, COD5_ASSETS_DIR: resolve('dist'), PORT: String(port), HOST: '127.0.0.1', TELEGRAM_BOT_TOKEN: 'test-only', TELEGRAM_ALLOWED_USER_IDS: '123', COD5_SYNC_DRAFT_TOKEN:'test-draft', COD5_SYNC_PUBLISH_TOKEN:'test-publish', DO_SPACES_BUCKET:'cdn-codigo5', DO_SPACES_REGION:'sfo2' }, stdio: ['ignore', 'pipe', 'pipe'] });
   try {
     await Promise.race([once(child.stdout, 'data'), once(child, 'exit').then(() => { throw new Error('Server exited'); }), new Promise((_, reject) => { const timer=setTimeout(()=>reject(new Error('Start timeout')),10000); timer.unref(); })]);
     const base = `http://127.0.0.1:${port}`;
@@ -40,13 +45,41 @@ test('Node routes preserve authentication, draft persistence, redirects and dyna
     const post = (path, body) => request(path, { method:'POST', headers:{cookie,'content-type':'application/json'}, body:JSON.stringify(body) });
     const created = await post('/api/admin/posts', {source:'Verificação local da migração'}); assert.equal(created.status,200);
     const {item} = await created.json();
-    const saved = await post('/api/admin/posts-save', {draftId:item.id,title:'Artigo local',slug:'artigo-local',contentMarkdown:'Conteúdo de validação apenas no banco temporário.'}); assert.equal(saved.status,200);
+    const saved = await post('/api/admin/posts-save', {draftId:item.id,title:'Artigo local',slug:'artigo-local',contentMarkdown:'Conteúdo de validação apenas no banco temporário. '.repeat(8)}); assert.equal(saved.status,200);
     assert.equal((await post('/api/admin/posts-publish', {draftId:item.id})).status,200);
-    const article = await request('/blog/artigo-local'); assert.equal(article.status,200); assert.match(await article.text(), /Conteúdo de validação apenas/);
+    const verifyPublished = async (slug) => {
+      const article = await request('/blog/'+slug);
+      checkPage('https://codigo5.com.br/blog/'+slug, article, await article.text());
+      const xml = await (await request('/sitemap.xml')).text();
+      assert.equal(xml.split('<loc>https://codigo5.com.br/blog/'+slug+'</loc>').length-1,1);
+    };
+    await verifyPublished('artigo-local');
+    const botDraft = (await (await post('/api/admin/posts', {source:'Bot fixture'})).json()).item;
+    await post('/api/admin/posts-save',{draftId:botDraft.id,title:'Novo artigo bot',slug:'novo-artigo-bot',contentMarkdown:'Conteúdo novo pelo bot em banco temporário. '.repeat(8)});
+    assert.equal((await request('/blog/novo-artigo-bot')).status,404);
+    assert.ok(!(await (await request('/sitemap.xml')).text()).includes('/blog/novo-artigo-bot'));
+    const init = new URLSearchParams({auth_date:String(Math.floor(Date.now()/1000)),user:JSON.stringify({id:123,first_name:'Test'})});
+    const secret=createHmac('sha256','WebAppData').update('test-only').digest();
+    init.set('hash',createHmac('sha256',secret).update([...init.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>k+'='+v).join('\n')).digest('hex'));
+    const botPublished = await request('/api/bot/publish',{method:'POST',headers:{'content-type':'application/json','X-Telegram-Init-Data':init.toString()},body:JSON.stringify({draftId:botDraft.id,userId:'123'})});
+    assert.equal(botPublished.status,200);
+    await verifyPublished('novo-artigo-bot');
+    const syncData={externalId:'local-sync',revision:1,title:'Artigo Sync',slug:'artigo-sync',excerpt:'Publicação de teste',seoTitle:'Artigo Sync',seoDescription:'Descrição do teste local',contentHtml:'<p>'+('Conteúdo Sync apenas no banco temporário. '.repeat(8))+'</p>',sourceUrl:'https://example.test/source',imageUrl,image:{url:imageUrl,width:1536,height:1024,mime:'image/webp',alt:'Teste'},categories:[{slug:'marketing-digital',name:'Marketing Digital'}],tags:[{slug:'automacao',name:'Automação'}]};
+    const syncRequest=action=>request('/api/integrations/sync/articles',{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer test-publish'},body:JSON.stringify({...syncData,action})});
+    assert.equal((await syncRequest('draft')).status,200);
+    assert.equal((await request('/blog/artigo-sync')).status,404);
+    assert.ok(!(await (await request('/sitemap.xml')).text()).includes('/blog/artigo-sync'));
+    assert.equal((await syncRequest('publish')).status,200);
+    await verifyPublished('artigo-sync');
+    assert.equal((await syncRequest('publish')).status,200);
+    await verifyPublished('artigo-sync');
+    assert.match((await request('/blog/tag/automacao')).headers.get('x-robots-tag'),/noindex/);
     assert.equal((await post('/api/admin/posts-save', {draftId:item.id,slug:'artigo-local-renomeado'})).status,200);
     assert.equal((await request('/blog/artigo-local')).status,301);
     const persisted = new SqliteD1(filename); assert.equal(persisted.prepare('SELECT slug FROM posts WHERE id=?').bind(item.id).first('slug'),'artigo-local-renomeado'); persisted.prepare("INSERT INTO redirects(source_path,target_path,created_at) VALUES (?,?,datetime('now'))").bind('/blog/artigo-local-renomeado','/blog').run(); persisted.close();
-    const listing=await (await request('/api/bot/posts')).json(); assert.equal(listing.posts.length,0);
+    const listing=await (await request('/api/bot/posts')).json(); assert.ok(!listing.posts.some(post=>post.slug==='artigo-local-renomeado'));
+    const finalSitemap=await (await request('/sitemap.xml')).text();
+    assert.ok(!finalSitemap.includes('/blog/artigo-local'));
     assert.equal((await request('/api/telegram/health')).status, 200);
     assert.equal((await request('/sitemap.xml')).status, 200);
     assert.equal((await request('/admin/editorial')).headers.get('x-robots-tag'), 'noindex, follow');

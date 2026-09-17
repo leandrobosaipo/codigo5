@@ -40,6 +40,9 @@ As imagens e marcas do portfólio pertencem aos respectivos titulares. O portfó
 
 ## Guardrail SEO
 
+Contrato e operação: [docs/indexabilidade.md](docs/indexabilidade.md). O build valida automaticamente o sitemap estático; `npm run check:public-seo -- <URL>` verifica artigo ou sitemap publicado.
+
+
 Preservar em conjunto `functions/_middleware.ts`, `functions/sitemap.xml.ts`, `scripts/generate-static-site.mjs` e `scripts/check-static-seo.mjs`, `scripts/generate-sitemap.mjs` e o teste `src/test/seo-source-canonical.test.ts`.
 
 Após publicação, conferir que os endereços do sitemap são finais, indexáveis e possuem canonical próprio no HTML-fonte; verificar `/api/telegram/health` e `/api/bot/posts`. Rollback pela imagem anterior no Portainer, preservando o volume SQLite. Retorno ao D1 exige reconciliação dos dados; não basta trocar DNS.

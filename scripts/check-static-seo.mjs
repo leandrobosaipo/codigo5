@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
+import { checkPage, sitemapUrls } from './check-public-seo.mjs';
 import posts from '../src/content/blog-posts.json' with {type:'json'};
 const files = fs.readdirSync('dist', {recursive:true}).filter(f=>f.endsWith('.html'));
 for (const file of files) {
@@ -29,3 +30,9 @@ for (const file of files) {
 }
 assert.ok(files.length>=38);
 console.log(`SEO estático validado: ${files.length} páginas, ${posts.length} imagens de destaque, conteúdo e schema no HTML.`);
+
+for (const url of sitemapUrls(fs.readFileSync('dist/sitemap.xml','utf8'),'https://codigo5.com.br/sitemap.xml')) {
+ const route = new URL(url).pathname;
+ const file = path.join('dist',route==='/'?'index.html':route.slice(1)+'.html');
+ checkPage(url,new Response(null,{headers:{'content-type':'text/html'}}),fs.readFileSync(file,'utf8'));
+}

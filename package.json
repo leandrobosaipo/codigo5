@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-static-site.mjs && node scripts/generate-sitemap.mjs",
+    "build": "vite build && node scripts/generate-static-site.mjs && node scripts/generate-sitemap.mjs && node scripts/check-static-seo.mjs",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build:server": "node scripts/build-server.mjs",
-    "test:server": "node --test server/*.test.mjs"
+    "test:server": "node --test server/*.test.mjs",
+    "check:public-seo": "node scripts/check-public-seo.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

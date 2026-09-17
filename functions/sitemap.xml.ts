@@ -1,5 +1,6 @@
+import { isRedirectSource } from "./_shared/sitemap-policy";
 import blogPostsData from "../src/content/blog-posts.json";
-import { getRedirectBySourcePath, listPublishedPosts } from "./_shared/bot/db";
+import { listPublishedPosts } from "./_shared/bot/db";
 import type { Env } from "./_shared/bot/types";
 
 type StaticBlogPost = {
@@ -49,15 +50,18 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   });
 
   let dynamicRows: Record<string, unknown>[];
+  let redirectSources: string[];
   try {
     dynamicRows = await listPublishedPosts(env);
+    const redirects = await env.BOT_DB.prepare("SELECT source_path FROM redirects").all<{source_path: string}>();
+    redirectSources = [...(env.COD5_STATIC_REDIRECT_SOURCES ?? []), ...(redirects.results ?? []).map(row => row.source_path)];
   } catch {
-    // Bundled posts have generated HTML in this release. Never infer dynamic URLs during an outage.
+    // Institutional routes do not depend on editorial redirects; article eligibility is unknown during an outage.
     console.warn(
-      "Sitemap database unavailable; serving the bundled public archive.",
+      "Sitemap database unavailable; serving institutional routes only.",
     );
     return new Response(
-      `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${[...staticRoutes.map(({ path }) => path), ...staticPosts.map(post => `/blog/${post.slug}`), ...Array.from(staticCategories).map(slug => `/blog/categoria/${slug}`)].map(path => `<url><loc>${escapeXml(SITE_URL + path)}</loc></url>`).join("")}</urlset>`,
+      `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${staticRoutes.map(({ path }) => path).filter(path => !isRedirectSource(path, env.COD5_STATIC_REDIRECT_SOURCES ?? [])).map(path => `<url><loc>${escapeXml(SITE_URL + path)}</loc></url>`).join("")}</urlset>`,
       {
         headers: {
           "content-type": "application/xml; charset=utf-8",
@@ -73,8 +77,6 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   for (const row of dynamicRows) {
     const slug = String((row as Record<string, unknown>).slug ?? "").trim();
     if (!slug) continue;
-    const redirect = await getRedirectBySourcePath(env, `/blog/${slug}`);
-    if (redirect) continue;
     dynamicSlugs.add(slug);
     dynamicDates.set(
       slug,
@@ -105,7 +107,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   ];
 
   const deduped = Array.from(
-    new Map(urls.map((item) => [item.loc, item])).values(),
+    new Map(urls.filter(item => !isRedirectSource(new URL(item.loc).pathname, redirectSources)).map((item) => [item.loc, item])).values(),
   );
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

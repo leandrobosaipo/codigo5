@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { isRedirectSource } from "../functions/_shared/sitemap-policy.ts";
 import blogPosts from "../src/content/blog-posts.json" with { type: "json" };
 
 const SITE_URL = "https://codigo5.com.br";
@@ -30,7 +31,10 @@ const postRoutes = blogPosts
   .map((post) => `/blog/${post.slug}`)
   .sort();
 
-const allRoutes = [...staticRoutes, ...categoryRoutes, ...postRoutes];
+const redirectSources = fs.readFileSync(path.join(DIST_DIR, "_redirects"), "utf8")
+  .split("\n").map(line => line.trim().split(/\s+/)).filter(parts => /^30[1278]$/.test(parts[2])).map(parts => parts[0]);
+const allRoutes = [...new Set([...staticRoutes, ...categoryRoutes, ...postRoutes])]
+  .filter(route => !isRedirectSource(route, redirectSources));
 
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',

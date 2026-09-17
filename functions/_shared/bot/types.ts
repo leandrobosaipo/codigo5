@@ -1,4 +1,5 @@
 export interface Env {
+  COD5_STATIC_REDIRECT_SOURCES?: string[];
   BOT_DB: D1Database;
   BOT_SESSIONS: KVNamespace;
   BOT_APP_NAME?: string;

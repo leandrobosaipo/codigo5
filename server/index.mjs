@@ -28,6 +28,7 @@ for (const table of ['drafts', 'posts', 'redirects', 'publish_jobs', 'users']) d
 const env = { ...process.env, BOT_DB: db, BOT_SESSIONS: new SqliteKV(db) };
 const assets = resolve(process.env.COD5_ASSETS_DIR || 'dist');
 const redirects = (await readFile(resolve(assets, '_redirects'), 'utf8')).split('\n').map(line => line.trim().split(/\s+/)).filter(parts => /^30[1278]$/.test(parts[2]));
+env.COD5_STATIC_REDIRECT_SOURCES = redirects.map(([source]) => source);
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain; charset=utf-8', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.woff': 'font/woff', '.pdf': 'application/pdf' };
 
 async function staticResponse(request) {

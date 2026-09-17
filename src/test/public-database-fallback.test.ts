@@ -30,15 +30,15 @@ describe("public content during database outage", () => {
     );
     expect(response.status).toBe(503);
   });
-  it("keeps generated public archive routes without claiming unknown dynamic URLs", async () => {
+  it("keeps only institutional routes when editorial redirects cannot be verified", async () => {
     const response = await sitemap(context("/sitemap.xml") as never);
     const xml = await response.text();
     expect(response.status).toBe(200);
     expect(xml).toContain("<loc>https://codigo5.com.br/servicos</loc>");
     expect(xml).toContain("<loc>https://codigo5.com.br/automacao-com-ia</loc>");
-    expect(xml).toContain(`/blog/${staticPosts[0].slug}`);
+    expect(xml).not.toContain(`/blog/${staticPosts[0].slug}`);
     expect(xml).not.toContain("not-in-bundle");
-    expect(xml.match(/<loc>/g)).toHaveLength(38);
+    expect(xml.match(/<loc>/g)).toHaveLength(8);
   });
 });
 
@@ -65,7 +65,7 @@ it('emits sitemap lastmod values as valid calendar dates', async () => {
       results: [{ slug: 'dynamic-post', updated_at: '2026-09-10 08:15:30' }],
     }),
   };
-  const env = { BOT_DB: { prepare: () => ({ ...query, bind: () => query }) } };
+  const env = { BOT_DB: { prepare: (sql: string) => sql.includes("SELECT source_path") ? {all: async () => ({results: []})} : ({ ...query, bind: () => query }) } };
   const response = await sitemap({ request: new Request('https://codigo5.com.br/sitemap.xml'), env } as never);
   const xml = await response.text();
   expect([...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]))

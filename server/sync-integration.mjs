@@ -20,6 +20,11 @@ function imageMetadata(body) {
  if (image && (!Number.isInteger(width) || width < 320 || width > 10000 || !Number.isInteger(height) || height < 200 || height > 10000 || !['image/png','image/jpeg','image/webp'].includes(mime) || !alt || alt.length > 240)) fail(400,'Metadados da capa inválidos.');
  return image ? {url,width,height,mime,alt} : {url,width:null,height:null,mime:null,alt};
 }
+function storedImage(image,env) {
+ const mediaHost=`${env.DO_SPACES_BUCKET}.${env.DO_SPACES_REGION}.digitaloceanspaces.com`;
+ const configured=env.DO_SPACES_PUBLIC_BASE_URL ? new URL(env.DO_SPACES_PUBLIC_BASE_URL).hostname : mediaHost;
+ if(![mediaHost,configured].includes(new URL(image.url).hostname))fail(400,'Envie a capa ao armazenamento Código5 antes de importar.');
+}
 function validate(body,env) {
  if(!body || typeof body!=='object' || Array.isArray(body))fail(400,'Objeto obrigatório.');
  const required={externalId:160,title:120,slug:150,excerpt:300,contentHtml:80000,sourceUrl:2000,imageUrl:2000};
@@ -28,9 +33,7 @@ function validate(body,env) {
  if(body.action && !['draft','publish'].includes(body.action))fail(400,'Ação inválida.');
  if(!publicUrl(body.sourceUrl))fail(400,'URL HTTPS da fonte obrigatória.');
  const image = imageMetadata(body);
- const mediaHost=`${env.DO_SPACES_BUCKET}.${env.DO_SPACES_REGION}.digitaloceanspaces.com`;
- const configured=env.DO_SPACES_PUBLIC_BASE_URL ? new URL(env.DO_SPACES_PUBLIC_BASE_URL).hostname : mediaHost;
- if(![mediaHost,configured].includes(new URL(image.url).hostname))fail(400,'Envie a capa ao armazenamento Código5 antes de importar.');
+ storedImage(image,env);
  // Deliberately small HTML contract. Reject unsupported markup instead of attempting regex sanitization.
  const htmlTags=body.contentHtml.match(/<[^>]*>/g)||[];
  for(const tag of htmlTags) {
@@ -58,11 +61,31 @@ export async function handleSyncArticle(request,db,env,staticSlugs=new Set()) {
  };
  const result = (map,draft) => ({ok:true,externalId:map.external_id,id:draft.id,revision:map.revision,status:draft.status,imageUrl:draft.image_url,image: (()=>{try{return JSON.parse(draft.image_meta_json||'null')}catch{return null}})(),url:draft.status==='published'?`https://codigo5.com.br/blog/${draft.slug}`:null});
  if(request.method==='GET') {const {map,draft}=read(new URL(request.url).searchParams.get('externalId')||'');return draft?response(result(map,draft)):response({ok:false,error:'Não encontrado.'},404);}
- if(request.method!=='POST')return response({ok:false,error:'Método não permitido.'},405);
+ if(!['POST','PATCH'].includes(request.method))return response({ok:false,error:'Método não permitido.'},405);
  let body;
  try {body=await request.json();}catch{return response({ok:false,error:'JSON inválido.'},400);}
  let transaction=false;
  try {
+  if(request.method==='PATCH') {
+   if(!body || typeof body!=='object' || Array.isArray(body) || Object.keys(body).some(key=>!['externalId','expectedRevision','image'].includes(key)) || typeof body.externalId!=='string' || !/^[a-zA-Z0-9:._-]{1,160}$/.test(body.externalId) || !Number.isSafeInteger(body.expectedRevision) || body.expectedRevision<1 || !body.image)fail(400,'Troca de capa inválida.');
+   const image=imageMetadata(body);storedImage(image,env);
+   db.exec('BEGIN IMMEDIATE');transaction=true;
+   let {map,draft}=read(body.externalId);
+   if(!map || !draft)fail(404,'Rascunho não encontrado.');
+   if(draft.status!=='draft' || hash(draft)!==map.draft_hash)fail(409,'Rascunho publicado ou alterado no painel.');
+   if(map.revision===body.expectedRevision+1 && draft.image_meta_json===JSON.stringify(image)) {
+    db.exec('COMMIT');transaction=false;return response(result(map,draft));
+   }
+   if(map.revision!==body.expectedRevision)fail(409,'Revisão conflitante.');
+   // Only these three draft columns change; editorial values remain server-owned.
+   db.prepare('UPDATE drafts SET image_url=?,image_meta_json=?,updated_at=? WHERE id=?').run(image.url,JSON.stringify(image),new Date().toISOString(),draft.id);
+   draft=read(body.externalId).draft;
+   const revision=map.revision+1;
+   const data=validate({externalId:map.external_id,revision,title:draft.title,slug:draft.slug,excerpt:draft.excerpt,seoTitle:draft.seo_title,seoDescription:draft.seo_description,contentHtml:draft.content_html,sourceUrl:draft.source_value,imageUrl:image.url,image,categories:JSON.parse(draft.categories_json),tags:JSON.parse(draft.tags_json)},env);
+   db.prepare('UPDATE sync_articles SET revision=?,payload_hash=?,draft_hash=? WHERE external_id=?').run(revision,hash(data),hash(draft),body.externalId);
+   map=read(body.externalId).map;
+   db.exec('COMMIT');transaction=false;return response(result(map,draft));
+  }
   if(body?.action==='publish'&&!canPublish)fail(403,'Credencial sem permissão para publicar.');
   const data=validate(body,env);const payloadHash=hash(data);
   if(body.action==='publish' && read(data.externalId).draft?.status!=='published') {

@@ -36,6 +36,12 @@ Evidências privadas: `../reports/migration-macmini-2026-09-09/`, incluindo comp
 
 ## Recuperação
 
+### Troca de capa pelo Sync
+
+`PATCH /api/integrations/sync/articles` recebe exclusivamente `externalId`, `expectedRevision` e `image`. Reutiliza a credencial de rascunho, valida armazenamento e metadados e exige rascunho não alterado manualmente. A transação atualiza somente `image_url`, `image_meta_json`, `updated_at` e os hashes/revisão da integração. Não recria artigo, não publica, não altera texto, SEO, slug, categorias ou tags. Retry da mesma imagem na revisão imediatamente seguinte retorna o resultado sem incrementar novamente.
+
+Implantar este contrato antes do Sync V8. Os testes `server/sync-integration.test.mjs` cobrem preservação de todas as colunas editoriais, concorrência, idempotência e publicação explícita posterior. A atualização não exige migration nova nem mudança de credenciais.
+
 Para regressão de código, voltar à imagem anterior mantendo o volume atual. Antes de qualquer restauração de dados, bloquear gravações criando `/data/read-only` no container; confirmar POST 503 e preservar uma cópia do banco atual.
 
 Restaurar backup primeiro em arquivo separado, executar PRAGMA integrity_check e conferir contagens e registros necessários. Substituição do banco exige aplicação parada e tratamento conjunto de SQLite/WAL/SHM; nunca copiar um arquivo antigo por cima de banco aberto. Reiniciar, validar leitura e escrita, e só então remover o bloqueio.

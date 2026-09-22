@@ -4,6 +4,38 @@ import { DatabaseSync } from 'node:sqlite';
 import { readdirSync, readFileSync } from 'node:fs';
 import { handleSyncArticle, migrateSync } from './sync-integration.mjs';
 
+test('cover PATCH preserves every editorial field, retries once and refuses human edits/publication', async()=>{
+ const db=new DatabaseSync(':memory:');for(const f of readdirSync('migrations').sort())db.exec(readFileSync('migrations/'+f,'utf8'));migrateSync(db);
+ const env={COD5_SYNC_DRAFT_TOKEN:'draft',COD5_SYNC_PUBLISH_TOKEN:'publish',DO_SPACES_BUCKET:'cdn-codigo5',DO_SPACES_REGION:'sfo2'};
+ const image={url:'https://cdn-codigo5.sfo2.digitaloceanspaces.com/old.webp',width:1536,height:1024,mime:'image/webp',alt:'Original'};
+ const body={externalId:'cover-1',revision:1,title:'Título editorial original',slug:'endereco-original',excerpt:'Resumo original completo.',seoTitle:'SEO independente',seoDescription:'Descrição independente',contentHtml:'<p>Conteúdo original.</p>',sourceUrl:'https://example.com/fonte',imageUrl:image.url,image,categories:[{slug:'original',name:'Original'}],tags:[{slug:'tag-original',name:'Tag original'}]};
+ const req=(method,data,token='draft')=>handleSyncArticle(new Request('https://codigo5.com.br/api/integrations/sync/articles',{method,headers:{authorization:'Bearer '+token,'content-type':'application/json'},body:JSON.stringify(data)}),db,env);
+ assert.equal((await req('POST',body)).status,200);
+ const before=db.prepare('SELECT * FROM drafts').get();
+ const patch={externalId:body.externalId,expectedRevision:1,image:{...image,url:image.url.replace('old','new')}};
+ assert.equal((await req('PATCH',patch)).status,200);
+ const after=db.prepare('SELECT * FROM drafts').get();
+ for(const key of Object.keys(before))if(!['image_url','image_meta_json','updated_at'].includes(key))assert.deepEqual(after[key],before[key],key);
+ assert.equal(db.prepare('SELECT revision FROM sync_articles').get().revision,2);
+ assert.equal((await req('PATCH',patch)).status,200);
+ assert.equal(db.prepare('SELECT revision FROM sync_articles').get().revision,2);
+ assert.equal((await req('PATCH',{...patch,title:'Forbidden'})).status,400);
+ assert.equal((await req('PATCH',{...patch,image})).status,409);
+ db.exec("UPDATE drafts SET title='Human edit'");
+ assert.equal((await req('PATCH',{...patch,expectedRevision:2,image})).status,409);
+ db.exec("UPDATE drafts SET status='published'");
+ assert.equal((await req('PATCH',{...patch,expectedRevision:2,image})).status,409);
+ assert.equal(db.prepare('SELECT COUNT(*) AS n FROM posts').get().n,0);
+ db.prepare("UPDATE drafts SET title=?,status='draft'").run(before.title);
+ mock.method(globalThis,'fetch',async()=>new Response(null,{headers:{'content-type':'image/webp'}}));
+ try {
+  assert.equal((await req('POST',{...body,revision:2,image:patch.image,imageUrl:patch.image.url,action:'publish'},'publish')).status,200);
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM posts').get().n,1);
+  assert.equal((await req('PATCH',{...patch,expectedRevision:2,image})).status,409);
+ } finally {mock.restoreAll();}
+ db.close();
+});
+
 test('Sync import preserves existing content and is idempotent with scoped publication', async()=>{
  const db=new DatabaseSync(':memory:');for(const f of readdirSync('migrations').sort())db.exec(readFileSync('migrations/'+f,'utf8'));migrateSync(db);
  const env={COD5_SYNC_DRAFT_TOKEN:'draft-secret',COD5_SYNC_PUBLISH_TOKEN:'publish-secret',DO_SPACES_BUCKET:'cdn-codigo5',DO_SPACES_REGION:'sfo2'};

@@ -5,7 +5,10 @@ import { JSDOM } from 'jsdom';
 export function checkPage(url, response, html) {
   assert.equal(response.status, 200, `${url}: HTTP ${response.status}`);
   assert.match(response.headers.get('content-type') || '', /text\/html/i, `${url}: not HTML`);
-  assert.doesNotMatch(response.headers.get('x-robots-tag') || '', /\b(noindex|none)\b/i, `${url}: blocked header`);
+  const robotsHeader = response.headers.get('x-robots-tag') || '';
+  assert.doesNotMatch(robotsHeader, /\b(noindex|none)\b/i, `${url}: blocked header`);
+  assert.match(robotsHeader, /\bindex\b/i, `${url}: missing index header`);
+  assert.match(robotsHeader, /\bfollow\b/i, `${url}: missing follow header`);
   const document = new JSDOM(html).window.document;
   const robots = [...document.querySelectorAll('meta[name="robots" i],meta[name="googlebot" i]')];
   assert.ok(robots.some(meta => meta.name.toLowerCase() === 'robots'), `${url}: missing robots`);
@@ -55,6 +58,9 @@ export async function audit(target, request = fetch) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   audit(process.argv[2] || 'https://codigo5.com.br/sitemap.xml')
-    .then(result => console.log(JSON.stringify({ok: true, ...result})))
+    .then(result => {
+      console.log(`OK: ${result.checked} URL(s) públicas passaram no teste.`);
+      console.log('Cada URL respondeu 200, tem index/follow, canonical próprio, H1 e conteúdo.');
+    })
     .catch(error => { console.error(error.message); process.exitCode = 1; });
 }

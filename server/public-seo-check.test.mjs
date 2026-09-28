@@ -7,10 +7,10 @@ import assert from 'node:assert/strict';
 import {audit, checkPage, sitemapUrls} from '../scripts/check-public-seo.mjs';
 const url='https://example.test/blog/new';
 const html=`<html><head><meta name="robots" content="index,follow"><link rel="canonical" href="${url}"></head><body><main><h1>New post</h1>${'Public article content. '.repeat(20)}</main></body></html>`;
-const response=(body=html, status=200, headers={})=>new Response(body,{status,headers:{'content-type':'text/html',...headers}});
+const response=(body=html, status=200, headers={})=>new Response(body,{status,headers:{'content-type':'text/html','x-robots-tag':'index, follow',...headers}});
 test('public audit checks original HTML and rejects redirects, blocks, missing content and invalid sitemap entries',async()=>{
  checkPage(url,response(),html);
- for(const bad of [response('',301),response('',503),response(html,200,{'x-robots-tag':'noindex'})]) assert.throws(()=>checkPage(url,bad,html));
+ for(const bad of [response('',301),response('',503),response(html,200,{'x-robots-tag':'noindex'}),response(html,200,{'x-robots-tag':'follow'})]) assert.throws(()=>checkPage(url,bad,html));
  for(const bad of [html.replace('index,follow','noindex,follow'),html.replace(url,'https://example.test/'),html.replace('<main>','<div>').replace('</main>','</div>')])assert.throws(()=>checkPage(url,response(),bad));
  const xml=`<urlset><url><loc>${url}</loc><lastmod>2026-09-17</lastmod></url></urlset>`;
  assert.throws(()=>sitemapUrls(xml.replace('2026-09-17','2026-02-30'),'https://example.test/sitemap.xml'));

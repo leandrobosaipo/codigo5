@@ -106,6 +106,8 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   if(privateRoute || !known || taxonomyMatch?.[1] === "tag") {
     headers.set("x-robots-tag", "noindex, follow");
     html = html.replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/, '<meta name="robots" content="noindex,follow" />');
+  } else {
+    headers.set("x-robots-tag", "index, follow");
   }
   const status = known || privateRoute ? response.status : lookupFailed ? 503 : 404;
   return new Response(cod5_replace_canonical_url(html, route), {

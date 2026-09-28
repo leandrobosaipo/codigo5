@@ -25,12 +25,12 @@ const dynamicContext = (route:string) => ({
 });
 it('serves a newly published category instead of returning a false 404',async()=>{
  const response=await onRequest(dynamicContext('/blog/categoria/tema-novo') as never);
- expect(response.status).toBe(200);expect(response.headers.get('x-robots-tag')).toBeNull();
+ expect(response.status).toBe(200);expect(response.headers.get('x-robots-tag')).toBe('index, follow');
  expect(response.headers.get('etag')).toBeNull();expect(response.headers.get('cache-control')).toBe('no-store');
  const html=await response.text();expect(html).toContain('<h1>Tema novo</h1>');expect(html).toContain('CollectionPage');expect(html).toContain('/blog/post-novo');
 });
 it('serves new post metadata through the actual middleware',async()=>{
  const response=await onRequest(dynamicContext('/blog/post-novo') as never);
- expect(response.status).toBe(200);const html=await response.text();
+ expect(response.status).toBe(200);expect(response.headers.get('x-robots-tag')).toBe('index, follow');const html=await response.text();
  expect(html).toContain('<title>Novo título SEO</title>');expect(html).toContain('href="https://codigo5.com.br/blog/post-novo"');expect(html).toContain('<h1>Novo artigo</h1>');
 });

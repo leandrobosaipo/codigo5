@@ -45,6 +45,7 @@ services:
     user: "1000:1000"
     command: ["flock", "-n", "/gsc/worker.lock", "node", "/app/server/gsc-worker.mjs", "run"]
     environment:
+      HOME: /gsc
       COD5_GSC_PORTAL: ${COD5_GSC_PORTAL:-}
       COD5_GSC_ORIGIN: ${COD5_GSC_ORIGIN:-}
       COD5_GSC_PROPERTY: ${COD5_GSC_PROPERTY:-}

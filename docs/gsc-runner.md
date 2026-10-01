@@ -10,7 +10,7 @@ O worker usa uma fila SQLite compartilhada com o portal, um perfil Chromium pers
 
 Copie `deploy/gsc.env.example` para a configuração privada e substitua os placeholders. Cadastre as mesmas variáveis `COD5_GSC_*` no ambiente do stack 231 no Portainer, além de `COD5_GSC_IMAGE` com uma tag local imutável. O token de callback deve coincidir nos dois lugares. Configure `COD5_GSC_NOTIFY_TELEGRAM_USER_ID` com um destinatário já autorizado no bot. O arquivo `.env` no host atende ao login guiado e ao watchdog; o Portainer não lê caminhos absolutos do host como `env_file`. Nunca salve valores reais no Git.
 
-Prepare o diretório persistente do perfil com UID `1000` por meio do setup autorizado de Docker/Portainer ou pelo administrador do host. O usuário SSH `codigo5` não tem `sudo` sem senha. Preserve o arquivo de ambiente com permissão `600` e mantenha `/data` compartilhado com o portal.
+Prepare o diretório persistente do perfil com UID `1000` por meio do setup autorizado de Docker/Portainer ou pelo administrador do host. O usuário SSH `codigo5` não tem `sudo` sem senha. Preserve o arquivo de ambiente com permissão `600`, `HOME=/gsc` para o Chromium em filesystem de leitura e `/data` compartilhado com o portal.
 
 ## Login e MFA
 

@@ -26,7 +26,8 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     if (!await inspect.count()) return { status: 'layout_changed', clicked };
     await inspect.fill(url);
     await inspect.press('Enter');
-    await page.getByText(url, { exact: true }).waitFor({ state: 'visible', timeoutMs });
+    await page.waitForURL(/\/search-console\/inspect\?/, { timeout: timeoutMs });
+    await page.getByText(url, { exact: true }).first().waitFor({ state: 'visible', timeoutMs });
     const body = await page.locator('body').innerText();
     state = classifyGscState(page.url(), body);
     if (state) return { status: state, clicked };

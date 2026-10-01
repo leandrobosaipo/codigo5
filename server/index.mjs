@@ -8,6 +8,7 @@ import { migrateEditorial } from './migrate.mjs';
 import { handleSyncMedia } from './sync-media.mjs';
 import { buildSpacesKey, uploadImageToSpaces } from '../functions/_shared/bot/spaces.ts';
 import { handleSyncArticle, migrateSync } from './sync-integration.mjs';
+import { migrateGscQueue } from './gsc-queue.mjs';
 import { renderLlms } from './llms.mjs';
 import archive from '../src/content/blog-posts.json' with { type: 'json' };
 import routes from '../output/routes.ts';
@@ -23,6 +24,11 @@ if (process.env.NODE_ENV === 'production') {
 const db = new SqliteD1(dataFile);
 migrateEditorial(db.database);
 migrateSync(db.database);
+if (process.env.COD5_GSC_ENABLED === '1') migrateGscQueue(db.database, {
+  portal: process.env.COD5_GSC_PORTAL,
+  origin: process.env.COD5_GSC_ORIGIN,
+  enabled: true,
+});
 const staticSlugs = new Set(archive.map(post => post.slug));
 for (const table of ['drafts', 'posts', 'redirects', 'publish_jobs', 'users']) db.prepare(`SELECT 1 FROM ${table} LIMIT 1`).all();
 const env = { ...process.env, BOT_DB: db, BOT_SESSIONS: new SqliteKV(db) };

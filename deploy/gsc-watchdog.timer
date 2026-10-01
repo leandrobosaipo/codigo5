@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Código5 GSC worker watchdog every minute
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1min
+AccuracySec=5s
+Unit=gsc-watchdog.service
+
+[Install]
+WantedBy=timers.target

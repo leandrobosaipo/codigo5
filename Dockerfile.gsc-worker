@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/playwright:v1.59.1-noble
+
+WORKDIR /app
+ENV NODE_ENV=production DISPLAY=:99
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends x11vnc \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY package.json package-lock.json ./
+RUN npm ci --include=dev --ignore-scripts --no-audit --no-fund
+
+COPY --chown=1000:1000 server/gsc-worker.mjs server/gsc-preflight.mjs server/gsc-queue.mjs server/gsc-browser.mjs server/gsc-login.mjs ./server/
+COPY --chown=1000:1000 scripts/check-public-seo.mjs ./scripts/check-public-seo.mjs
+
+USER 1000:1000
+ENTRYPOINT ["/bin/bash", "-lc", "Xvfb :99 -screen 0 1440x1000x24 -nolisten tcp >/tmp/gsc-xvfb.log 2>&1 & for i in {1..50}; do [ -S /tmp/.X11-unix/X99 ] && break; sleep 0.1; done; x11vnc -display :99 -forever -shared -nopw -rfbport 5900 -quiet >/tmp/gsc-vnc.log 2>&1 & exec \"$@\"", "--"]
+CMD ["node", "/app/server/gsc-worker.mjs", "run"]

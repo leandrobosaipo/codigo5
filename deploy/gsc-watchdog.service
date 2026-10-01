@@ -1,0 +1,12 @@
+[Unit]
+Description=Check Código5 GSC worker and deliver transition alerts
+
+[Service]
+Type=oneshot
+UMask=0077
+ExecStart=/usr/bin/python3 /opt/cod5/codigo5-web/gsc/gsc-watchdog.py
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/cod5/codigo5-web/gsc

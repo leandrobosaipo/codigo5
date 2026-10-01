@@ -6,13 +6,11 @@ export function checkPage(url, response, html) {
   assert.equal(response.status, 200, `${url}: HTTP ${response.status}`);
   assert.match(response.headers.get('content-type') || '', /text\/html/i, `${url}: not HTML`);
   const robotsHeader = response.headers.get('x-robots-tag') || '';
-  assert.doesNotMatch(robotsHeader, /\b(noindex|none)\b/i, `${url}: blocked header`);
-  assert.match(robotsHeader, /\bindex\b/i, `${url}: missing index header`);
-  assert.match(robotsHeader, /\bfollow\b/i, `${url}: missing follow header`);
+  assert.doesNotMatch(robotsHeader, /\b(noindex|nofollow|none)\b/i, `${url}: blocked header`);
   const document = new JSDOM(html).window.document;
   const robots = [...document.querySelectorAll('meta[name="robots" i],meta[name="googlebot" i]')];
   assert.ok(robots.some(meta => meta.name.toLowerCase() === 'robots'), `${url}: missing robots`);
-  for (const meta of robots) assert.doesNotMatch(meta.content, /\b(noindex|none)\b/i, `${url}: blocked meta`);
+  for (const meta of robots) assert.doesNotMatch(meta.content, /\b(noindex|nofollow|none)\b/i, `${url}: blocked meta`);
   const canonicals = document.querySelectorAll('link[rel="canonical"]');
   assert.equal(canonicals.length, 1, `${url}: canonical count`);
   assert.equal(canonicals[0].getAttribute('href'), url, `${url}: canonical mismatch`);

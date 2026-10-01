@@ -14,9 +14,11 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
   if (!domain || new URL(url).hostname !== domain || !profileDir) throw new Error('Invalid GSC property, URL or profile path');
   let context;
   let clicked = false;
+  let phase = 'launch';
   try {
     context = await chromium.launchPersistentContext(profileDir, { headless, locale: 'pt-BR', ...(executablePath ? { executablePath } : {}) });
     const page = context.pages()[0] || await context.newPage();
+    phase = 'inspection';
     await page.goto(`${GSC}?resource_id=${encodeURIComponent(property)}`, { waitUntil: 'domcontentloaded', timeout: timeoutMs });
     let state = classifyGscState(page.url(), await page.locator('body').innerText());
     if (state) return { status: state, clicked };
@@ -36,16 +38,20 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     if (await page.getByText('Indexação solicitada', { exact: true }).first().isVisible()) return { status: 'already_requested', clicked };
     if (/O URL está no Google|URL is on Google/i.test(body)) return { status: 'already_indexed', clicked };
     if (!await button.count() || !await button.isEnabled()) return { status: 'layout_changed', clicked };
+    phase = 'click';
     clicked = true; // A timeout from here is unknown; never retry the click automatically.
     await button.click({ timeout: 180000 });
+    phase = 'confirmation';
     try {
-      await page.getByText('Indexação solicitada', { exact: true }).waitFor({ state: 'visible', timeout: 180000 });
+      await page.getByText('Indexação solicitada', { exact: true }).filter({ visible: true }).first().waitFor({ state: 'visible', timeout: 180000 });
       return { status: 'requested', clicked };
-    } catch {
+    } catch (error) {
+      console.error(JSON.stringify({ event: 'gsc_browser_error', phase, type: error?.name || 'unknown', strict: /strict mode violation/.test(String(error?.message)) }));
       state = classifyGscState(page.url(), await page.locator('body').innerText());
       return { status: state || 'delivery_unknown', clicked };
     }
-  } catch {
+  } catch (error) {
+    console.error(JSON.stringify({ event: 'gsc_browser_error', phase, type: error?.name || 'unknown', strict: /strict mode violation/.test(String(error?.message)) }));
     return { status: clicked ? 'delivery_unknown' : 'retry', clicked };
   } finally {
     await context?.close().catch(() => {});

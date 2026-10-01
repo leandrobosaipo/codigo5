@@ -27,7 +27,7 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     await inspect.fill(url);
     await inspect.press('Enter');
     await page.waitForURL(/\/search-console\/inspect\?/, { timeout: timeoutMs });
-    await page.getByText(url, { exact: true }).first().waitFor({ state: 'visible', timeoutMs });
+    await page.getByText(url, { exact: true }).first().waitFor({ state: 'visible', timeout: timeoutMs });
     const button = page.getByRole('button', { name: /Solicitar indexação|Request indexing/i });
     await button.waitFor({ state: 'visible', timeout: timeoutMs }).catch(() => {});
     const body = await page.locator('body').innerText();
@@ -37,9 +37,9 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     if (/O URL está no Google|URL is on Google/i.test(body)) return { status: 'already_indexed', clicked };
     if (!await button.count() || !await button.isEnabled()) return { status: 'layout_changed', clicked };
     clicked = true; // A timeout from here is unknown; never retry the click automatically.
-    await button.click({ timeoutMs });
+    await button.click({ timeout: 180000 });
     try {
-      await page.getByText('Indexação solicitada', { exact: true }).waitFor({ state: 'visible', timeoutMs });
+      await page.getByText('Indexação solicitada', { exact: true }).waitFor({ state: 'visible', timeout: 180000 });
       return { status: 'requested', clicked };
     } catch {
       state = classifyGscState(page.url(), await page.locator('body').innerText());

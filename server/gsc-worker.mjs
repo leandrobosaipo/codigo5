@@ -128,13 +128,17 @@ async function main() {
     if (interrupted) console.log(JSON.stringify({ event: 'interrupted_jobs', count: interrupted }));
     let stopping = false;
     for (const signal of ['SIGTERM', 'SIGINT']) process.on(signal, () => { stopping = true; });
-    while (!stopping) {
-      await writeFile(process.env.COD5_GSC_HEARTBEAT_FILE || '/gsc/heartbeat', new Date().toISOString(), { mode: 0o600 });
-      const result = await processOne(db, config);
-      if (result) console.log(JSON.stringify({ jobId: result.id, status: result.status, errorCode: result.errorCode }));
-      await deliverEvents(db, config);
-      await new Promise(resolve => setTimeout(resolve, result ? 1000 : 20000));
-    }
+    const heartbeat = () => writeFile(process.env.COD5_GSC_HEARTBEAT_FILE || '/gsc/heartbeat', new Date().toISOString(), { mode: 0o600 });
+    const heartbeatTimer = setInterval(() => { heartbeat().catch(() => {}); }, 20000);
+    try {
+      while (!stopping) {
+        await heartbeat();
+        const result = await processOne(db, config);
+        if (result) console.log(JSON.stringify({ jobId: result.id, status: result.status, errorCode: result.errorCode }));
+        await deliverEvents(db, config);
+        await new Promise(resolve => setTimeout(resolve, result ? 1000 : 20000));
+      }
+    } finally { clearInterval(heartbeatTimer); }
   } else throw new Error('Unknown command');
   db.close();
 }

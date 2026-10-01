@@ -38,7 +38,7 @@ export const onRequestPost:PagesFunction<GscEnv>=async({request,env})=>{
   const claim=await db.prepare("INSERT OR IGNORE INTO gsc_alerts(event_id,job_id,status,attempts,updated_at) VALUES(?,?,'sending',1,?)").bind(event.eventId,event.jobId,new Date().toISOString()).run();
   if(!claim.meta.changes){const claimed=await db.prepare('SELECT status FROM gsc_alerts WHERE event_id=?').bind(event.eventId).first() as {status:string}|null;return response({ok:true,state:claimed?.status||'sending',duplicate:true});}
  }
- const message=[`GSC ${event.status}`,`Job: ${markdown(event.jobId as string)}`,...(article?[`Artigo: ${markdown(article.href)}`]:[])].join('\n');
+ const message=[`GSC ${markdown(event.status)}`,`Job: ${markdown(event.jobId as string)}`,...(article?[`Artigo: ${markdown(article.href)}`]:[])].join('\n');
  try{
   const sent=await sendTelegramMessage(env,Number(recipient),{text:message});
   const delivered=sent.ok&&(sent.body as {ok?:unknown}|null)?.ok===true;

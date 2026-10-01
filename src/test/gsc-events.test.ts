@@ -34,6 +34,7 @@ describe('GSC worker callback',()=>{
   expect(await invoke()).toMatchObject({status:200,body:{ok:true,state:'sent'}});
   expect(await invoke()).toMatchObject({status:200,body:{ok:true,state:'sent',duplicate:true}});
   expect(sendTelegramMessage).toHaveBeenCalledTimes(1);
+  expect(sendTelegramMessage.mock.calls[0][2].text).toContain('quota\\_exceeded');
  });
  it('marks explicit provider failures failed and permits one retry',async()=>{
   sendTelegramMessage.mockResolvedValueOnce({ok:false,skipped:false,status:503,body:{ok:false}}).mockResolvedValueOnce({ok:true,skipped:false,body:{ok:true}});

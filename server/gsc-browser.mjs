@@ -28,12 +28,13 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     await inspect.press('Enter');
     await page.waitForURL(/\/search-console\/inspect\?/, { timeout: timeoutMs });
     await page.getByText(url, { exact: true }).first().waitFor({ state: 'visible', timeoutMs });
+    const button = page.getByRole('button', { name: /Solicitar indexação|Request indexing/i });
+    await button.waitFor({ state: 'visible', timeout: timeoutMs }).catch(() => {});
     const body = await page.locator('body').innerText();
     state = classifyGscState(page.url(), body);
     if (state) return { status: state, clicked };
     if (await page.getByText('Indexação solicitada', { exact: true }).first().isVisible()) return { status: 'already_requested', clicked };
     if (/O URL está no Google|URL is on Google/i.test(body)) return { status: 'already_indexed', clicked };
-    const button = page.getByRole('button', { name: /Solicitar indexação|Request indexing/i });
     if (!await button.count() || !await button.isEnabled()) return { status: 'layout_changed', clicked };
     clicked = true; // A timeout from here is unknown; never retry the click automatically.
     await button.click({ timeoutMs });

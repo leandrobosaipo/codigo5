@@ -47,6 +47,10 @@ docker exec codigo5-gsc-worker node -e 'const {DatabaseSync}=require("node:sqlit
 
 O callback precisa de autenticação e ACK. A página, sitemap e `robots.txt` passam por preflight. `delivery_unknown` indica que o pedido pode ter sido enviado sem confirmação: não tente novamente automaticamente; confira a URL no Search Console e faça a revisão manual. Claims interrompidos só são recuperados quando o worker inicia com o lock exclusivo.
 
+Cada evento do worker leva `eventId`, `jobId`, `status`, `url`, `phase`, `code`, `clicked`, `detail` e `attempt`. `phase` e `code` são categorias sanitizadas; `clicked` é `true` quando o comando de clique foi concluído, `false` antes de iniciá-lo e `null` quando o resultado pode ser incerto. O worker persiste esses campos em `gsc_events`; o `eventId` de eventos de execução inclui a tentativa para não deduplicar um aviso anterior. Preflight informa causas seguras como `article_http_404`, `article_canonical_mismatch` ou `article_network_error`, sem registrar corpo HTML nem mensagem crua da exceção.
+
+O fluxo do worker é acionado por artigos publicados no banco, com ou sem vídeo. Não há gatilho separado para publicação de vídeo.
+
 ## Deploy e rollback
 
 No checkout do release no Mac Mini, construa a imagem com uma tag de commit única:

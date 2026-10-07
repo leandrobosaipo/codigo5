@@ -7,31 +7,51 @@ import { preflightArticle } from './gsc-preflight.mjs';
 import { requestViaGsc } from './gsc-browser.mjs';
 
 const alertStates = new Set(['login_required', 'captcha_required', 'quota_exceeded', 'layout_changed', 'delivery_unknown', 'blocked', 'requested']);
-const transientPreflight = new Set(['request_failed', 'sitemap_unavailable', 'robots_unavailable']);
+const transientPreflight = new Set(['request_failed', 'article_network_error', 'article_body_error', 'sitemap_unavailable', 'robots_unavailable']);
 
 function nextRetry(now, attempts) {
   return new Date(Date.parse(now) + Math.min(60 * 2 ** (attempts - 1), 360) * 1000).toISOString();
 }
 
-export async function processOne(db, config, { preflight = preflightArticle, request = requestViaGsc, now = () => new Date().toISOString() } = {}) {
+export async function processOne(db, config, { preflight = preflightArticle, request = requestViaGsc, now = () => new Date().toISOString(), logger = () => {} } = {}) {
+  const started = Date.now();
   const owner = randomUUID();
   const job = claimNext(db, owner, now(), config.maxAttempts);
   if (!job) return null;
-  let status, errorCode = null;
+  let status, errorCode = null, diagnosis = { phase: 'preflight', code: 'started', clicked: false, detail: null };
+  const phaseLogger = event => { try { logger({ event: 'gsc_phase', jobId: job.id, url: job.url, ...event }); } catch {} };
   try {
-    const checked = await preflight(job.url, { origin: job.origin });
+    let checked;
+    const preflightStarted = Date.now();
+    phaseLogger({ phase: 'preflight', state: 'start', durationMs: null });
+    try { checked = await preflight(job.url, { origin: job.origin }); }
+    catch { checked = { ok: false, code: 'preflight_unexpected_failure' }; }
+    phaseLogger({ phase: 'preflight', state: checked.ok ? 'complete' : 'error', code: checked.code || 'ok', durationMs: Date.now() - preflightStarted });
     if (!checked.ok) {
       errorCode = checked.code;
-      status = transientPreflight.has(checked.code) && job.attempts < config.maxAttempts ? 'retry' : 'blocked';
+      diagnosis = { phase: 'preflight', code: checked.code, clicked: false, detail: checked.detail || null };
+      status = (checked.code === 'preflight_unexpected_failure' || transientPreflight.has(checked.code) || /^article_http_5\d\d$/.test(checked.code)) && job.attempts < config.maxAttempts ? 'retry' : 'blocked';
     } else {
-      const result = await request({ url: job.url, property: config.property, profileDir: config.profileDir, headless: config.headless !== false, executablePath: config.executablePath });
-      status = result.status === 'already_requested' ? 'requested' : result.status === 'already_indexed' ? 'blocked' : result.status;
-      if (result.status === 'already_requested' || result.status === 'already_indexed') errorCode = result.status;
-      if (status === 'retry' && job.attempts >= config.maxAttempts) { status = 'blocked'; errorCode = 'max_attempts'; }
+      const browserStarted = Date.now();
+      phaseLogger({ phase: 'browser', state: 'start', durationMs: null });
+      try {
+        const result = await request({ url: job.url, property: config.property, profileDir: config.profileDir, headless: config.headless !== false, executablePath: config.executablePath, onPhase: phaseLogger });
+        diagnosis = result.diagnosis || { phase: 'browser', code: result.status, clicked: result.clicked ?? null, detail: null };
+        status = result.status === 'already_requested' ? 'requested' : result.status === 'already_indexed' ? 'blocked' : result.status;
+        if (result.status === 'already_requested' || result.status === 'already_indexed') errorCode = result.status;
+        if (status === 'retry' && job.attempts >= config.maxAttempts) { status = 'blocked'; errorCode = 'max_attempts'; }
+        phaseLogger({ phase: 'browser', state: 'complete', code: diagnosis.code, durationMs: Date.now() - browserStarted });
+      } catch {
+        status = 'delivery_unknown';
+        errorCode = 'unexpected_failure';
+        diagnosis = { phase: 'browser', code: 'unexpected_failure', clicked: null, detail: null };
+        phaseLogger({ phase: 'browser', state: 'error', code: 'unexpected_failure', durationMs: Date.now() - browserStarted });
+      }
     }
   } catch {
-    status = 'delivery_unknown'; // A thrown browser error may have happened after the click.
-    errorCode = 'unexpected_failure';
+    status = 'blocked';
+    errorCode = 'preflight_unexpected_failure';
+    diagnosis = { phase: 'preflight', code: errorCode, clicked: false, detail: null };
   }
   db.exec('BEGIN IMMEDIATE');
   try {
@@ -40,10 +60,10 @@ export async function processOne(db, config, { preflight = preflightArticle, req
       nextAttemptAt: status === 'retry' ? nextRetry(now(), job.attempts) : null,
       requestedAt: status === 'requested' && errorCode !== 'already_requested' ? now() : null,
     })) throw new Error('Queue ownership lost; inspect job before another attempt');
-    if (alertStates.has(status)) enqueueEvent(db, job, status, errorCode);
+    if (alertStates.has(status)) enqueueEvent(db, job, status, errorCode, diagnosis, job.attempts);
     db.exec('COMMIT');
   } catch (error) { db.exec('ROLLBACK'); throw error; }
-  return { id: job.id, url: job.url, status, errorCode };
+  return { id: job.id, url: job.url, status, errorCode, diagnosis, durationMs: Date.now() - started };
 }
 
 export function migrateEvents(db) {
@@ -52,13 +72,23 @@ export function migrateEvents(db) {
     state TEXT NOT NULL CHECK(state IN ('pending','sending','acked','failed','delivery_unknown')),
     attempts INTEGER NOT NULL DEFAULT 0, next_attempt_at TEXT, ack TEXT, created_at TEXT NOT NULL
   )`);
+  const columns = new Set(db.prepare('PRAGMA table_info(gsc_events)').all().map(row => row.name));
+  for (const [name, type] of [['phase', 'TEXT'], ['diagnostic_code', 'TEXT'], ['clicked', 'INTEGER'], ['detail', 'TEXT'], ['attempt', 'INTEGER']]) {
+    if (!columns.has(name)) db.exec(`ALTER TABLE gsc_events ADD COLUMN ${name} ${type}`);
+  }
 }
 
-export function enqueueEvent(db, job, status, code = null) {
+export function enqueueEvent(db, job, status, code = null, diagnosis = null, attempt = null) {
   migrateEvents(db);
-  const id = `${job.id}:${status}`;
-  db.prepare("INSERT OR IGNORE INTO gsc_events(id,job_id,status,url,state,created_at,ack) VALUES (?,?,?,?,'pending',CURRENT_TIMESTAMP,?)")
-    .run(id, job.id, status, job.url, code);
+  const id = attempt === null ? `${job.id}:${status}` : `${job.id}:${status}:attempt-${attempt}`;
+  const safe = diagnosis && {
+    phase: /^[a-z_]{1,40}$/.test(diagnosis.phase || '') ? diagnosis.phase : 'unknown',
+    code: /^[a-z0-9_]{1,80}$/.test(diagnosis.code || '') ? diagnosis.code : 'unknown',
+    clicked: diagnosis.clicked === true ? 1 : diagnosis.clicked === false ? 0 : null,
+    detail: typeof diagnosis.detail === 'string' && /^[a-z0-9_]{1,80}$/i.test(diagnosis.detail) ? diagnosis.detail : null,
+  };
+  db.prepare("INSERT OR IGNORE INTO gsc_events(id,job_id,status,url,state,created_at,ack,phase,diagnostic_code,clicked,detail,attempt) VALUES (?,?,?,?,'pending',CURRENT_TIMESTAMP,?,?,?,?,?,?)")
+    .run(id, job.id, status, job.url, code, safe?.phase ?? null, safe?.code ?? null, safe?.clicked ?? null, safe?.detail ?? null, attempt);
   return id;
 }
 
@@ -72,7 +102,7 @@ export async function deliverEvents(db, config, { request = fetch, now = () => n
     try {
       const response = await request(config.callbackUrl, {
         method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${config.callbackToken}` },
-        body: JSON.stringify({ eventId: event.id, jobId: event.job_id, status: event.status, url: event.url }),
+        body: JSON.stringify({ eventId: event.id, jobId: event.job_id, status: event.status, url: event.url, phase: event.phase, code: event.diagnostic_code, clicked: event.clicked === null ? null : Boolean(event.clicked), detail: event.detail, attempt: event.attempt }),
         signal: AbortSignal.timeout(10000),
       });
       const ack = await response.json().catch(() => null);
@@ -122,9 +152,9 @@ async function main() {
     console.log(JSON.stringify(db.prepare('SELECT id,url,status,attempts,error_code,requested_at FROM gsc_queue WHERE portal=? ORDER BY created_at DESC LIMIT 20').all(config.portal)));
   } else if (command === 'run') {
     // The compose entrypoint holds an exclusive flock across this entire process.
-    const interruptedJobs = db.prepare("SELECT id,url FROM gsc_queue WHERE portal=? AND status='in_progress'").all(config.portal);
+    const interruptedJobs = db.prepare("SELECT id,url,attempts FROM gsc_queue WHERE portal=? AND status='in_progress'").all(config.portal);
     const interrupted = recoverInterrupted(db, config.portal);
-    for (const job of interruptedJobs) enqueueEvent(db, job, 'delivery_unknown', 'process_interrupted');
+    for (const job of interruptedJobs) enqueueEvent(db, job, 'delivery_unknown', 'process_interrupted', { phase: 'worker', code: 'process_interrupted', clicked: null }, job.attempts);
     if (interrupted) console.log(JSON.stringify({ event: 'interrupted_jobs', count: interrupted }));
     let stopping = false;
     for (const signal of ['SIGTERM', 'SIGINT']) process.on(signal, () => { stopping = true; });
@@ -133,8 +163,8 @@ async function main() {
     try {
       while (!stopping) {
         await heartbeat();
-        const result = await processOne(db, config);
-        if (result) console.log(JSON.stringify({ jobId: result.id, status: result.status, errorCode: result.errorCode }));
+        const result = await processOne(db, config, { logger: record => console.log(JSON.stringify(record)) });
+        if (result) console.log(JSON.stringify({ event: 'gsc_job_finished', jobId: result.id, url: result.url, status: result.status, errorCode: result.errorCode, phase: result.diagnosis.phase, code: result.diagnosis.code, clicked: result.diagnosis.clicked, durationMs: result.durationMs }));
         await deliverEvents(db, config);
         await new Promise(resolve => setTimeout(resolve, result ? 1000 : 20000));
       }

@@ -68,10 +68,73 @@ test('callback requires an ACK; a timeout remains unknown without blind resend',
 test('an existing GSC request is recognized without inventing a new request time', async () => {
   const db = fixture();
   const config = { portal: 'codigo5', origin: 'https://codigo5.com.br', property: 'sc-domain:codigo5.com.br', profileDir: '/private/profile', maxAttempts: 3 };
-  const result = await processOne(db, config, { preflight: async () => ({ ok: true }), request: async () => ({ status: 'already_requested', clicked: false }), now: () => '2026-10-01T12:00:00.000Z' });
+  const result = await processOne(db, config, { preflight: async () => ({ ok: true }), request: async () => ({ status: 'already_requested', clicked: false, diagnosis: { phase: 'inspection_result', code: 'already_requested', clicked: false, detail: null } }), now: () => '2026-10-01T12:00:00.000Z' });
   assert.equal(result.status, 'requested');
   const row = db.prepare('SELECT error_code,requested_at FROM gsc_queue').get();
   assert.equal(row.error_code, 'already_requested');
   assert.equal(row.requested_at, null);
+  const event = db.prepare("SELECT phase,diagnostic_code,clicked,attempt FROM gsc_events WHERE job_id=(SELECT id FROM gsc_queue)").get();
+  assert.equal(event.phase, 'inspection_result');
+  assert.equal(event.diagnostic_code, 'already_requested');
+  assert.equal(event.clicked, 0);
+  assert.equal(event.attempt, 1);
   db.close();
+});
+
+test('callback carries sanitized diagnosis and retries use distinct event ids', async () => {
+  const db = fixture();
+  const job = { id: 'job-retry', url: 'https://codigo5.com.br/blog/artigo-real' };
+  enqueueEvent(db, job, 'delivery_unknown', 'click_outcome_unknown', { phase: 'click', code: 'click_outcome_unknown', clicked: null, detail: 'private cookie value' }, 1);
+  enqueueEvent(db, job, 'delivery_unknown', 'click_outcome_unknown', { phase: 'click', code: 'click_outcome_unknown', clicked: null }, 2);
+  const rows = db.prepare('SELECT id,detail FROM gsc_events WHERE job_id=? ORDER BY attempt').all(job.id);
+  assert.equal(rows.length, 2);
+  assert.notEqual(rows[0].id, rows[1].id);
+  assert.equal(rows[0].detail, null);
+  const payloads = [];
+  const config = { callbackUrl: 'https://codigo5.com.br/api/integrations/gsc/events', callbackToken: 'test-token' };
+  await deliverEvents(db, config, { request: async (_url, options) => { payloads.push(JSON.parse(options.body)); return Response.json({ ok: true, state: 'sent' }); }, now: () => '2026-10-01T12:00:00.000Z' });
+  const payload = payloads[0];
+  assert.equal(payload.phase, 'click');
+  assert.equal(payload.code, 'click_outcome_unknown');
+  assert.equal(payload.clicked, null);
+  assert.equal(payload.detail, null);
+  assert.equal(payload.attempt, 1);
+  assert.equal(payloads.length, 2);
+  db.close();
+});
+
+test('unexpected browser throw stays unknown with clicked null; phase logs are ordered', async () => {
+  const db = fixture();
+  const config = { portal: 'codigo5', origin: 'https://codigo5.com.br', property: 'sc-domain:codigo5.com.br', profileDir: '/private/profile', maxAttempts: 3 };
+  const logs = [];
+  const result = await processOne(db, config, {
+    preflight: async () => ({ ok: true }),
+    request: async ({ onPhase }) => { onPhase({ phase: 'launch', state: 'start', durationMs: null }); onPhase({ phase: 'launch', state: 'error', code: 'browser_step_failed', durationMs: 1 }); throw Error('private browser detail'); },
+    logger: record => logs.push(record),
+    now: () => '2026-10-01T12:00:00.000Z',
+  });
+  assert.equal(result.status, 'delivery_unknown');
+  assert.equal(result.diagnosis.phase, 'browser');
+  assert.equal(result.diagnosis.clicked, null);
+  const event = db.prepare('SELECT clicked,phase,diagnostic_code FROM gsc_events').get();
+  assert.equal(event.clicked, null);
+  assert.equal(event.phase, 'browser');
+  assert.equal(event.diagnostic_code, 'unexpected_failure');
+  assert.deepEqual(logs.map(row => `${row.phase}:${row.state}`), [
+    'preflight:start', 'preflight:complete', 'browser:start', 'launch:start', 'launch:error', 'browser:error',
+  ]);
+  assert.ok(logs.every(row => row.jobId && row.url));
+  db.close();
+});
+
+test('thrown preflight is retried only within the configured attempt limit', async () => {
+  for (const [maxAttempts, expected] of [[3, 'retry'], [1, 'blocked']]) {
+    const db = fixture();
+    const config = { portal: 'codigo5', origin: 'https://codigo5.com.br', property: 'sc-domain:codigo5.com.br', profileDir: '/private/profile', maxAttempts };
+    const result = await processOne(db, config, { preflight: async () => { throw Error('private network detail'); }, request: async () => assert.fail('browser must not run'), now: () => '2026-10-01T12:00:00.000Z', logger: () => {} });
+    assert.equal(result.status, expected);
+    assert.equal(result.diagnosis.phase, 'preflight');
+    assert.equal(result.diagnosis.clicked, false);
+    db.close();
+  }
 });

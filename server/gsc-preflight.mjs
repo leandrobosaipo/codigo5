@@ -23,14 +23,20 @@ function robotsAllows(text,path){
  return longest.some(r=>r.allow);
 }
 
-export async function preflightArticle(url,{origin,request=fetch}={}){
+async function preflightArticleCore(url,{origin,request=fetch}={}){
  let base,target;
  try{base=new URL(origin);target=new URL(url);}catch{return fail('invalid_url');}
  if(base.protocol!=='https:'||base.username||base.password||base.pathname!=='/'||base.search||base.hash||target.protocol!=='https:'||target.origin!==base.origin||target.username||target.password||target.search||target.hash||!/^\/blog\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(target.pathname))return fail('invalid_url');
  const read=async(path)=>request(new URL(path,base.origin).href,{redirect:'manual',signal:AbortSignal.timeout(15000)});
- try{
+  try{
   let response,html;
-  try{response=await read(target.href);html=await response.text();checkPage(target.href,response,html);}catch{return fail('article_invalid');}
+  try{response=await read(target.href);}catch{return fail('article_network_error');}
+  try{html=await response.text();}catch{return fail('article_body_error');}
+  try{checkPage(target.href,response,html);}catch(error){
+   const message=String(error?.message||'');
+   const match=message.match(/HTTP (\d+)|not HTML|blocked header|missing robots|blocked meta|canonical count|canonical mismatch|missing\/duplicate heading|missing source content/);
+   return fail(match?.[1]?`article_http_${match[1]}`:`article_${(match?.[0]||'invalid').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')}`);
+  }
   let sitemap;
   try{const sitemapResponse=await read('/sitemap.xml');if(sitemapResponse.status!==200)return fail('sitemap_unavailable');sitemap=sitemapUrls(await sitemapResponse.text(),new URL('/sitemap.xml',base.origin).href);}catch{return fail('sitemap_unavailable');}
   if(!sitemap.includes(target.href))return fail('sitemap_missing_article');
@@ -38,4 +44,16 @@ export async function preflightArticle(url,{origin,request=fetch}={}){
   try{const robotsResponse=await read('/robots.txt');if(robotsResponse.status!==200)return fail('robots_unavailable');robots=await robotsResponse.text();}catch{return fail('robots_unavailable');}
   return robotsAllows(robots,target.pathname)?{ok:true}:fail('robots_disallow');
  }catch{return fail('request_failed');}
+}
+
+export async function preflightArticle(url, options = {}) {
+ const started=Date.now();
+ const onPhase=options.onPhase||(()=>{});
+ const emit=(state,code=null)=>{try{onPhase({phase:'preflight',state,code,durationMs:state==='start'?null:Date.now()-started});}catch{}};
+ emit('start');
+ let result;
+ try{result=await preflightArticleCore(url,options);}
+ catch{result=fail('preflight_unexpected_failure');}
+ emit(result.ok?'complete':'error',result.code||'ok');
+ return result;
 }

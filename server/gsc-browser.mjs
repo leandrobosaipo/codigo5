@@ -9,50 +9,67 @@ export function classifyGscState(url, text) {
   return null;
 }
 
-export async function requestViaGsc({ url, property, profileDir, headless = true, executablePath, timeoutMs = 45000 }) {
+export async function requestViaGsc({ url, property, profileDir, headless = true, executablePath, timeoutMs = 45000, browser = chromium, onPhase = () => {} }) {
   const domain = property?.startsWith('sc-domain:') ? property.slice(10) : null;
   if (!domain || new URL(url).hostname !== domain || !profileDir) throw new Error('Invalid GSC property, URL or profile path');
   let context;
   let clicked = false;
   let phase = 'launch';
+  let phaseStarted = Date.now();
+  let phaseActive = false;
+  const phaseLog = (state, code = null) => {
+    try { onPhase({ phase, state, code, durationMs: state === 'start' ? null : Date.now() - phaseStarted }); } catch {}
+  };
+  const beginPhase = name => { phase = name; phaseStarted = Date.now(); phaseActive = true; phaseLog('start'); };
+  const finishPhase = (state = 'complete', code = null) => { if (phaseActive) { phaseLog(state, code); phaseActive = false; } };
+  const result = (status, code = status, clickState = clicked) => ({ status, clicked: clickState, diagnosis: { phase, code, clicked: clickState, detail: null } });
   try {
-    context = await chromium.launchPersistentContext(profileDir, { headless, locale: 'pt-BR', ...(executablePath ? { executablePath } : {}) });
+    beginPhase('launch');
+    context = await browser.launchPersistentContext(profileDir, { headless, locale: 'pt-BR', ...(executablePath ? { executablePath } : {}) });
     const page = context.pages()[0] || await context.newPage();
-    phase = 'inspection';
+    finishPhase();
+    beginPhase('inspection');
     await page.goto(`${GSC}?resource_id=${encodeURIComponent(property)}`, { waitUntil: 'domcontentloaded', timeout: timeoutMs });
     let state = classifyGscState(page.url(), await page.locator('body').innerText());
-    if (state) return { status: state, clicked };
+    if (state) { finishPhase('complete', state); return result(state); }
     try { await page.getByRole('combobox', { name: domain, exact: true }).waitFor({ state: 'visible', timeout: timeoutMs }); }
-    catch { return { status: classifyGscState(page.url(), await page.locator('body').innerText()) || 'layout_changed', clicked }; }
+    catch { state = classifyGscState(page.url(), await page.locator('body').innerText()) || 'layout_changed'; finishPhase('complete', state); return result(state); }
     const inspect = page.getByRole('combobox', { name: `Inspecionar qualquer URL de ${domain}` });
-    if (!await inspect.count()) return { status: 'layout_changed', clicked };
+    if (!await inspect.count()) { finishPhase('complete', 'layout_changed'); return result('layout_changed'); }
     await inspect.fill(url);
     await inspect.press('Enter');
+    finishPhase();
+    beginPhase('inspection_result');
     await page.waitForURL(/\/search-console\/inspect\?/, { timeout: timeoutMs });
     await page.getByText(url, { exact: true }).first().waitFor({ state: 'visible', timeout: timeoutMs });
     const button = page.getByRole('button', { name: /Solicitar indexação|Request indexing/i });
     await button.waitFor({ state: 'visible', timeout: timeoutMs }).catch(() => {});
     const body = await page.locator('body').innerText();
     state = classifyGscState(page.url(), body);
-    if (state) return { status: state, clicked };
-    if (await page.getByText('Indexação solicitada', { exact: true }).first().isVisible()) return { status: 'already_requested', clicked };
-    if (/O URL está no Google|URL is on Google/i.test(body)) return { status: 'already_indexed', clicked };
-    if (!await button.count() || !await button.isEnabled()) return { status: 'layout_changed', clicked };
-    phase = 'click';
-    clicked = true; // A timeout from here is unknown; never retry the click automatically.
+    if (state) { finishPhase('complete', state); return result(state); }
+    if (await page.getByText('Indexação solicitada', { exact: true }).first().isVisible().catch(() => false)) { finishPhase('complete', 'already_requested'); return result('already_requested'); }
+    if ((!await button.count() || !await button.isEnabled()) && /O URL está no Google|URL is on Google/i.test(body)) { finishPhase('complete', 'already_indexed'); return result('already_indexed'); }
+    if (!await button.count() || !await button.isEnabled()) { finishPhase('complete', 'layout_changed'); return result('layout_changed'); }
+    finishPhase();
+    beginPhase('click');
+    // Until click resolves, its outcome is uncertain and must not trigger a retry.
     await button.click({ timeout: 180000 });
-    phase = 'confirmation';
+    clicked = true;
+    finishPhase();
+    beginPhase('confirmation');
     try {
       await page.getByText('Indexação solicitada', { exact: true }).filter({ visible: true }).first().waitFor({ state: 'visible', timeout: 180000 });
-      return { status: 'requested', clicked };
-    } catch (error) {
-      console.error(JSON.stringify({ event: 'gsc_browser_error', phase, type: error?.name || 'unknown', strict: /strict mode violation/.test(String(error?.message)) }));
-      state = classifyGscState(page.url(), await page.locator('body').innerText());
-      return { status: state || 'delivery_unknown', clicked };
+      finishPhase('complete', 'requested');
+      return result('requested');
+    } catch {
+      state = classifyGscState(page.url(), await page.locator('body').innerText().catch(() => ''));
+      finishPhase('error', state || 'confirmation_unverified');
+      return result(state || 'delivery_unknown', state || 'confirmation_unverified', true);
     }
-  } catch (error) {
-    console.error(JSON.stringify({ event: 'gsc_browser_error', phase, type: error?.name || 'unknown', strict: /strict mode violation/.test(String(error?.message)) }));
-    return { status: clicked ? 'delivery_unknown' : 'retry', clicked };
+  } catch {
+    const uncertain = phase === 'click' || phase === 'confirmation';
+    finishPhase('error', uncertain ? 'click_outcome_unknown' : 'browser_step_failed');
+    return result(uncertain ? 'delivery_unknown' : 'retry', uncertain ? 'click_outcome_unknown' : 'browser_step_failed', uncertain ? null : false);
   } finally {
     await context?.close().catch(() => {});
   }

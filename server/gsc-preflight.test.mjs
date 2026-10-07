@@ -30,11 +30,18 @@ test('preflight rejects URLs outside the exact public article origin before fetc
  }
 });
 
-test('preflight rejects canonical mismatch and noindex',async()=>{
+test('preflight reports canonical mismatch and noindex separately',async()=>{
  for(const bad of [html.replace(article,`${origin}/blog/other`),html.replace('index,follow','noindex,follow')]){
   const result=await preflightArticle(article,{origin,request:requester({article:response(bad)})});
-  assert.deepEqual(result,{ok:false,code:'article_invalid'});
+  assert.equal(result.ok,false);
+  assert.match(result.code,/^article_(canonical_mismatch|blocked_meta)$/);
  }
+});
+
+test('preflight distinguishes article transport, HTTP and response validation',async()=>{
+ assert.equal((await preflightArticle(article,{origin,request:async()=>{throw Error('private network detail');}})).code,'article_network_error');
+ assert.equal((await preflightArticle(article,{origin,request:requester({article:response('gone',404)})})).code,'article_http_404');
+ assert.equal((await preflightArticle(article,{origin,request:requester({article:response('',200,{'content-type':'application/json'})})})).code,'article_not_html');
 });
 
 test('preflight fails closed when sitemap fetch fails or omits article',async()=>{

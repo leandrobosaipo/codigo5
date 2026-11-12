@@ -56,6 +56,14 @@ test('Node routes preserve authentication, draft persistence, redirects and dyna
     assert.equal((await finish('valid')).status, 400);
     const cookies = login.headers.getSetCookie();
     assert.equal(cookies.length, 2);
+    const sessionCookie = cookies.find(value => value.startsWith('__Host-codigo5_editorial='));
+    assert.match(sessionCookie, /Max-Age=2592000(?:;|$)/);
+    const stored = new SqliteD1(filename);
+    try {
+      const ttl = stored.prepare("SELECT expires_at-unixepoch() AS ttl FROM runtime_kv WHERE key=?")
+        .bind('google-session:' + sessionCookie.split(';')[0].split('=')[1]).first('ttl');
+      assert.ok(ttl >= 2591995 && ttl <= 2592000);
+    } finally { stored.close(); }
     const cookie = cookies.find(value => value.startsWith('__Host-codigo5_editorial=')).split(';')[0];
     const session = await (await request('/api/admin/auth/session', {headers:{cookie}})).json();
     const csrf = session.session.csrf;

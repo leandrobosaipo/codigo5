@@ -3,7 +3,7 @@ import type { Env } from "./bot/types";
 export const adminEmail = "leandro@codigo5.com.br";
 export const origin = "https://codigo5.com.br";
 export const sessionCookie = "__Host-codigo5_editorial";
-const sessionTtl = 8 * 3600;
+const sessionTtl = 30 * 24 * 3600;
 
 export const cookie = (name: string, value: string, ttl: number) =>
   `${name}=${value}; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=${ttl}`;

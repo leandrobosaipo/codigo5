@@ -14,7 +14,7 @@ function fakeBrowser({ indexed = false, requested = false, clickError = false, c
   let clicked = false;
   const locator = { innerText: async () => requested ? 'Indexação solicitada' : indexed ? 'O URL está no Google' : 'URL inspecionado' };
   const inspect = { count: async () => 1, fill: async () => {}, press: async () => {} };
-  const button = { waitFor: async () => {}, count: async () => 1, isEnabled: async () => true, click: async () => { if (clickError) throw Error('private raw error'); clicked = true; } };
+  const button = { waitFor: async () => {}, count: async () => 1, isEnabled: async () => true, click: async ({ trial }) => { if (trial) return; if (clickError) throw Error('private raw error'); clicked = true; } };
   const context = {
     pages: () => [page], newPage: async () => page, close: async () => {},
   };

@@ -44,7 +44,17 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     await page.waitForURL(/\/search-console\/inspect\?/, { timeout: timeoutMs });
     await page.getByText(url, { exact: true }).first().waitFor({ state: 'visible', timeout: timeoutMs });
     const button = page.getByRole('button', { name: /Solicitar indexação|Request indexing/i });
-    await button.waitFor({ state: 'visible', timeout: timeoutMs }).catch(() => {});
+    // A visible action can remain disabled while Google finishes loading the inspection.
+    // A trial waits for Playwright's click checks without dispatching a click.
+    let actionable = false;
+    if (!await receipt(page).isVisible()) {
+      try {
+        await button.click({ trial: true, timeout: timeoutMs });
+        actionable = true;
+      } catch (error) {
+        if (error.name !== 'TimeoutError') throw error;
+      }
+    }
     const body = await page.locator('body').innerText();
     state = classifyGscState(page.url(), body);
     if (state) { finishPhase('complete', state); return result(state); }
@@ -54,8 +64,12 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
       if (capture) prior.evidence = await capture(page).catch(() => null);
       return prior;
     }
-    if ((!await button.count() || !await button.isEnabled()) && /O URL está no Google|URL is on Google/i.test(body)) { finishPhase('complete', 'already_indexed'); return result('already_indexed'); }
-    if (!await button.count() || !await button.isEnabled()) { finishPhase('complete', 'layout_changed'); return result('layout_changed'); }
+    if (!actionable) {
+      if (/O URL está no Google|URL is on Google/i.test(body)) { finishPhase('complete', 'already_indexed'); return result('already_indexed'); }
+      if (!await button.count()) { finishPhase('complete', 'layout_changed'); return result('layout_changed'); }
+      finishPhase('error', 'button_not_ready');
+      return result('retry', 'button_not_ready', false);
+    }
     finishPhase();
     beginPhase('click');
     // Until click resolves, its outcome is uncertain and must not trigger a retry.

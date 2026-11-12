@@ -10,7 +10,7 @@ RUN apt-get update \
 COPY package.json package-lock.json ./
 RUN npm ci --include=dev --ignore-scripts --no-audit --no-fund
 
-COPY --chown=1000:1000 server/gsc-worker.mjs server/gsc-preflight.mjs server/gsc-queue.mjs server/gsc-browser.mjs server/gsc-login.mjs ./server/
+COPY --chown=1000:1000 server/gsc-worker.mjs server/gsc-preflight.mjs server/gsc-queue.mjs server/gsc-browser.mjs server/gsc-login.mjs server/gsc-whatsapp.mjs ./server/
 COPY --chown=1000:1000 scripts/check-public-seo.mjs ./scripts/check-public-seo.mjs
 
 USER 1000:1000

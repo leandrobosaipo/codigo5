@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { claimNext, migrateGscQueue, recoverInterrupted, setRequestStatus } from './gsc-queue.mjs';
 import { preflightArticle } from './gsc-preflight.mjs';
 import { requestViaGsc } from './gsc-browser.mjs';
+import { saveEvidence, migrateEvidence, sendEvidence } from './gsc-whatsapp.mjs';
 
 const alertStates = new Set(['login_required', 'captcha_required', 'quota_exceeded', 'layout_changed', 'delivery_unknown', 'blocked', 'requested']);
 const transientPreflight = new Set(['request_failed', 'article_network_error', 'article_body_error', 'sitemap_unavailable', 'robots_unavailable']);
@@ -18,7 +19,7 @@ export async function processOne(db, config, { preflight = preflightArticle, req
   const owner = randomUUID();
   const job = claimNext(db, owner, now(), config.maxAttempts);
   if (!job) return null;
-  let status, errorCode = null, diagnosis = { phase: 'preflight', code: 'started', clicked: false, detail: null };
+  let status, evidence, errorCode = null, diagnosis = { phase: 'preflight', code: 'started', clicked: false, detail: null };
   const phaseLogger = event => { try { logger({ event: 'gsc_phase', jobId: job.id, url: job.url, ...event }); } catch {} };
   try {
     let checked;
@@ -35,7 +36,9 @@ export async function processOne(db, config, { preflight = preflightArticle, req
       const browserStarted = Date.now();
       phaseLogger({ phase: 'browser', state: 'start', durationMs: null });
       try {
-        const result = await request({ url: job.url, property: config.property, profileDir: config.profileDir, headless: config.headless !== false, executablePath: config.executablePath, onPhase: phaseLogger });
+        const result = await request({ url: job.url, property: config.property, profileDir: config.profileDir, headless: config.headless !== false, executablePath: config.executablePath, onPhase: phaseLogger,
+          capture: page => saveEvidence(page, job, '/gsc/evidence') });
+        evidence = result.status === 'requested' && result.clicked === true && result.evidence;
         diagnosis = result.diagnosis || { phase: 'browser', code: result.status, clicked: result.clicked ?? null, detail: null };
         status = result.status === 'already_requested' ? 'requested' : result.status === 'already_indexed' ? 'blocked' : result.status;
         if (result.status === 'already_requested' || result.status === 'already_indexed') errorCode = result.status;
@@ -61,6 +64,7 @@ export async function processOne(db, config, { preflight = preflightArticle, req
       requestedAt: status === 'requested' && errorCode !== 'already_requested' ? now() : null,
     })) throw new Error('Queue ownership lost; inspect job before another attempt');
     if (alertStates.has(status)) enqueueEvent(db, job, status, errorCode, diagnosis, job.attempts);
+    if (evidence) db.prepare('INSERT INTO gsc_whatsapp(job_id,url,file) VALUES(?,?,?)').run(job.id, job.url, evidence);
     db.exec('COMMIT');
   } catch (error) { db.exec('ROLLBACK'); throw error; }
   return { id: job.id, url: job.url, status, errorCode, diagnosis, durationMs: Date.now() - started };
@@ -138,6 +142,7 @@ async function main() {
   db.exec('PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
   migrateGscQueue(db, { portal: config.portal, origin: config.origin, enabled: true });
   migrateEvents(db);
+  migrateEvidence(db);
   if (command === 'enqueue') {
     const url = process.argv[3];
     const parsed = new URL(url);
@@ -166,6 +171,7 @@ async function main() {
         const result = await processOne(db, config, { logger: record => console.log(JSON.stringify(record)) });
         if (result) console.log(JSON.stringify({ event: 'gsc_job_finished', jobId: result.id, url: result.url, status: result.status, errorCode: result.errorCode, phase: result.diagnosis.phase, code: result.diagnosis.code, clicked: result.diagnosis.clicked, durationMs: result.durationMs }));
         await deliverEvents(db, config);
+        await sendEvidence(db, process.env).catch(() => console.error('GSC WhatsApp: pending delivery precheck failed'));
         await new Promise(resolve => setTimeout(resolve, result ? 1000 : 20000));
       }
     } finally { clearInterval(heartbeatTimer); }

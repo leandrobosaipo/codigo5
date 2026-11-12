@@ -9,7 +9,7 @@ export function classifyGscState(url, text) {
   return null;
 }
 
-export async function requestViaGsc({ url, property, profileDir, headless = true, executablePath, timeoutMs = 45000, browser = chromium, onPhase = () => {} }) {
+export async function requestViaGsc({ url, property, profileDir, headless = true, executablePath, timeoutMs = 45000, browser = chromium, onPhase = () => {}, capture }) {
   const domain = property?.startsWith('sc-domain:') ? property.slice(10) : null;
   if (!domain || new URL(url).hostname !== domain || !profileDir) throw new Error('Invalid GSC property, URL or profile path');
   let context;
@@ -60,7 +60,12 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     try {
       await page.getByText('Indexação solicitada', { exact: true }).filter({ visible: true }).first().waitFor({ state: 'visible', timeout: 180000 });
       finishPhase('complete', 'requested');
-      return result('requested');
+      const confirmed = result('requested');
+      if (capture) {
+        try { confirmed.evidence = await capture(page); }
+        catch { confirmed.diagnosis.detail = 'screenshot_failed'; }
+      }
+      return confirmed;
     } catch {
       state = classifyGscState(page.url(), await page.locator('body').innerText().catch(() => ''));
       finishPhase('error', state || 'confirmation_unverified');

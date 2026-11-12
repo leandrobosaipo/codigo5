@@ -46,7 +46,12 @@ services:
     restart: unless-stopped
     user: "1000:1000"
     command: ["flock", "-n", "/gsc/worker.lock", "node", "/app/server/gsc-worker.mjs", "run"]
+    networks: [default, evolution]
     environment:
+      CODIGO5_EVOLUTION_URL: http://cod5-evolution-evolution-1:8080
+      CODIGO5_EVOLUTION_KEY: ${CODIGO5_EVOLUTION_KEY:?Editorial Evolution key required}
+      CODIGO5_EVOLUTION_INSTANCE: ${CODIGO5_EVOLUTION_INSTANCE:?Editorial instance required}
+      CODIGO5_REVIEW_GROUP_JID: ${CODIGO5_REVIEW_GROUP_JID:?Editorial group required}
       HOME: /gsc
       COD5_GSC_PORTAL: ${COD5_GSC_PORTAL:-}
       COD5_GSC_ORIGIN: ${COD5_GSC_ORIGIN:-}
@@ -91,3 +96,8 @@ services:
     read_only: true
     tmpfs:
       - /tmp:size=16m
+
+networks:
+  evolution:
+    external: true
+    name: cod5-evolution-net

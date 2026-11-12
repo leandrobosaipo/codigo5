@@ -87,7 +87,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   )
     .bind(
       id,
-      auth.session.telegramUserId ?? "admin",
+      auth.session.email,
       sourceValue,
       title,
       body.excerpt?.trim() || null,

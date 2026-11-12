@@ -1,12 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  clearAdminCookie,
-  createAdminSession,
-  getAdminCookieHeader,
-  getAdminSession,
-  requestAdminMagicLink,
-  requireAdminSession,
-} from "../../functions/_shared/admin-auth";
+import { issueSession, getAdminSession, requireAdminSession } from "../../functions/_shared/admin-auth";
 import type { Env } from "../../functions/_shared/bot/types";
 
 const createEnv = (): Env => {
@@ -31,35 +24,21 @@ const createEnv = (): Env => {
   };
 };
 
-describe("admin auth", () => {
-  it("creates and reads admin session from cookie", async () => {
+describe("admin Google", () => {
+  it("allows only the configured verified identity and checks CSRF on writes", async () => {
     const env = createEnv();
-    const token = await createAdminSession(env, {
-      email: "leandro@codigo5.com.br",
-      telegramUserId: "12345",
-      source: "magic-link",
-    });
-
-    const request = new Request("https://codigo5.com.br/admin/editorial", {
-      headers: { cookie: getAdminCookieHeader(token) },
-    });
-
-    const session = await getAdminSession(request, env);
-    expect(session?.email).toBe("leandro@codigo5.com.br");
-    expect(session?.telegramUserId).toBe("12345");
-  });
-
-  it("rejects unauthorized email for magic link", async () => {
-    const env = createEnv();
-    const result = await requestAdminMagicLink(env, "outro@email.com");
-    expect(result.ok).toBe(false);
-  });
-
-  it("requires valid admin session", async () => {
-    const env = createEnv();
-    const request = new Request("https://codigo5.com.br/api/admin/posts");
-    const result = await requireAdminSession(request, env);
-    expect(result.ok).toBe(false);
-    expect(clearAdminCookie()).toContain("Max-Age=0");
+    await expect(issueSession(env, "outro@codigo5.com.br", "other")).rejects.toThrow();
+    const cookie = await issueSession(env, "leandro@codigo5.com.br", "google-sub");
+    const url = "https://codigo5.com.br/api/admin/posts";
+    const session = await getAdminSession(new Request(url, { headers: { cookie } }), env);
+    expect(session?.sub).toBe("google-sub");
+    const write = (origin: string, csrf: string) => requireAdminSession(new Request(url, {
+      method: "POST", headers: { cookie, origin, "x-csrf-token": csrf }
+    }), env);
+    expect((await write("https://codigo5.com.br", "")).ok).toBe(false);
+    expect((await write("https://example.com", session!.csrf)).ok).toBe(false);
+    expect((await write("https://codigo5.com.br", session!.csrf)).ok).toBe(true);
+    env.ADMIN_ALLOWED_EMAILS = "";
+    expect(await getAdminSession(new Request(url, { headers: { cookie } }), env)).toBeNull();
   });
 });

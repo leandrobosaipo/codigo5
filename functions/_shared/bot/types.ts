@@ -6,6 +6,8 @@ export interface Env {
   BOT_DEFAULT_TIMEZONE?: string;
   TELEGRAM_MINI_APP_URL?: string;
   ADMIN_ALLOWED_EMAILS?: string;
+  GOOGLE_CLIENT_ID?: string;
+  GOOGLE_CLIENT_SECRET?: string;
   ADMIN_PANEL_URL?: string;
   TELEGRAM_SECRET_TOKEN?: string;
   TELEGRAM_ALLOWED_USER_IDS?: string;

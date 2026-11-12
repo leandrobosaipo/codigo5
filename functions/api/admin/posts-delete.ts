@@ -30,7 +30,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     env,
     draft,
     body.redirectTo?.trim() || "/blog",
-    auth.session.telegramUserId ?? "admin",
+    auth.session.email,
     deletedAt,
   );
 

@@ -41,7 +41,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   const seed = trimText(parsed?.title || sourceValue, 80);
   const draft = await createDraft(env, {
     id: createId("draft"),
-    telegramUserId: auth.session.telegramUserId ?? "admin",
+    telegramUserId: auth.session.email,
     mode,
     sourceType: mode,
     sourceValue,

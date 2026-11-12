@@ -86,7 +86,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const requestedRedirect = body.redirectTo?.trim();
     const redirectTarget =
       !requestedRedirect || requestedRedirect === `/blog/${draft.slug}` ? `/blog/${slug}` : requestedRedirect;
-    const actor = auth.session.telegramUserId ?? "admin";
+    const actor = auth.session.email;
     await createRedirect(env, `/blog/${draft.slug}`, redirectTarget, actor, updatedAt);
     await createRedirect(env, `/blog/${draft.slug}/`, redirectTarget, actor, updatedAt);
   }

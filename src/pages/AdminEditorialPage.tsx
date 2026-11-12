@@ -1,16 +1,13 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Sparkles, X } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
 import { htmlToMarkdown } from "@/lib/contentMarkdown";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { blogPosts } from "@/content/blog";
-import { useTelegramWebApp } from "@/hooks/use-telegram-webapp";
 
 type AdminSession = {
   email: string;
-  telegramUserId: string | null;
-  source: "telegram" | "magic-link";
+  csrf: string;
   createdAt: string;
 };
 
@@ -75,12 +72,8 @@ const statusLabel = (status: AdminItem["status"]) =>
         : "Aprovado";
 
 const AdminEditorialPage = () => {
-  const { isTelegram, webApp } = useTelegramWebApp();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [session, setSession] = useState<AdminSession | null>(null);
   const [items, setItems] = useState<AdminItem[]>([]);
-  const [email, setEmail] = useState("leandro@codigo5.com.br");
   const [newSource, setNewSource] = useState("");
   const [editor, setEditor] = useState<EditorState | null>(null);
   const [statusText, setStatusText] = useState("Entre no painel para criar, editar e publicar posts.");
@@ -88,7 +81,11 @@ const AdminEditorialPage = () => {
   const [filter, setFilter] = useState<"all" | "draft" | "published" | "archived">("all");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-  const currentToken = searchParams.get("token");
+  const adminFetch = (url: string, options: RequestInit) => {
+    const headers = new Headers(options.headers);
+    if (session) headers.set("x-csrf-token", session.csrf);
+    return fetch(url, { ...options, headers });
+  };
 
   const loadSession = async () => {
     const response = await fetch("/api/admin/auth/session");
@@ -182,32 +179,6 @@ const AdminEditorialPage = () => {
     };
   }, [editor]);
 
-  useEffect(() => {
-    if (!currentToken) return;
-
-    const consume = async () => {
-      setStatusText("Validando o link de acesso...");
-      const response = await fetch("/api/admin/auth/consume", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ token: currentToken }),
-      });
-      const payload = (await response.json()) as { ok: boolean; error?: string };
-
-      if (!response.ok || !payload.ok) {
-        setStatusText(payload.error ?? "Não consegui validar o link.");
-        return;
-      }
-
-      setStatusText("Acesso confirmado. Carregando o painel...");
-      await loadSession();
-      searchParams.delete("token");
-      setSearchParams(searchParams, { replace: true });
-      navigate("/admin/editorial", { replace: true });
-    };
-
-    void consume();
-  }, [currentToken, navigate, searchParams, setSearchParams]);
 
   const openEditor = (item: AdminItem) => {
     setEditor({
@@ -229,7 +200,7 @@ const AdminEditorialPage = () => {
   };
 
   const importStaticItem = async (item: AdminItem) => {
-    const response = await fetch("/api/admin/posts-import", {
+    const response = await adminFetch("/api/admin/posts-import", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -281,48 +252,10 @@ const AdminEditorialPage = () => {
     }
   };
 
-  const requestMagicLink = async (event: FormEvent) => {
-    event.preventDefault();
-    await run("Enviando link de acesso no Telegram...", async () => {
-      const response = await fetch("/api/admin/auth/request-link", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const payload = (await response.json()) as { ok: boolean; error?: string; message?: string };
-      if (!response.ok || !payload.ok) {
-        throw new Error(payload.error ?? "Não consegui enviar o link.");
-      }
-      setStatusText(payload.message ?? "Link enviado.");
-    }).catch((error) => setStatusText(error instanceof Error ? error.message : "Falha ao enviar link."));
-  };
-
-  const loginWithTelegram = async () => {
-    if (!webApp?.initData) {
-      setStatusText("Abra o painel dentro do Telegram para usar esse login.");
-      return;
-    }
-
-    await run("Validando sessão do Telegram...", async () => {
-      const response = await fetch("/api/admin/auth/telegram", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ initData: webApp.initData }),
-      });
-      const payload = (await response.json()) as { ok: boolean; error?: string };
-      if (!response.ok || !payload.ok) {
-        throw new Error(payload.error ?? "Não consegui validar o Telegram.");
-      }
-      await loadSession();
-      await loadItems();
-      setStatusText("Acesso admin liberado pelo Telegram.");
-    }).catch((error) => setStatusText(error instanceof Error ? error.message : "Falha no login."));
-  };
-
   const createItem = async () => {
     if (!newSource.trim()) return;
     await run("Criando novo rascunho...", async () => {
-      const response = await fetch("/api/admin/posts", {
+      const response = await adminFetch("/api/admin/posts", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ source: newSource }),
@@ -339,7 +272,7 @@ const AdminEditorialPage = () => {
   };
 
   const persistEditor = async (value: EditorState) => {
-    const response = await fetch("/api/admin/posts-save", {
+    const response = await adminFetch("/api/admin/posts-save", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(value),
@@ -364,7 +297,7 @@ const AdminEditorialPage = () => {
     if (!editor) return;
     await run("Salvando a ideia e preparando o texto...", async () => {
       await persistEditor(editor);
-      const response = await fetch("/api/admin/posts-generate", {
+      const response = await adminFetch("/api/admin/posts-generate", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ draftId: editor.draftId }),
@@ -383,7 +316,7 @@ const AdminEditorialPage = () => {
     if (!editor) return;
     await run("Salvando e publicando o post...", async () => {
       await persistEditor(editor);
-      const response = await fetch("/api/admin/posts-publish", {
+      const response = await adminFetch("/api/admin/posts-publish", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ draftId: editor.draftId }),
@@ -399,7 +332,7 @@ const AdminEditorialPage = () => {
 
   const deleteItem = async (draftId: string) => {
     await run("Arquivando o item...", async () => {
-      const response = await fetch("/api/admin/posts-delete", {
+      const response = await adminFetch("/api/admin/posts-delete", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ draftId, redirectTo: "/blog" }),
@@ -424,7 +357,7 @@ const AdminEditorialPage = () => {
       formData.append("draftId", editor.draftId);
       formData.append("file", file);
 
-      const response = await fetch("/api/admin/posts-upload-image", {
+      const response = await adminFetch("/api/admin/posts-upload-image", {
         method: "POST",
         body: formData,
       });
@@ -439,7 +372,8 @@ const AdminEditorialPage = () => {
   };
 
   const logout = async () => {
-    await fetch("/api/admin/auth/logout", { method: "POST" });
+    const response = await adminFetch("/api/admin/auth/logout", { method: "POST" });
+    if (!response.ok && response.status !== 401) { setStatusText("Não foi possível encerrar a sessão."); return; }
     setSession(null);
     setEditor(null);
     setItems([]);
@@ -500,36 +434,8 @@ const AdminEditorialPage = () => {
 
           {!editor && <div className="admin-panel admin-status-panel" role="status">{statusText}</div>}
           {!session ? (
-            <section className="admin-auth-grid">
-              <article className="admin-panel admin-auth-card">
-                <p className="admin-kicker">Acesso pelo Telegram</p>
-                <h2 className="admin-section-title">Receber meu link de acesso</h2>
-                <p className="admin-section-copy">
-                  Informe o email autorizado e eu entrego o acesso diretamente no seu Telegram.
-                </p>
-                <form className="mt-6 space-y-4" onSubmit={requestMagicLink}>
-                  <input
-                    className="admin-input"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="leandro@codigo5.com.br"
-                  />
-                  <button className="admin-primary-button" type="submit" disabled={busy}>
-                    {busy ? "Enviando..." : "Enviar link no Telegram"}
-                  </button>
-                </form>
-              </article>
-
-              <article className="admin-panel admin-auth-card admin-auth-dark">
-                <p className="admin-kicker text-white/70">Já está no Telegram?</p>
-                <h2 className="admin-section-title text-white">Entrar de dentro do Telegram</h2>
-                <p className="admin-section-copy text-white/72">
-                  Se você abrir este painel pelo próprio Telegram, dá para autenticar com um toque.
-                </p>
-                <button className="admin-secondary-button mt-6" type="button" onClick={loginWithTelegram} disabled={!isTelegram || busy}>
-                  {isTelegram ? "Entrar com a sessão do Telegram" : "Abra dentro do Telegram"}
-                </button>
-              </article>
+            <section className="admin-panel admin-auth-card">
+              <a className="admin-primary-button" href="/api/admin/auth/google/login">Entrar com Google</a>
             </section>
           ) : (
             <section className="admin-shell">
@@ -555,9 +461,7 @@ const AdminEditorialPage = () => {
                     </div>
                   </div>
                   <p className="admin-section-copy mt-5">
-                    {session.source === "telegram"
-                      ? "Acesso liberado pela sessão do Telegram."
-                      : "Acesso liberado por link mágico enviado no Telegram."}
+                    Conectado pelo Google.
                   </p>
                 </div>
 

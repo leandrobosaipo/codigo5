@@ -30,7 +30,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   const publishedAt = nowIso();
-  await publishDraftToPosts(env, draft, auth.session.telegramUserId ?? "admin", publishedAt);
+  await publishDraftToPosts(env, draft, auth.session.email, publishedAt);
 
   return Response.json({
     ok: true,

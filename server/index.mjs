@@ -101,13 +101,16 @@ const server = createServer(async (incoming, outgoing) => {
     response.headers.set('referrer-policy', 'strict-origin-when-cross-origin');
     if (incoming.headers.host?.split(':')[0] === 'novo.codigo5.com.br') response.headers.set('x-robots-tag', 'noindex, nofollow');
     if (rawPath.startsWith('/api/admin/') || rawPath.startsWith('/api/telegram/')) response.headers.set('cache-control', 'no-store');
-    outgoing.writeHead(response.status, Object.fromEntries(response.headers));
+    const headers = Object.fromEntries(response.headers);
+    const cookies = response.headers.getSetCookie();
+    if (cookies.length) headers["set-cookie"] = cookies;
+    outgoing.writeHead(response.status, headers);
     if (method === 'HEAD' || !response.body) outgoing.end(); else Readable.fromWeb(response.body).pipe(outgoing);
     console.info(JSON.stringify({ method, path: rawPath.split('?')[0], status: response.status, ms: Date.now() - started }));
   } catch (error) {
     console.error(JSON.stringify({ error: error.name, message: 'Request failed' }));
-    if (!outgoing.headersSent) outgoing.writeHead(500, { 'cache-control': 'no-store' });
-    outgoing.end('Internal server error');
+    if (!outgoing.headersSent) outgoing.writeHead(500, { 'cache-control': 'no-store', 'content-type': 'application/json' });
+    outgoing.end(JSON.stringify({ ok: false, error: 'Falha interna. Tente novamente.' }));
   }
 });
 server.requestTimeout = 120000;

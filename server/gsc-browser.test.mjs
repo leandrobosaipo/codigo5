@@ -22,7 +22,7 @@ function fakeBrowser({ indexed = false, requested = false, clickError = false, c
     goto: async () => {}, url: () => 'https://search.google.com/search-console/inspect?resource_id=x',
     locator: () => locator,
     getByRole: (_role, options) => options?.name === 'Inspecionar qualquer URL de codigo5.com.br' ? inspect : options?.name === 'Solicitar indexação|Request indexing' ? button : button,
-    getByText: (text) => ({ first() { return this; }, filter() { return this; }, waitFor: async () => { if (text === 'Indexação solicitada' && ((!clicked && !requested) || (clicked && confirmationError))) throw Error('not visible'); }, isVisible: async () => text === 'Indexação solicitada' && requested }),
+    getByText: (text) => ({ first() { return this; }, filter() { return this; }, waitFor: async () => { if (text instanceof RegExp && text.test('Indexação solicitada') && ((!clicked && !requested) || (clicked && confirmationError))) throw Error('not visible'); }, isVisible: async () => text instanceof RegExp && text.test('Indexação solicitada') && requested }),
     waitForURL: async () => {},
   };
   return { launchPersistentContext: async () => context };

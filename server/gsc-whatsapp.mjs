@@ -1,12 +1,15 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-export async function saveEvidence(page, job, directory) {
+export const confirmationText = /^(?:indexação solicitada|indexing requested|(?:o|a) URL foi adicionad[oa] a uma fila de rastreamento prioritári[oa]\..*|URL was added to a priority crawl queue\..*)$/i;
+export const receipt = page => page.getByText(confirmationText).filter({ visible: true }).first();
+
+export async function saveEvidence(page, job, directory, diagnostic = false) {
   if (!/^[a-f0-9-]{32,36}$/.test(job.id)) throw new Error('invalid_job');
   await page.getByText(job.url, { exact: true }).filter({ visible: true }).first().waitFor({ timeout: 5000 });
-  await page.getByText('Indexação solicitada', { exact: true }).filter({ visible: true }).first().waitFor({ timeout: 5000 });
+  if (!diagnostic) await receipt(page).waitFor({ timeout: 5000 });
   await mkdir(directory, { recursive: true, mode: 0o700 });
-  const file = join(directory, job.id + '.png');
+  const file = join(directory, job.id + (diagnostic ? '-diagnostico.png' : '.png'));
   await writeFile(file + '.tmp', await page.screenshot(), { mode: 0o600 });
   await rename(file + '.tmp', file);
   return file;
@@ -20,7 +23,7 @@ export function migrateEvidence(db) {
 }
 
 export async function sendEvidence(db, env, request = fetch) {
-  const job = db.prepare("SELECT * FROM gsc_whatsapp WHERE image_state='pending' OR (image_state='accepted' AND link_state='pending') ORDER BY rowid LIMIT 1").get();
+  const job = db.prepare("SELECT * FROM gsc_whatsapp WHERE image_state='pending' OR (image_state IN ('accepted','unavailable') AND link_state='pending') ORDER BY rowid LIMIT 1").get();
   if (!job) return;
   const number = env.CODIGO5_REVIEW_GROUP_JID;
   if (!/^\d{10,20}(?:-\d{6,12})?@g\.us$/.test(number || '')) throw new Error('invalid_group');

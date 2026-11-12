@@ -1,4 +1,5 @@
 import { chromium } from 'playwright';
+import { receipt } from './gsc-whatsapp.mjs';
 
 const GSC = 'https://search.google.com/search-console';
 
@@ -9,7 +10,7 @@ export function classifyGscState(url, text) {
   return null;
 }
 
-export async function requestViaGsc({ url, property, profileDir, headless = true, executablePath, timeoutMs = 45000, browser = chromium, onPhase = () => {}, capture }) {
+export async function requestViaGsc({ url, property, profileDir, headless = true, executablePath, timeoutMs = 90000, browser = chromium, onPhase = () => {}, capture }) {
   const domain = property?.startsWith('sc-domain:') ? property.slice(10) : null;
   if (!domain || new URL(url).hostname !== domain || !profileDir) throw new Error('Invalid GSC property, URL or profile path');
   let context;
@@ -29,7 +30,7 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     const page = context.pages()[0] || await context.newPage();
     finishPhase();
     beginPhase('inspection');
-    await page.goto(`${GSC}?resource_id=${encodeURIComponent(property)}`, { waitUntil: 'domcontentloaded', timeout: timeoutMs });
+    await page.goto(`${GSC}?hl=pt-BR&resource_id=${encodeURIComponent(property)}`, { waitUntil: 'domcontentloaded', timeout: timeoutMs });
     let state = classifyGscState(page.url(), await page.locator('body').innerText());
     if (state) { finishPhase('complete', state); return result(state); }
     try { await page.getByRole('combobox', { name: domain, exact: true }).waitFor({ state: 'visible', timeout: timeoutMs }); }
@@ -47,7 +48,12 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     const body = await page.locator('body').innerText();
     state = classifyGscState(page.url(), body);
     if (state) { finishPhase('complete', state); return result(state); }
-    if (await page.getByText('Indexação solicitada', { exact: true }).first().isVisible().catch(() => false)) { finishPhase('complete', 'already_requested'); return result('already_requested'); }
+    if (await receipt(page).isVisible().catch(() => false)) {
+      finishPhase('complete', 'already_requested');
+      const prior = result('already_requested');
+      if (capture) prior.evidence = await capture(page).catch(() => null);
+      return prior;
+    }
     if ((!await button.count() || !await button.isEnabled()) && /O URL está no Google|URL is on Google/i.test(body)) { finishPhase('complete', 'already_indexed'); return result('already_indexed'); }
     if (!await button.count() || !await button.isEnabled()) { finishPhase('complete', 'layout_changed'); return result('layout_changed'); }
     finishPhase();
@@ -58,7 +64,7 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     finishPhase();
     beginPhase('confirmation');
     try {
-      await page.getByText('Indexação solicitada', { exact: true }).filter({ visible: true }).first().waitFor({ state: 'visible', timeout: 180000 });
+      await receipt(page).waitFor({ state: 'visible', timeout: 360000 });
       finishPhase('complete', 'requested');
       const confirmed = result('requested');
       if (capture) {
@@ -68,8 +74,11 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
       return confirmed;
     } catch {
       state = classifyGscState(page.url(), await page.locator('body').innerText().catch(() => ''));
+      const diagnostic = capture && await capture(page, true).catch(() => null);
       finishPhase('error', state || 'confirmation_unverified');
-      return result(state || 'delivery_unknown', state || 'confirmation_unverified', true);
+      const unknown = result(state || 'delivery_unknown', state || 'confirmation_unverified', true);
+      if (diagnostic) unknown.diagnosis.detail = 'diagnostic_screenshot_saved';
+      return unknown;
     }
   } catch {
     const uncertain = phase === 'click' || phase === 'confirmation';

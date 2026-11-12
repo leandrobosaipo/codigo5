@@ -37,8 +37,8 @@ export async function processOne(db, config, { preflight = preflightArticle, req
       phaseLogger({ phase: 'browser', state: 'start', durationMs: null });
       try {
         const result = await request({ url: job.url, property: config.property, profileDir: config.profileDir, headless: config.headless !== false, executablePath: config.executablePath, onPhase: phaseLogger,
-          capture: page => saveEvidence(page, job, '/gsc/evidence') });
-        evidence = result.status === 'requested' && result.clicked === true && result.evidence;
+          capture: (page, diagnostic) => saveEvidence(page, job, '/gsc/evidence', diagnostic) });
+        evidence = ['requested','already_requested'].includes(result.status) && result.evidence;
         diagnosis = result.diagnosis || { phase: 'browser', code: result.status, clicked: result.clicked ?? null, detail: null };
         status = result.status === 'already_requested' ? 'requested' : result.status === 'already_indexed' ? 'blocked' : result.status;
         if (result.status === 'already_requested' || result.status === 'already_indexed') errorCode = result.status;
@@ -65,6 +65,7 @@ export async function processOne(db, config, { preflight = preflightArticle, req
     })) throw new Error('Queue ownership lost; inspect job before another attempt');
     if (alertStates.has(status)) enqueueEvent(db, job, status, errorCode, diagnosis, job.attempts);
     if (evidence) db.prepare('INSERT INTO gsc_whatsapp(job_id,url,file) VALUES(?,?,?)').run(job.id, job.url, evidence);
+    else if (diagnosis.clicked === true && config.notifyPublishedLink) db.prepare("INSERT INTO gsc_whatsapp(job_id,url,file,image_state) VALUES(?,?,'','unavailable')").run(job.id, job.url);
     db.exec('COMMIT');
   } catch (error) { db.exec('ROLLBACK'); throw error; }
   return { id: job.id, url: job.url, status, errorCode, diagnosis, durationMs: Date.now() - started };
@@ -128,6 +129,7 @@ function readConfig(env = process.env) {
   const config = {
     portal: env.COD5_GSC_PORTAL, origin: env.COD5_GSC_ORIGIN, property: env.COD5_GSC_PROPERTY,
     profileDir: env.COD5_GSC_PROFILE_DIR, headless: true, executablePath: env.COD5_GSC_BROWSER_EXECUTABLE || undefined,
+    notifyPublishedLink: Boolean(env.CODIGO5_REVIEW_GROUP_JID),
     callbackUrl: env.COD5_GSC_CALLBACK_URL, callbackToken: env.COD5_GSC_CALLBACK_TOKEN,
     maxAttempts: Number(env.COD5_GSC_MAX_ATTEMPTS || 3),
   };

@@ -2,12 +2,17 @@ import { chromium } from 'playwright';
 import { receipt } from './gsc-whatsapp.mjs';
 
 const GSC = 'https://search.google.com/search-console';
+const submissionErrorText = /(?:Ocorreu um erro ao enviar sua solicitação de indexação[\s\S]{0,160}?Tente novamente mais tarde|(?:something went wrong|there was an error)[\s\S]{0,160}?sending your indexing request[\s\S]{0,160}?try again later)/i;
 
 export function classifyGscState(url, text) {
   if (url.startsWith('https://accounts.google.com/') || url.includes('/search-console/about') || /fazer login|sign in|escolher uma conta/i.test(text)) return 'login_required';
   if (/(?:cota.*(?:excedida|atingida)|atingiu.*cota)|quota.*(exceeded|reached)|limite diário/i.test(text)) return 'quota_exceeded';
   if (/selecione todas as imagens|verify you are human|confirme que você não é um robô/i.test(text)) return 'captcha_required';
   return null;
+}
+
+export function classifyGscSubmissionError(text) {
+  return submissionErrorText.test(String(text || '')) ? 'google_submission_error' : null;
 }
 
 export async function requestViaGsc({ url, property, profileDir, headless = true, executablePath, timeoutMs = 90000, browser = chromium, onPhase = () => {}, capture }) {
@@ -77,8 +82,22 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
     clicked = true;
     finishPhase();
     beginPhase('confirmation');
-    try {
-      await receipt(page).waitFor({ state: 'visible', timeout: 360000 });
+    const confirmation = receipt(page).waitFor({ state: 'visible', timeout: 360000 })
+      .then(() => 'confirmed', () => 'timeout');
+    const providerError = page.getByText(submissionErrorText).filter({ visible: true }).first()
+      .waitFor({ state: 'visible', timeout: 360000 })
+      .then(() => 'provider_error', () => 'timeout');
+    const outcome = await Promise.race([confirmation, providerError]);
+    if (outcome === 'provider_error' && !await receipt(page).isVisible().catch(() => false)) {
+      finishPhase('error', 'google_submission_error');
+      const unknown = result('delivery_unknown', 'google_submission_error', true);
+      if (capture) {
+        const diagnostic = await capture(page, true).catch(() => null);
+        if (diagnostic) unknown.diagnosis.detail = 'diagnostic_screenshot_saved';
+      }
+      return unknown;
+    }
+    if (outcome === 'confirmed' || await receipt(page).isVisible().catch(() => false)) {
       finishPhase('complete', 'requested');
       const confirmed = result('requested');
       if (capture) {
@@ -86,14 +105,15 @@ export async function requestViaGsc({ url, property, profileDir, headless = true
         catch { confirmed.diagnosis.detail = 'screenshot_failed'; }
       }
       return confirmed;
-    } catch {
-      state = classifyGscState(page.url(), await page.locator('body').innerText().catch(() => ''));
-      const diagnostic = capture && await capture(page, true).catch(() => null);
-      finishPhase('error', state || 'confirmation_unverified');
-      const unknown = result(state || 'delivery_unknown', state || 'confirmation_unverified', true);
-      if (diagnostic) unknown.diagnosis.detail = 'diagnostic_screenshot_saved';
-      return unknown;
     }
+    const pageText = await page.locator('body').innerText().catch(() => '');
+    state = classifyGscState(page.url(), pageText);
+    const diagnosisCode = state || classifyGscSubmissionError(pageText) || 'confirmation_unverified';
+    const diagnostic = capture && await capture(page, true).catch(() => null);
+    finishPhase('error', diagnosisCode);
+    const unknown = result(state || 'delivery_unknown', diagnosisCode, true);
+    if (diagnostic) unknown.diagnosis.detail = 'diagnostic_screenshot_saved';
+    return unknown;
   } catch {
     const uncertain = phase === 'click' || phase === 'confirmation';
     finishPhase('error', uncertain ? 'click_outcome_unknown' : 'browser_step_failed');
